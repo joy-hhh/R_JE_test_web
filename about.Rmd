@@ -1,7 +1,7 @@
 ---
 title: "About this site"
 description: |
-  Some additional details about the website
+  Learn R for Journal entry analysis
 ---
 
 ```{r setup, include=FALSE}

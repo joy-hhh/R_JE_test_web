@@ -2091,7 +2091,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>다운로드 링크에서 우측 상단의 ↓ Code 을 클릭하여 Download ZIP 을 통해서 파일을 다운로드 받는다.</p>
 <p>다운로드 받은 파일은 압축을 풀어 je.csv, CYTB.xlsx, PYTB.xlsx 세 개의 파일을 생성한 프로젝트 폴더에 옮겨 담는다.</p>
 <h1 id="시작">시작</h1>
-<p>R에 파일을 불러와서 작업하고 결과물을 파일로 저장하는 것으로 마친다.</p>
+<p>전체 과정은 R에 파일을 불러와서 작업하고 결과물을 파일로 저장하는 것으로 마친다.</p>
 <h2 id="파일-불러오기-data-읽기">파일 불러오기 (Data 읽기)</h2>
 <p>코드 블럭을 설정하거나 프롬프트가 위치한 행에서 ’Ctrl + Enter’를 누르면 선택 부분이 Console로 들어가서 실행된다.</p>
 <p>R은 이 스크립트 창에서 Console에 Code를 던져 주면서 실행하는 맛이 있다.</p>
@@ -2138,17 +2138,18 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ol>
 <h2 id="a02-전표번호-별-차대변-일치검증">A02 전표번호 별 차대변 일치검증</h2>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>{{<span class="sc">&lt;</span> code numbered<span class="ot">=</span><span class="st">&quot;true&quot;</span> <span class="sc">&gt;</span>}}</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>A02 <span class="ot">&lt;-</span> je <span class="sc">|</span><span class="er">&gt;</span> </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(JENO, DR, CR) <span class="sc">|</span><span class="er">&gt;</span> </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate_all</span>(<span class="sc">~</span><span class="fu">replace</span>(., <span class="fu">is.na</span>(.), <span class="dv">0</span>)) <span class="sc">|</span><span class="er">&gt;</span> </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(JENO) <span class="sc">|</span><span class="er">&gt;</span> </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">DR_sum=</span><span class="fu">sum</span>(DR),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">CR_sum=</span><span class="fu">sum</span>(CR)) <span class="sc">|</span><span class="er">&gt;</span> </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Differ=</span> DR_sum <span class="sc">-</span> CR_sum)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>A02_Differ <span class="ot">&lt;-</span> <span class="fu">count</span>(A02[A02<span class="sc">$</span>Differ <span class="sc">&gt;</span> <span class="dv">0</span>, ])</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(A02_Differ)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>{{<span class="sc">&lt;</span> <span class="er">/</span>code <span class="sc">&gt;</span>}}  </span></code></pre></div>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A02</span> <span class='op'>&lt;-</span> <span class='va'>je</span> |&gt; 
+    <span class='fu'>select</span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>DR</span>, <span class='va'>CR</span><span class='op'>)</span> |&gt; 
+    <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+    <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>JENO</span><span class='op'>)</span> |&gt; 
+    <span class='fu'>summarise</span><span class='op'>(</span>DR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>DR</span><span class='op'>)</span>,
+              CR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>CR</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+    <span class='fu'>mutate</span><span class='op'>(</span>Differ<span class='op'>=</span> <span class='va'>DR_sum</span> <span class='op'>-</span> <span class='va'>CR_sum</span><span class='op'>)</span>
+<span class='va'>A02_Differ</span> <span class='op'>&lt;-</span> <span class='fu'>count</span><span class='op'>(</span><span class='va'>A02</span><span class='op'>[</span><span class='va'>A02</span><span class='op'>$</span><span class='va'>Differ</span> <span class='op'>&gt;</span> <span class='fl'>0</span>, <span class='op'>]</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>A02_Differ</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <ol type="1">
 <li>전표번호, 차변금액, 대변금액 열을 선택(select)한다. 선택한 세 개의 열에 Null 값 (NA)이 있으면 0으로 모두 바꾼다.(mutate_all) Null 값(NA)은 계산의 결과가 무조건 NA가 되면서 원하지 않은 불편한 결론을 내기 때문이다. 전표번호별로 묶어서(group_by) 전표번호별 차변의 합계를 DR_sum의 열 이름으로 전표번호별 대변의 합계를 CR_sum의 열 이름으로 정리한다.(summarise) 전표번호별 차변 금액과 대변 금액 합계를 각각 차이를 계산하여 Differ라는 열 이름으로 추가(mutate)한다.<br />
@@ -2337,11 +2338,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://joy-accounting.netlify.app/" class="uri">https://joy-accounting.netlify.app/</a></td>
+<td><a href="https://joy-accounting.netlify.com/" class="uri">https://joy-accounting.netlify.com/</a></td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
