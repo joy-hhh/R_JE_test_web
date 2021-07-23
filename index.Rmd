@@ -54,7 +54,7 @@ print(je)
 2. 프로젝트 폴더 경로에 전표 파일을 두고 읽는 명령으로 읽어와서 je라고 이름 붙인다.(이름 붙인 것을 객체라고 한다. je 객체) 윈도우즈 기준의 파일의 경우 파일명 뒤의 encoding 명시를 해주면 글자가 깨지지 않고 읽어온다. 윈도우 기준의 한글 형식에 맞출 수 있다. read_csv 명령 함수는 utf-8 encoding을 기본으로 하기 때문에 한글이 깨질 수 있다. 2기가 정도 되는 data file이 100초 정도 걸린다. (컴퓨터 성능에 따라서 다르다.) 몇십메가 정도의 data file은 몇초가 되기 전에 읽어버린다.[^2]   
 3. 이름 붙인 je 객체를 Console에 나타내 확인한다. 
     
-[^2]: 원래 utf-8 encoding 형식으로 되어 있는 파일을 , locale=locale('ko',encoding='euc-kr' 없이 읽으면 훨씬 더 빠르게 읽는다. 파일 형식에 대한 전환 과정이 필요 없기 때문이다. 대용량의 전표를 받아서 test 할 때는 utf-8 encoding 형식으로 요청하는 것도 방법이다.      
+[^2]: 원래 utf-8 encoding 형식으로 되어 있는 파일을 , locale=locale('ko',encoding='euc-kr)' 없이 읽으면 훨씬 더 빠르게 읽는다. 파일 형식에 대한 전환 과정이 필요 없기 때문이다. 대용량의 전표를 받아서 test 할 때는 utf-8 encoding 형식으로 요청하는 것도 방법이다.      
     
    
 ## A01 Data Integrity Test
