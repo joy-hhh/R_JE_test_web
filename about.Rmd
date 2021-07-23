@@ -8,3 +8,20 @@ description: |
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+# 진행 순서
+    
+1. 인사 및 사전 준비 확인 -Short
+2. 빠르게 전체 Process -Short
+3. 하나씩 따라하기 - **main**
+4. 숙제 검사
+5. R 소개와 할 수 있는 것 장점 등 -Short
+6. 소감 발표
+
+
+# Further study
+   
+1. https://wikidocs.net/book/4315
+2. https://statkclee.github.io/r-gapminder-kr/
+3. https://bookdown.org/
+4. https://hyunyulhenry.github.io/quant_cookbook/
+
