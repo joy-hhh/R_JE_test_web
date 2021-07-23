@@ -109,9 +109,9 @@ if(!require(readxl)){install.packages("readxl");library(readxl)}
 CYTB <- read_excel('CYTB.xlsx')   
 PYTB <- read_excel('PYTB.xlsx')   
 table(is.na(CYTB))   
-sapply(CYTB, function(x) sum(is.na(x)))     
+colSums(is.na(CYTB))
 table(is.na(PYTB))   
-sapply(PYTB, function(x) sum(is.na(x)))     
+colSums(is.na(PYTB))  
 ```
 
 1. 엑셀을 읽기 위한 기능을 R에 부착한다. 생김새가 복잡한 이유는 readxl패키지가 설치되어 있지 않은 경우에는 설치하고 이미 설치되어 있는 경우에는 설치하지 않고 불러오라는 의미를 내포하였기 때문이다. 아직 readxl 패키지를 설치하지 않았으므로 바로 library 명령을 썼다가 오류가 나서 놀라서 충격 받지  않기를 바라는 배려이다.  
@@ -179,8 +179,8 @@ A03 <- je |>
      
 A03 <- left_join(A03, CYTB_balance, by = 'ACCTCD')
 table(is.na(A03))
-sapply(A03, function(x) sum(is.na(x)))
-    
+colSums(is.na(A03))
+
 A03 <- A03 |> mutate_all(~replace(.,is.na(.), 0)) |> 
 mutate(Differ = (DR_sum - CR_sum - balance))
 A03_Differ <- count(A03[A03$Differ > 0, ])  
