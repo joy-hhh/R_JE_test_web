@@ -2098,15 +2098,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>  
-
-<span class='va'>je</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>'je.csv'</span>, locale<span class='op'>=</span><span class='fu'>locale</span><span class='op'>(</span><span class='st'>'ko'</span>,encoding<span class='op'>=</span><span class='st'>'euc-kr'</span><span class='op'>)</span><span class='op'>)</span>  
+</code></pre>
+</div>
+</div>
+<ol type="1">
+<li>tidyverse 패키지를 불러온다. 이렇게 명시해 주면 tidyverse의 기능을 R에 붙인다고 생각하면 된다.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>je</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>'je.csv'</span>, locale<span class='op'>=</span><span class='fu'>locale</span><span class='op'>(</span><span class='st'>'ko'</span>,encoding<span class='op'>=</span><span class='st'>'euc-kr'</span><span class='op'>)</span><span class='op'>)</span>  
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>je</span><span class='op'>)</span>  
 </code></pre>
 </div>
 </div>
 <ol type="1">
-<li>tidyverse 패키지를 불러온다. 이렇게 명시해 주면 tidyverse의 기능을 R에 붙인다고 생각하면 된다.<br />
-</li>
 <li>프로젝트 폴더 경로에 전표 파일을 두고 읽는 명령으로 읽어와서 je라고 이름 붙인다.(이름 붙인 것을 객체라고 한다. je 객체) 윈도우즈 기준의 파일의 경우 파일명 뒤의 encoding 명시를 해주면 글자가 깨지지 않고 읽어온다. 윈도우 기준의 한글 형식에 맞출 수 있다. read_csv 명령 함수는 utf-8 encoding을 기본으로 하기 때문에 한글이 깨질 수 있다. 2기가 정도 되는 data file이 100초 정도 걸린다. (컴퓨터 성능에 따라서 다르다.) 몇십메가 정도의 data file은 몇초가 되기 전에 읽어버린다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a><br />
 </li>
 <li>이름 붙인 je 객체를 Console에 나타내 확인한다.</li>
@@ -2295,16 +2300,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>View(B09) 명령으로 확인해 보거나 B09를 Console에 쳐서 확인해 볼 수도 있다. 계정코드를 기준으로 본계정과 상대계정들이 모여 있다. 계정과목명이 보이지 않아 보기에 불편하므로 계정과목명을 붙인다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>B09_name</span> <span class='op'>&lt;-</span> <span class='va'>je</span> |&gt; <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>ACCT_NM</span><span class='op'>)</span>  
-<span class='va'>B09_name</span> <span class='op'>&lt;-</span> <span class='va'>B09_name</span><span class='op'>[</span><span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/duplicated.html'>duplicated</a></span><span class='op'>(</span><span class='va'>B09_name</span><span class='op'>$</span><span class='va'>ACCT_NM</span><span class='op'>)</span><span class='op'>)</span>,<span class='op'>]</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>B09_name</span> <span class='op'>&lt;-</span> <span class='va'>je</span> |&gt; <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>ACCT_NM</span><span class='op'>)</span> |&gt; <span class='fu'>distinct</span><span class='op'>(</span><span class='op'>)</span> 
 <span class='va'>B09</span> <span class='op'>&lt;-</span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>B09</span>, <span class='va'>B09_name</span>, by <span class='op'>=</span> <span class='st'>'ACCTCD'</span><span class='op'>)</span> 
 </code></pre>
 </div>
 </div>
 <ol type="1">
-<li>계정코드와 계정과목명 열을 선택한다.<br />
+<li>계정코드와 계정과목명 열을 선택한다. 중복되는 계정과목명을 삭제하고 하나씩만 남긴다.<br />
 </li>
-<li>중복되는 계정과목명을 삭제하고 하나씩만 남긴다.</li>
 <li>계정코드에 맞는 계정과목명을 B09 에 붙인다.</li>
 </ol>
 <h2 id="write-file">write file</h2>
