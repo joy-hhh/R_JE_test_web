@@ -2091,7 +2091,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>다운로드 링크에서 우측 상단의 ↓ Code 을 클릭하여 Download ZIP 을 통해서 파일을 다운로드 받는다.</p>
 <p>다운로드 받은 파일은 압축을 풀어 je.csv, CYTB.xlsx, PYTB.xlsx 세 개의 파일을 생성한 프로젝트 폴더에 옮겨 담는다.</p>
 <h1 id="시작">시작</h1>
-<p>전체 과정은 R에 파일을 불러와서 작업하고 결과물을 파일로 저장하는 것으로 마친다.</p>
+<p>전체 과정은 R에 파일을 불러와서 작업하고 결과물을 파일로 저장하는 것으로 마친다.<br />
+(실습 이후 추가 : Rmarkdown으로 문서 자동화 소개)</p>
 <h2 id="파일-불러오기-data-읽기">파일 불러오기 (Data 읽기)</h2>
 <p>코드 블럭을 설정하거나 프롬프트가 위치한 행에서 ’Ctrl + Enter’를 누르면 선택 부분이 Console로 들어가서 실행된다.</p>
 <p>R은 이 스크립트 창에서 Console에 Code를 던져 주면서 실행하는 맛이 있다.</p>
@@ -2144,15 +2145,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h2 id="a02-전표번호-별-차대변-일치검증">A02 전표번호 별 차대변 일치검증</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A02</span> <span class='op'>&lt;-</span> <span class='va'>je</span> |&gt; 
-    <span class='fu'>select</span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>DR</span>, <span class='va'>CR</span><span class='op'>)</span> |&gt; 
-    <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
-    <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>JENO</span><span class='op'>)</span> |&gt; 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A02</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'>%&gt;%</span>  
+    <span class='fu'>select</span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>DR</span>, <span class='va'>CR</span><span class='op'>)</span> <span class='op'>%&gt;%</span>  
+    <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>  
+    <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>JENO</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
     <span class='fu'>summarise</span><span class='op'>(</span>DR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>DR</span><span class='op'>)</span>,
-              CR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>CR</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
+              CR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>CR</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>  
     <span class='fu'>mutate</span><span class='op'>(</span>Differ<span class='op'>=</span> <span class='va'>DR_sum</span> <span class='op'>-</span> <span class='va'>CR_sum</span><span class='op'>)</span>
-<span class='va'>A02_Differ</span> <span class='op'>&lt;-</span> <span class='fu'>count</span><span class='op'>(</span><span class='va'>A02</span><span class='op'>[</span><span class='va'>A02</span><span class='op'>$</span><span class='va'>Differ</span> <span class='op'>&gt;</span> <span class='fl'>0</span>, <span class='op'>]</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>A02_Differ</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>A02</span><span class='op'>)</span>
+<span class='va'>A02</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Differ</span> <span class='op'>&gt;</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='op'>)</span> 
 </code></pre>
 </div>
 </div>
@@ -2170,12 +2171,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://readxl.tidyverse.org'>readxl</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"readxl"</span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readxl.tidyverse.org'>readxl</a></span><span class='op'>)</span><span class='op'>}</span>   
       
-<span class='va'>CYTB</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>'CYTB.xlsx'</span><span class='op'>)</span>   
-<span class='va'>PYTB</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>'PYTB.xlsx'</span><span class='op'>)</span>   
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>CYTB</span><span class='op'>)</span><span class='op'>)</span>   
-<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>CYTB</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>PYTB</span><span class='op'>)</span><span class='op'>)</span>   
-<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>PYTB</span><span class='op'>)</span><span class='op'>)</span>  
+<span class='va'>cytb_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>'CYTB.xlsx'</span><span class='op'>)</span>
+<span class='va'>pytb_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>'PYTB.xlsx'</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>cytb_raw</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>pytb_raw</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2184,42 +2183,44 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </li>
 <li>엑셀 파일 형태의 당기 시산표를 읽어들인다. (R이 칼질하기 좋게 R의 도마에 올린다.)</li>
 <li>엑셀 파일 형태의 전기 시산표를 읽어들인다.</li>
-<li>당기 시산표의 Null 값을 확인한다.</li>
 <li>당기 시산표의 변수별(열 이름)로 NA 갯수를 확인한다.<br />
 </li>
-<li>전기 시산표의 Null 값을 확인한다.</li>
 <li>전기 시산표의 변수별(열 이름)로 NA 갯수를 확인한다.</li>
 </ol>
 <p>Rstudio의 Powerful한 기능 View로 시산표를 볼 수 있다. 이 기능 때문이라도 Rstudio를 애정한다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/View.html'>View</a></span><span class='op'>(</span><span class='va'>CYTB</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/View.html'>View</a></span><span class='op'>(</span><span class='va'>cytb_raw</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <p>아주 자연스럽게 느껴지는 엑셀 같은 화면을 만날 수 있다. 물론 읽기 전용이다. 각 변수(열)에 필터 값으로 함축해 볼 수도 있다. 다른 언어에서 찾아 볼 수 없는 독보적인 기능이다. Rstudio는 시원하게 작업중인 중간에 들여다 볼 수가 있다. 무조건 말로만 해야 하는 것이 아니다. 보면서 해야 한다. 말로 하고 듣기도 하지만 볼수도 있어야 당연하다. 우리는 엑셀에 익숙하므로 즉각적으로 표를 보고 싶다. View(je) 로 전표 데이터를 볼 수도 있고 환경 창에 있는 변수를 마우스 클릭해도 View() 기능이 작동한다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>CYTB</span> <span class='op'>&lt;-</span> <span class='fu'>drop_na</span><span class='op'>(</span><span class='va'>CYTB</span>, <span class='va'>ACCTCD</span><span class='op'>)</span>  
-<span class='va'>PYTB</span> <span class='op'>&lt;-</span> <span class='fu'>drop_na</span><span class='op'>(</span><span class='va'>PYTB</span>, <span class='va'>ACCTCD</span><span class='op'>)</span>  
-<span class='va'>CYTB_FP</span> <span class='op'>&lt;-</span> <span class='va'>CYTB</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>99</span>,<span class='op'>]</span> 
-<span class='va'>CYTB_PL</span> <span class='op'>&lt;-</span> <span class='va'>CYTB</span><span class='op'>[</span><span class='fl'>100</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>CYTB</span><span class='op'>$</span><span class='va'>ACCTCD</span><span class='op'>)</span>,<span class='op'>]</span> 
-<span class='va'>PYTB_FP</span> <span class='op'>&lt;-</span> <span class='va'>PYTB</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>103</span>,<span class='op'>]</span> 
-   
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>cytb_tbl</span> <span class='op'>&lt;-</span> <span class='fu'>drop_na</span><span class='op'>(</span><span class='va'>cytb_raw</span>, <span class='va'>ACCTCD</span><span class='op'>)</span>
+<span class='va'>pytb_tbl</span> <span class='op'>&lt;-</span> <span class='fu'>drop_na</span><span class='op'>(</span><span class='va'>pytb_raw</span>, <span class='va'>ACCTCD</span><span class='op'>)</span>
+
+<span class='va'>CYTB_FP</span> <span class='op'>&lt;-</span> <span class='va'>cytb_tbl</span> <span class='op'>%&gt;%</span> 
+    <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>99</span><span class='op'>)</span>
+<span class='va'>CYTB_PL</span> <span class='op'>&lt;-</span> <span class='va'>cytb_tbl</span> <span class='op'>%&gt;%</span> 
+    <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>100</span><span class='op'>:</span><span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>PYTB_FP</span> <span class='op'>&lt;-</span> <span class='va'>pytb_tbl</span> <span class='op'>%&gt;%</span> 
+    <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>103</span><span class='op'>)</span>
+
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>CYTB_FP</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>CYTB_PL</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>PYTB_FP</span><span class='op'>)</span>
-   
-<span class='va'>CYTB_FP</span> <span class='op'>&lt;-</span> <span class='fu'>full_join</span><span class='op'>(</span><span class='va'>CYTB_FP</span>, <span class='va'>PYTB_FP</span>, by<span class='op'>=</span><span class='st'>'ACCTCD'</span><span class='op'>)</span> |&gt; 
-    <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
-    <span class='fu'>mutate</span><span class='op'>(</span>balance <span class='op'>=</span> <span class='op'>(</span><span class='va'>DRSUM.x</span> <span class='op'>-</span> <span class='va'>CRSUM.x</span><span class='op'>)</span> <span class='op'>-</span><span class='op'>(</span><span class='va'>DRSUM.y</span> <span class='op'>-</span> <span class='va'>CRSUM.y</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
-    <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>balance</span><span class='op'>)</span>
 
-<span class='va'>CYTB_PL</span> <span class='op'>&lt;-</span> <span class='va'>CYTB_PL</span> |&gt; 
-    <span class='fu'>mutate</span><span class='op'>(</span>balance <span class='op'>=</span> <span class='op'>(</span><span class='va'>DRSUM</span> <span class='op'>-</span> <span class='va'>CRSUM</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
-    <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>balance</span><span class='op'>)</span>
-   
-<span class='va'>CYTB_balance</span> <span class='op'>&lt;-</span> <span class='fu'>bind_rows</span><span class='op'>(</span><span class='va'>CYTB_FP</span>, <span class='va'>CYTB_PL</span><span class='op'>)</span>  
+<span class='va'>CYTB_FP</span> <span class='op'>&lt;-</span> <span class='fu'>full_join</span><span class='op'>(</span><span class='va'>CYTB_FP</span>, <span class='va'>PYTB_FP</span>, by<span class='op'>=</span><span class='st'>'ACCTCD'</span><span class='op'>)</span>  <span class='op'>%&gt;%</span>  
+    <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+    <span class='fu'>mutate</span><span class='op'>(</span>move <span class='op'>=</span> <span class='op'>(</span><span class='va'>DRSUM.x</span> <span class='op'>-</span> <span class='va'>CRSUM.x</span><span class='op'>)</span> <span class='op'>-</span><span class='op'>(</span><span class='va'>DRSUM.y</span> <span class='op'>-</span> <span class='va'>CRSUM.y</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+    <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>move</span><span class='op'>)</span>
+
+<span class='va'>CYTB_PL</span> <span class='op'>&lt;-</span> <span class='va'>CYTB_PL</span> <span class='op'>%&gt;%</span> 
+    <span class='fu'>mutate</span><span class='op'>(</span>move <span class='op'>=</span> <span class='op'>(</span><span class='va'>DRSUM</span> <span class='op'>-</span> <span class='va'>CRSUM</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+    <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>move</span><span class='op'>)</span>
+
+<span class='va'>CYTB_move</span> <span class='op'>&lt;-</span> <span class='fu'>bind_rows</span><span class='op'>(</span><span class='va'>CYTB_FP</span>, <span class='va'>CYTB_PL</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2243,21 +2244,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='va'>je</span> |&gt; 
-    <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>DR</span>, <span class='va'>CR</span><span class='op'>)</span> |&gt; 
-    <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
-    <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span> |&gt; 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'>%&gt;%</span> 
+    <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>DR</span>, <span class='va'>CR</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+    <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+    <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
     <span class='fu'>summarise</span><span class='op'>(</span>DR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>DR</span><span class='op'>)</span>,
-                 CR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>CR</span><span class='op'>)</span><span class='op'>)</span>
-     
-<span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>A03</span>, <span class='va'>CYTB_balance</span>, by <span class='op'>=</span> <span class='st'>'ACCTCD'</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>A03</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>A03</span><span class='op'>)</span><span class='op'>)</span>
+              CR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>CR</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+    <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='co'># join 할때 자료형 일치</span>NA<span class='fu'>mutate</span><span class='op'>(</span>ACCTCD <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='va'>A03</span> |&gt; <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>,<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
-<span class='fu'>mutate</span><span class='op'>(</span>Differ <span class='op'>=</span> <span class='op'>(</span><span class='va'>DR_sum</span> <span class='op'>-</span> <span class='va'>CR_sum</span> <span class='op'>-</span> <span class='va'>balance</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>A03_Differ</span> <span class='op'>&lt;-</span> <span class='fu'>count</span><span class='op'>(</span><span class='va'>A03</span><span class='op'>[</span><span class='va'>A03</span><span class='op'>$</span><span class='va'>Differ</span> <span class='op'>&gt;</span> <span class='fl'>0</span>, <span class='op'>]</span><span class='op'>)</span>  
-<span class='va'>A03</span><span class='op'>[</span><span class='va'>A03</span><span class='op'>$</span><span class='va'>Differ</span> <span class='op'>&gt;</span> <span class='fl'>0</span>, <span class='op'>]</span> 
+<span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>A03</span>, <span class='va'>CYTB_move</span>, by <span class='op'>=</span> <span class='st'>'ACCTCD'</span><span class='op'>)</span>
+
+<span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='va'>A03</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>,<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+    <span class='fu'>mutate</span><span class='op'>(</span>Differ <span class='op'>=</span> <span class='op'>(</span><span class='va'>DR_sum</span> <span class='op'>-</span> <span class='va'>CR_sum</span> <span class='op'>-</span> <span class='va'>move</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>A03</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Differ</span> <span class='op'>&gt;</span><span class='fl'>0</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2277,13 +2277,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Corr_Acc</span> <span class='op'>=</span> <span class='st'>'40401'</span>
-<span class='va'>B09_main</span> <span class='op'>&lt;-</span> <span class='va'>je</span> |&gt; <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'>==</span> <span class='va'>Corr_Acc</span><span class='op'>)</span> |&gt; 
-     <span class='fu'>select</span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>ACCTCD</span><span class='op'>)</span>
-<span class='va'>B09_Corr</span> <span class='op'>&lt;-</span> <span class='va'>je</span> |&gt; 
-     <span class='fu'>select</span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>ACCTCD</span><span class='op'>)</span>
+<span class='va'>B09_main</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'>==</span> <span class='va'>Corr_Acc</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+    <span class='fu'>select</span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>ACCTCD</span><span class='op'>)</span>
+<span class='va'>B09_Corr</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'>%&gt;%</span> 
+    <span class='fu'>select</span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>ACCTCD</span><span class='op'>)</span>
 <span class='va'>B09</span> <span class='op'>&lt;-</span> <span class='fu'>semi_join</span><span class='op'>(</span><span class='va'>B09_Corr</span>, <span class='va'>B09_main</span>, by <span class='op'>=</span> <span class='st'>'JENO'</span><span class='op'>)</span>
-<span class='va'>B09</span> <span class='op'>&lt;-</span> <span class='va'>B09</span> |&gt; <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span><span class='op'>)</span> |&gt; 
-     <span class='fu'>count</span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span>
+<span class='va'>B09</span> <span class='op'>&lt;-</span> <span class='va'>B09</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+    <span class='fu'>count</span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2300,8 +2300,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>View(B09) 명령으로 확인해 보거나 B09를 Console에 쳐서 확인해 볼 수도 있다. 계정코드를 기준으로 본계정과 상대계정들이 모여 있다. 계정과목명이 보이지 않아 보기에 불편하므로 계정과목명을 붙인다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>B09_name</span> <span class='op'>&lt;-</span> <span class='va'>je</span> |&gt; <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>ACCT_NM</span><span class='op'>)</span> |&gt; <span class='fu'>distinct</span><span class='op'>(</span><span class='op'>)</span> 
-<span class='va'>B09</span> <span class='op'>&lt;-</span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>B09</span>, <span class='va'>B09_name</span>, by <span class='op'>=</span> <span class='st'>'ACCTCD'</span><span class='op'>)</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>B09_name</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>ACCT_NM</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='op'>)</span>  
+<span class='va'>B09</span> <span class='op'>&lt;-</span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>B09</span>, <span class='va'>B09_name</span>, by <span class='op'>=</span> <span class='st'>'ACCTCD'</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2314,9 +2314,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>R에 파일의 Data를 읽어와서 요리가 되었는데 이 요리의 결과물을 다시 파일로 갖고 싶다. 과정을 거쳐 오면서 결정적 증거물은 메모리에 객체로 꼬리표를 남겨 두었다. 이 객체를 파일로 저장하고 싶다면 다음 명령어들로 할 수 있다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A02</span> |&gt; <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>'A02.csv'</span><span class='op'>)</span>
-<span class='va'>A03</span> |&gt; <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>'A03.csv'</span><span class='op'>)</span>
-<span class='va'>B09</span> |&gt; <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>'B09.csv'</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A02</span> <span class='op'>%&gt;%</span> <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>'A02.csv'</span><span class='op'>)</span>
+<span class='va'>A03</span> <span class='op'>%&gt;%</span> <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>'A03.csv'</span><span class='op'>)</span>
+<span class='va'>B09</span> <span class='op'>%&gt;%</span> <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>'B09.csv'</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2325,9 +2325,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://docs.ropensci.org/writexl/'>writexl</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"writexl"</span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://docs.ropensci.org/writexl/'>writexl</a></span><span class='op'>)</span><span class='op'>}</span>  
 
-<span class='va'>A02</span> |&gt; <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>'A02.xlsx'</span><span class='op'>)</span>
-<span class='va'>A03</span> |&gt; <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>'A03.xlsx'</span><span class='op'>)</span>
-<span class='va'>B09</span> |&gt; <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>'B09.xlsx'</span><span class='op'>)</span>
+<span class='va'>A02</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>'A02.xlsx'</span><span class='op'>)</span>
+<span class='va'>A03</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>'A03.xlsx'</span><span class='op'>)</span>
+<span class='va'>B09</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>'B09.xlsx'</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
