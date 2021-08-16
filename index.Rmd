@@ -182,7 +182,6 @@ A03 <- je_tbl %>%
     summarise(DR_sum=sum(DR),
               CR_sum=sum(CR)) %>% 
     ungroup() %>%
-    # join 할때 자료형 일치
     mutate(ACCTCD = as.character(ACCTCD))
 
 A03 <- left_join(A03, CYTB_move, by = 'ACCTCD')
