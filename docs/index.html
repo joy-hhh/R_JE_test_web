@@ -2145,7 +2145,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h2 id="a02-전표번호-별-차대변-일치검증">A02 전표번호 별 차대변 일치검증</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A02</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'>%&gt;%</span>  
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A02</span> <span class='op'>&lt;-</span> <span class='va'>je</span> <span class='op'>%&gt;%</span>  
     <span class='fu'>select</span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>DR</span>, <span class='va'>CR</span><span class='op'>)</span> <span class='op'>%&gt;%</span>  
     <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>  
     <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>JENO</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
@@ -2244,7 +2244,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='va'>je</span> <span class='op'>%&gt;%</span> 
     <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>DR</span>, <span class='va'>CR</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
     <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
     <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
@@ -2277,9 +2277,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Corr_Acc</span> <span class='op'>=</span> <span class='st'>'40401'</span>
-<span class='va'>B09_main</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'>==</span> <span class='va'>Corr_Acc</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<span class='va'>B09_main</span> <span class='op'>&lt;-</span> <span class='va'>je</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'>==</span> <span class='va'>Corr_Acc</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
     <span class='fu'>select</span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>ACCTCD</span><span class='op'>)</span>
-<span class='va'>B09_Corr</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'>%&gt;%</span> 
+<span class='va'>B09_Corr</span> <span class='op'>&lt;-</span> <span class='va'>je</span> <span class='op'>%&gt;%</span> 
     <span class='fu'>select</span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>ACCTCD</span><span class='op'>)</span>
 <span class='va'>B09</span> <span class='op'>&lt;-</span> <span class='fu'>semi_join</span><span class='op'>(</span><span class='va'>B09_Corr</span>, <span class='va'>B09_main</span>, by <span class='op'>=</span> <span class='st'>'JENO'</span><span class='op'>)</span>
 <span class='va'>B09</span> <span class='op'>&lt;-</span> <span class='va'>B09</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
@@ -2300,7 +2300,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>View(B09) 명령으로 확인해 보거나 B09를 Console에 쳐서 확인해 볼 수도 있다. 계정코드를 기준으로 본계정과 상대계정들이 모여 있다. 계정과목명이 보이지 않아 보기에 불편하므로 계정과목명을 붙인다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>B09_name</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>ACCT_NM</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='op'>)</span>  
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>B09_name</span> <span class='op'>&lt;-</span> <span class='va'>je</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>ACCT_NM</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='op'>)</span>  
 <span class='va'>B09</span> <span class='op'>&lt;-</span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>B09</span>, <span class='va'>B09_name</span>, by <span class='op'>=</span> <span class='st'>'ACCTCD'</span><span class='op'>)</span>
 </code></pre>
 </div>

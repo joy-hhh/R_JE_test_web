@@ -85,7 +85,7 @@ min(je$JEDATE)
 ## A02 전표번호 별 차대변 일치검증
      
 ```{r, eval=FALSE, echo=TRUE}    
-A02 <- je_tbl %>%  
+A02 <- je %>%  
     select(JENO, DR, CR) %>%  
     mutate_all(~replace(., is.na(.), 0)) %>%  
     group_by(JENO) %>% 
@@ -175,7 +175,7 @@ CYTB_move <- bind_rows(CYTB_FP, CYTB_PL)
       
      
 ```{r, eval=FALSE, echo=TRUE}
-A03 <- je_tbl %>% 
+A03 <- je %>% 
     select(ACCTCD, DR, CR) %>% 
     mutate_all(~replace(., is.na(.), 0)) %>% 
     group_by(ACCTCD) %>% 
@@ -205,9 +205,9 @@ A03 %>% filter(Differ >0)
          
 ```{r, eval=FALSE, echo=TRUE}
 Corr_Acc = '40401'
-B09_main <- je_tbl %>% filter(ACCTCD == Corr_Acc) %>% 
+B09_main <- je %>% filter(ACCTCD == Corr_Acc) %>% 
     select(JENO, ACCTCD)
-B09_Corr <- je_tbl %>% 
+B09_Corr <- je %>% 
     select(JENO, ACCTCD)
 B09 <- semi_join(B09_Corr, B09_main, by = 'JENO')
 B09 <- B09 %>% filter(!is.na(ACCTCD)) %>% 
@@ -223,7 +223,7 @@ B09 <- B09 %>% filter(!is.na(ACCTCD)) %>%
 View(B09) 명령으로 확인해 보거나 B09를 Console에 쳐서 확인해 볼 수도 있다. 계정코드를 기준으로 본계정과 상대계정들이 모여 있다. 계정과목명이 보이지 않아 보기에 불편하므로 계정과목명을 붙인다.  
    
 ```{r, eval=FALSE, echo=TRUE}
-B09_name <- je_tbl %>% select(ACCTCD, ACCT_NM) %>% distinct()  
+B09_name <- je %>% select(ACCTCD, ACCT_NM) %>% distinct()  
 B09 <- left_join(B09, B09_name, by = 'ACCTCD')
   
 ```
