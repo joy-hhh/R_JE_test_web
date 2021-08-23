@@ -2153,7 +2153,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
               CR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>CR</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>  
     <span class='fu'>mutate</span><span class='op'>(</span>Differ<span class='op'>=</span> <span class='va'>DR_sum</span> <span class='op'>-</span> <span class='va'>CR_sum</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>A02</span><span class='op'>)</span>
-<span class='va'>A02</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Differ</span> <span class='op'>&gt;</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='op'>)</span> 
+<span class='va'>A02</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Differ</span> <span class='op'>!=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='op'>)</span> 
 </code></pre>
 </div>
 </div>
@@ -2257,7 +2257,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='va'>A03</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>,<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
     <span class='fu'>mutate</span><span class='op'>(</span>Differ <span class='op'>=</span> <span class='op'>(</span><span class='va'>DR_sum</span> <span class='op'>-</span> <span class='va'>CR_sum</span> <span class='op'>-</span> <span class='va'>move</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>A03</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Differ</span> <span class='op'>&gt;</span><span class='fl'>0</span><span class='op'>)</span>
+<span class='va'>A03</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Differ</span> <span class='op'>!=</span> <span class='fl'>0</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>

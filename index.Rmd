@@ -93,7 +93,7 @@ A02 <- je %>%
               CR_sum=sum(CR)) %>%  
     mutate(Differ= DR_sum - CR_sum)
 print(A02)
-A02 %>% filter(Differ > 0) %>% nrow() 
+A02 %>% filter(Differ != 0) %>% nrow() 
 ```
   
 1. 전표번호, 차변금액, 대변금액 열을 선택(select)한다. 선택한 세 개의 열에 Null 값 (NA)이 있으면 0으로 모두 바꾼다.(mutate_all) Null 값(NA)은 계산의 결과가 무조건 NA가 되면서 원하지 않은 불편한 결론을 내기 때문이다. 전표번호별로 묶어서(group_by) 전표번호별 차변의 합계를 DR_sum의 열 이름으로 전표번호별 대변의 합계를 CR_sum의 열 이름으로 정리한다.(summarise) 전표번호별 차변 금액과 대변 금액 합계를 각각 차이를 계산하여 Differ라는 열 이름으로 추가(mutate)한다.     
@@ -188,7 +188,7 @@ A03 <- left_join(A03, CYTB_move, by = 'ACCTCD')
 
 A03 <- A03 %>% mutate_all(~replace(.,is.na(.), 0)) %>% 
     mutate(Differ = (DR_sum - CR_sum - move))
-A03 %>% filter(Differ >0)
+A03 %>% filter(Differ != 0)
      
 ```
 
