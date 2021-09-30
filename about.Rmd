@@ -17,8 +17,8 @@ knitr::opts_chunk$set(echo = FALSE)
     
 [Journal Entry Tester by Joy 0.1.0](https://joy-accounting.netlify.app/2021-08-26-journal-entry-tester-by-joy-0-1-0/)
    
-2. Rstudio - Cheat Sheets 소개   
-3. R markdown 소개    
+2. Rstudio - Cheat Sheets 소개 (dplyr, rmarkdown한글)   
+3. rmarkdown 소개    
 4. 새로운 JE data에 R code 적용 시연    
 5. 질의 응답   
     
