@@ -18,11 +18,15 @@ knitr::opts_chunk$set(echo = FALSE)
 [Journal Entry Tester by Joy 0.1.0](https://joy-accounting.netlify.app/2021-08-26-journal-entry-tester-by-joy-0-1-0/)
    
 2. Rstudio - Cheat Sheets 소개 (dplyr, rmarkdown한글)   
-3. rmarkdown 소개    
+3. rmarkdown 
 4. 새로운 JE data에 R code 적용 시연    
 5. 질의 응답   
     
     
+### Further study
+   
+[R 을 활용한 데이터과학](https://sulgik.github.io/r4ds/)
+
 # 1회  -  2021년 8월 19일
     
 ### 진행 순서
@@ -37,8 +41,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### Further study
    
-1. https://wikidocs.net/book/4315
-2. https://statkclee.github.io/r-gapminder-kr/
-3. https://bookdown.org/
-4. https://hyunyulhenry.github.io/quant_cookbook/
+1. [Must Learning with R](https://wikidocs.net/book/4315)
+2. [재현가능한 과학적 분석을 위한 R](https://statkclee.github.io/r-gapminder-kr/)
+3. [BOOKDOWN](https://bookdown.org/)
+4. [R을 이용한 퀀트 투자 포트폴리오 만들기](https://hyunyulhenry.github.io/quant_cookbook/)
 
