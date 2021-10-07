@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-# 2회  - 2021년 10월 XX일
+# 2회  - 2021년 10월 22일
     
 ### 진행 순서  
    
