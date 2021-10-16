@@ -1,7 +1,7 @@
 ---
 title: "Request"
 description: |
-  Journa Entry Analysis Data Request Form
+  Data Request Form for Journal Entry Analysis 
 date: "`r Sys.Date()`"
 output: distill::distill_article
 ---
@@ -9,7 +9,11 @@ output: distill::distill_article
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-
+   
+# encoding
+   
+utf-8 
+   
 # Journal Entry Data Request
  
 본 Journal Entry 감사 절차는 재무제표에 대한 회계감사의 일환으로서, 회사의 직전 회계연도 시산표 금액과 당해 회계연도의 시산표 금액의 변동사항에 대하여 다음과 같은 기중의 전표데이터를 입수하여 분석하는 것입니다.  

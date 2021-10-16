@@ -4,7 +4,7 @@ description: |
   Welcome to the website. I hope you enjoy it!
 site: distill::distill_website
 ---
-
+   
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
@@ -19,18 +19,20 @@ knitr::opts_chunk$set(echo = FALSE)
    
 # 2회  - 2021년 10월 22일
     
+    
 ### 진행 순서  
-
+   
 ```{r}
 knitr::include_graphics("images/gantt_211022.png")
 ```
-
+   
 1. Request   
 1. Rstudio - Cheat Sheets 소개 (dplyr, rmarkdown한글)   
 1. rmarkdown 
 1. 새로운 JE data에 Rmarkdown code 적용 시연    
 1. 질의 응답   
 1. JE Tester by Joy 소개하기    
+   
     
 [Journal Entry Tester by Joy 0.1.0](https://joy-accounting.netlify.app/2021-08-26-journal-entry-tester-by-joy-0-1-0/)
    
@@ -39,7 +41,7 @@ knitr::include_graphics("images/gantt_211022.png")
 ### Further study
    
 [R 을 활용한 데이터과학](https://sulgik.github.io/r4ds/)
-
+   
 # 1회  -  2021년 8월 19일
     
 ### 진행 순서
@@ -50,8 +52,8 @@ knitr::include_graphics("images/gantt_211022.png")
 4. 숙제 검사
 5. R 소개와 할 수 있는 것 장점 등
 6. 소감 발표
-
-
+   
+   
 ### Further study
    
 1. [Must Learning with R](https://wikidocs.net/book/4315)
@@ -66,4 +68,4 @@ knitr::include_graphics("images/gantt_211022.png")
 | 조이회계  Joy Accounting |
 |---------------------------|
 | https://joy-accounting.netlify.com/ |
-
+   
