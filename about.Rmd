@@ -12,6 +12,11 @@ knitr::opts_chunk$set(echo = FALSE)
 # 2회  - 2021년 10월 22일
     
 ### 진행 순서  
+
+```{r}
+knitr::include_graphics("images/gantt_211022.png")
+```
+
    
 1. Rstudio - Cheat Sheets 소개 (dplyr, rmarkdown한글)   
 2. rmarkdown 
