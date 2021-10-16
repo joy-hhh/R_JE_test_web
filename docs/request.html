@@ -87,29 +87,32 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>R Journal Entry Analysis: R for Journal Entry Analysis</title>
+  <title>R Journal Entry Analysis: Request</title>
 
-  <meta property="description" itemprop="description" content="Welcome to the website. I hope you enjoy it!"/>
+  <meta property="description" itemprop="description" content="Journa Entry Analysis Data Request Form"/>
 
 
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2021-10-16"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-10-16"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="R Journal Entry Analysis: R for Journal Entry Analysis"/>
+  <meta property="og:title" content="R Journal Entry Analysis: Request"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Welcome to the website. I hope you enjoy it!"/>
+  <meta property="og:description" content="Journa Entry Analysis Data Request Form"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="R Journal Entry Analysis"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="R Journal Entry Analysis: R for Journal Entry Analysis"/>
-  <meta property="twitter:description" content="Welcome to the website. I hope you enjoy it!"/>
+  <meta property="twitter:title" content="R Journal Entry Analysis: Request"/>
+  <meta property="twitter:description" content="Journa Entry Analysis Data Request Form"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","site"]}},"value":[{"type":"character","attributes":{},"value":["R for Journal Entry Analysis"]},{"type":"character","attributes":{},"value":["Welcome to the website. I hope you enjoy it!\n"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Request"]},{"type":"character","attributes":{},"value":["Journa Entry Analysis Data Request Form\n"]},{"type":"character","attributes":{},"value":["2021-10-16"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2057,7 +2060,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"R for Journal Entry Analysis","description":"Welcome to the website. I hope you enjoy it!","authors":[]}
+{"title":"Request","description":"Journa Entry Analysis Data Request Form","authors":[],"publishedDate":"2021-10-16T00:00:00.000+09:00"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2080,50 +2083,412 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>R for Journal Entry Analysis</h1>
+<h1>Request</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Welcome to the website. I hope you enjoy it!</p></p>
+<p><p>Journa Entry Analysis Data Request Form</p></p>
 </div>
 
 
 <div class="d-article">
-<h1 id="회---2021년-10월-22일">2회 - 2021년 10월 22일</h1>
-<h3 id="진행-순서">진행 순서</h3>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="images/gantt_211022.png" width="488" /></p>
-</div>
+<h1 id="journal-entry-data-request">Journal Entry Data Request</h1>
+<p>본 Journal Entry 감사 절차는 재무제표에 대한 회계감사의 일환으로서, 회사의 직전 회계연도 시산표 금액과 당해 회계연도의 시산표 금액의 변동사항에 대하여 다음과 같은 기중의 전표데이터를 입수하여 분석하는 것입니다.</p>
 <ol type="1">
-<li>Request<br />
-</li>
-<li>Rstudio - Cheat Sheets 소개 (dplyr, rmarkdown한글)<br />
-</li>
-<li>rmarkdown</li>
-<li>새로운 JE data에 Rmarkdown code 적용 시연<br />
-</li>
-<li>질의 응답<br />
-. JE Tester by Joy 소개하기</li>
+<li>회사의 직전 회계연도 말의 시산표(TB) 금액 = 직전 회계연도의 감사보고서 상의 재무제표 금액</li>
+<li>당해 회계연도 말의 시산표(TB) 금액 = 기말감사 시, 회계법인에 제공하는 감사대상 재무제표 금액</li>
+<li>기중(기표일자 기준)의 전표데이터</li>
 </ol>
-<p><a href="https://joy-accounting.netlify.app/2021-08-26-journal-entry-tester-by-joy-0-1-0/">Journal Entry Tester by Joy 0.1.0</a></p>
-<h3 id="further-study">Further study</h3>
-<p><a href="https://sulgik.github.io/r4ds/">R 을 활용한 데이터과학</a></p>
-<h1 id="회---2021년-8월-19일">1회 - 2021년 8월 19일</h1>
-<h3 id="진행-순서-1">진행 순서</h3>
+<table>
+<tbody>
+<tr class="odd">
+<td>① 전기말TB ± ③ = ② 당기말TB</td>
+</tr>
+</tbody>
+</table>
+<p>따라서 기표일자 기준으로 당 회계연도에 귀속되는 모든 전표데이터를 입수하여 전기 재무제표 금액에 기중 전표데이터 변동사항을 가감했을 경우, 당해 회계연도의 재무제표 금액과 일치하여야 합니다. 본 감사절차를 수행하기 위하여 다음과 같은 데이터를 요청 드립니다.</p>
+<h1 id="period-of-journal-entry-data">Period of Journal Entry Data</h1>
+<p>일반적으로 전표작성과 관련된 일자(date)개념으로 네 가지(증빙일자(Invoice 또는 세금계산서일자), 전표작성일자, 전표승인일자, 전표기표일자)가 있습니다.</p>
+<p>이 중에서 회사의 재무제표는 전표기표일자(Posting Date)를 기준으로 월 결산 및 회계연도 결산이 수행되어 재무제표가 산출됩니다. 본 감사절차는 재무제표에 대한 회계감사의 일환으로 수행하는 업무이므로, 기표일자(Posting Date)를 기준으로 데이터를 입수하여야 하여, 당 회계연도의 재무제표에 반영되는 모든 전표데이터를 요청 드립니다.</p>
+<h1 id="format-of-journal-entry-data">Format of Journal Entry Data</h1>
+<p>요청 드리는 모든 데이터의 형식은 다음과 같습니다.</p>
 <ol type="1">
-<li>인사 및 사전 준비 확인 -Short</li>
-<li>빠르게 전체 Process</li>
-<li>하나씩 따라하기</li>
-<li>숙제 검사</li>
-<li>R 소개와 할 수 있는 것 장점 등</li>
-<li>소감 발표</li>
+<li>데이터 형식 : delimited text file 입니다. text형식으로 추출해 주시기 바랍니다.</li>
+<li>필드 구분자 : ,(Comma) 또는 Tab 또는 | (구분자는 실제 데이터에는 존재하지 않는 것이어야 합니다. 해당 구분자가 실제 데이터와 중복되는 경우에는 별도의 구분자로 필드를 구분해 주시기 바랍니다)</li>
+<li>데이터의 첫 행(First record line) : 필드레이아웃(Layout) Name. 요청 드리는 데이터의 첫 행에는 필드레이아웃(Layout)명칭을 입력해 주시기 바랍니다. 해당 Record는 각 필드의 name으로 활용하게 됩니다.<br />
+</li>
+<li>데이터 추출방법에 대한 기술서 : data를 추출하기 위해서 사용한 프로그램, Script, Queries를 그대로 복사해서 제시해 주시면 됩니다. 해당 기술서는 회사에서 데이터를 완전하고 정확하게 데이터를 추출하여 감사 수행 시에 제시했음을 표명하는 자료입니다.</li>
 </ol>
-<h3 id="further-study-1">Further study</h3>
-<ol type="1">
-<li><a href="https://wikidocs.net/book/4315">Must Learning with R</a></li>
-<li><a href="https://statkclee.github.io/r-gapminder-kr/">재현가능한 과학적 분석을 위한 R</a></li>
-<li><a href="https://bookdown.org/">BOOKDOWN</a></li>
-<li><a href="https://hyunyulhenry.github.io/quant_cookbook/">R을 이용한 퀀트 투자 포트폴리오 만들기</a></li>
-</ol>
+<ul>
+<li>주의사항! : 요청 드리는 text데이터에는 추출된 실제 데이터 이외에 임의적인 데이터를 입력하면 안됩니다.</li>
+</ul>
+<h1 id="transfer-of-journal-entry-data">Transfer of Journal Entry Data</h1>
+<p>일반적으로 요청 드리는 데이터는 이메일을 통해 전달될 수도 있으나, 용량이 큰 경우가 대부분으로서 이동형저장장치, 외장하드를 통해서 감사수행시 전달됩니다.</p>
+<h1 id="data-request">Data Request</h1>
+<p>아래의 데이터테이블을 요청드립니다.</p>
+<table>
+<colgroup>
+<col style="width: 52%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Table Number</th>
+<th>Table Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Table 1)</td>
+<td>Journal Entries from the General Ledger (Posting Date:2021.1.1~2021.12. 31)</td>
+</tr>
+<tr class="even">
+<td>Table 2)</td>
+<td>Prior Year TB(Trial Balance) (Posting Date:2020.12.31)</td>
+</tr>
+<tr class="odd">
+<td>Table 3)</td>
+<td>Current Year TB(Trial Balance) (Posting Date:2021.12.31)</td>
+</tr>
+<tr class="even">
+<td>Table 4)</td>
+<td>COA(Chart of Account) (Posting Date:2021.12.31)</td>
+</tr>
+<tr class="odd">
+<td>Table 5)</td>
+<td>HR Information (Posting Date:2021.12.31)</td>
+</tr>
+<tr class="even">
+<td>Table 6)</td>
+<td>Table Layout Description(Excel)</td>
+</tr>
+<tr class="odd">
+<td>Table 7)</td>
+<td>Financial Statements</td>
+</tr>
+<tr class="even">
+<td>Table 8)</td>
+<td>특수관계자</td>
+</tr>
+</tbody>
+</table>
+<p>데이터 테이블의 상세내역은 다음과 같습니다.</p>
+<h2 id="journal-entries-from-the-general-ledger-posting-date2021.1.12021.12.-31-전표">1) Journal Entries from the General Ledger (Posting Date:2021.1.1~2021.12. 31) 전표</h2>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Required Fields</th>
+<th>Field Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>전표번호(Journal entry header Number)</td>
+<td>회계전표가 처리될 때에 각 회계전표에 대하여 General Ledger로부터 부여 받는 고유번호입니다.</td>
+</tr>
+<tr class="even">
+<td>전표라인번호(Journal entry line number)</td>
+<td>회계전표가 처리될 때에 각 회계전표의 Line Item에 부여되는 번호입니다. 회계전표내의 개별항목번호를 의미합니다.</td>
+</tr>
+<tr class="odd">
+<td>총계정원장번호(GLAccount Number)</td>
+<td>총계정원장계정의 계정번호를 의미합니다. COA(Chart of Account)의 총계정원장계정 번호와 동일한 번호를 의미합니다(최소단위의 계정번호입니다)</td>
+</tr>
+<tr class="even">
+<td>총계정원장계정명(GLAccount Name)</td>
+<td>총계정원장계정의 계정명을 의미합니다. COA(Chart of Account)의 총계정원장계정명과 동일한 이름을 의미합니다(최소단위의 계정명입니다)</td>
+</tr>
+<tr class="odd">
+<td>전표상태(Entry Status)</td>
+<td>회계전표가 전기되었는지 전기되지 않았는지를 식별해주는 구분자를 의미합니다. (Note:구분자가 코드로 입력되어 있으면, 이를 설명해줄 수 있는 별도의 엑셀파일을 제출해주시기 바랍니다)</td>
+</tr>
+<tr class="even">
+<td>전표입력자(UserName/ Process Name)</td>
+<td>General Ledger에 전표입력을 수행한 사용자ID입니다.(전표입력이 시스템 프로세스에 의해서 이루어지는 전표 건에 대해서는 프로세스 명을 의미합니다)</td>
+</tr>
+<tr class="odd">
+<td>전표승인자(Approved by User Name)</td>
+<td>회계전표를 승인한 사용자ID입니다(전표승인이 시스템프로세스에 의해서 자동승인되는 건에 대해서는 프로세스 명을 의미합니다)</td>
+</tr>
+<tr class="even">
+<td>증빙일자(Evidence Date)</td>
+<td>회계전표 작성시에 입력하는 관련 증빙일자를 의미합니다(ex:세금계산서일자)</td>
+</tr>
+<tr class="odd">
+<td>전표입력일(Entry Date)</td>
+<td>회계전표를 입력할 때에 시스템에서 생성되는 timestamp를 의미합니다.</td>
+</tr>
+<tr class="even">
+<td>전표승인일(Approved Date)</td>
+<td>입력된 회계전표에 대하여 전표승인자가 승인한 최종승인일자를 의미합니다.</td>
+</tr>
+<tr class="odd">
+<td>전표기표일(Posting Date)</td>
+<td>입력 및 승인된 회계전표가 General Ledger에 전기된 (시스템에 의해서 생성된) timestamp를 의미합니다.</td>
+</tr>
+<tr class="even">
+<td>회계기간(Accounting Period)</td>
+<td>입력 및 승인된 회계전표가 General Ledger에 전기된 (시스템에 의해서 생성된) “월”을 의미합니다.</td>
+</tr>
+<tr class="odd">
+<td>차변대변지시자</td>
+<td>차변(Debit), 대변(Credit)을 식별하는 구분자를 의미합니다.</td>
+</tr>
+<tr class="even">
+<td>차변금액(Debit Amount)</td>
+<td>각 총계정원장계정번호(명)에 해당하는 차변금액을 의미합니다(차변대변지시자가 존재하는 경우 차변금액은 일반적으로 + 금액이지만, 차변에 – 금액이 입력된 경우에는 – 금액 그대로 표시됩니다)</td>
+</tr>
+<tr class="odd">
+<td>대변금액(Credit Amount)</td>
+<td>각 총계정원장계정번호(명)에 해당하는 대변금액을 의미합니다(차변대변지시자가 존재하는 경우 대변금액도 일반적으로 + 금액이지만, 대변에 – 금액이 입력된 경우에는 – 금액 그대로 표시됩니다)</td>
+</tr>
+<tr class="even">
+<td>통화키(Currency Key)</td>
+<td>회계전표에 입력된 각각의 차변/대변금액의 통화를 의미합니다 (ex : KRW, US$)</td>
+</tr>
+<tr class="odd">
+<td>전표유형(Type of Entry)</td>
+<td>생성된 회계전표가 General Ledger에 Manual로 입력이 되었는지, 또는 시스템의 다른 모듈(Module)에서 생성되어 General Ledger에 입력되었는지를 식별해주는 구분자(전표Source)를 의미합니다(ex : manual, Fixed Asset system, Accounts Payable system 등) (Note:구분자가 코드로 입력되어 있으면, 이를 설명해줄 수 있는 별도의 엑셀파일을 제출해주시기 바랍니다)</td>
+</tr>
+<tr class="even">
+<td>전표속성(Journal Type)</td>
+<td>Journal Entry가 발생되는 속성에 따라서 one time entry, recurring entry, accrual entry, reversing entry(또는 자산일반전표, 자금결산전표, 감가상각비전표 등)인지를 식별해주는 구분자를 의미합니다. (Note : 구분자가 코드로 입력되어 있으면, 이를 설명해줄 수 있는 별도의 엑셀파일을 제출해주시기 바랍니다)</td>
+</tr>
+<tr class="odd">
+<td>비용귀속부서(Cost Center)</td>
+<td>회계전표의 비용이 귀속되는 부서(Cost Center)를 의미합니다. (Note : 귀속부서데이터가 코드로 입력되어 있으면, 코드별로 한글 부서명이 표시되어 있는 별도의 엑셀파일을 제출해주시기 바랍니다)</td>
+</tr>
+<tr class="even">
+<td>고객번호(Customer Number)</td>
+<td>회계전표의 각 총계정원장계정의 거래로 인한 고객처번호를 의미합니다(ex : 매출계정을예로 들면 매출이 발생한 경우, 매출거래의 상대방 고객처를 의미합니다) (Note : 고객처번호에 해당하는 고객처명이 표시되어 있는 별도의 엑셀화일을 제출해주시기 바랍니다)</td>
+</tr>
+<tr class="odd">
+<td>구매처번호(Purchasing Number)</td>
+<td>회계전표의 각 총계정원장계정의 거래로 인한 구매처(거래처)번호를 의미합니다(ex : 매입계정을 예로 들면 매입이 발생한 경우, 매입거래의 상대방 고객처를 의미합니다) (Note : 구매처번호에 해당하는 거래처명이 표시되어 있는 별도의 엑셀화일을 제출해주시기 바랍니다)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>주의사항 : 테이블 Field의 구성은 감사수행시 회사의 현황을 고려하여 변동이 가능하나, 일반적으로 상기의 데이터 field의 구성내역은 기본적으로 구성되어야 합니다.</li>
+</ul>
+<h2 id="prior-year-tbtrial-balance-posting-date2020.12.31-전기-시산표">2) Prior Year TB(Trial Balance) (Posting Date:2020.12.31) 전기 시산표</h2>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Required Fields</th>
+<th>Field Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>총계정원장번호(GLAccount Number)</td>
+<td>총계정원장계정의 계정번호를 의미합니다. COA(Chart of Account)의 총계정원장계정 번호와 동일한 번호를 의미합니다.</td>
+</tr>
+<tr class="even">
+<td>총계정원장계정명(GLAccount Name)</td>
+<td>총계정원장계정의 계정명을 의미합니다. COA(Chart of Account)의 총계정원장계정명과 동일한 이름을 의미합니다.</td>
+</tr>
+<tr class="odd">
+<td>계정잔액금액(Account Balance)</td>
+<td>전기말의 시산표(TB)금액을 의미합니다. 해당 금액은 전기말의 감사보고서상의 최종 공시금액을 의미합니다.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>주의사항 : 전기말 시산표(TB)금액은 전기말 감사보고서상의 최종 공시금액과 일치하는지 회계팀 담당자와 검토하여 검증이 이루어져야 합니다.</li>
+</ul>
+<h2 id="current-year-tbtrial-balance-posting-date2021.12.31-당기-시산표">3) Current Year TB(Trial Balance) (Posting Date:2021.12.31) 당기 시산표</h2>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Required Fields</th>
+<th>Field Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>총계정원장번호(GLAccount Number)</td>
+<td>총계정원장계정의 계정번호를 의미합니다. COA(Chart of Account)의 총계정원장계정 번호와 동일한 번호를 의미합니다.</td>
+</tr>
+<tr class="even">
+<td>총계정원장계정명(GLAccount Name)</td>
+<td>총계정원장계정의 계정명을 의미합니다. COA(Chart of Account)의 총계정원장계정명과 동일한 이름을 의미합니다.</td>
+</tr>
+<tr class="odd">
+<td>계정잔액금액(Account Balance)</td>
+<td>당기말의 시산표(TB)금액을 의미합니다. 해당 금액은 기말감사시의 회계법인에 제공하는 감사대상 재무제표 금액을 의미합니다.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>주의사항 : 당기말 시산표(TB)금액은 기말감사시 회계법인에 제공하는 감사대상 재무제표 금액과 일치하는지 회계팀 담당자와 검토하여 검증이 이루어져야 합니다.</li>
+</ul>
+<h2 id="coachart-of-account-posting-date2021.12.31">4) COA(Chart of Account) (Posting Date:2021.12.31)</h2>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Required Fields</th>
+<th>Field Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>총계정원장번호(GLAccount Number)</td>
+<td>총계정원장계정의 계정번호를 의미합니다. COA(Chart of Account)의 총계정원장계정 번호를 의미합니다. 해당 계정번호는 최소단위의 계정번호입니다.</td>
+</tr>
+<tr class="even">
+<td>총계정원장계정명(GLAccount Name)</td>
+<td>총계정원장계정의 계정명을 의미합니다. COA(Chart of Account)의 총계정원장계정명을 의미합니다. 해당 계정번호는 최소단위의 계정명입니다.</td>
+</tr>
+<tr class="odd">
+<td>생성일자(Create Date)</td>
+<td>총계정원장계정의 최초생성일자를 의미합니다.</td>
+</tr>
+<tr class="even">
+<td>수정일자(Modification)</td>
+<td>총계정원장계정의 변동사항이 발생한 경우의 수정일자를 의미합니다.</td>
+</tr>
+<tr class="odd">
+<td>삭제일자(Delete Date)</td>
+<td>총계정원장계정을 사용하지 않도록 삭제처리한 일자를 의미합니다.</td>
+</tr>
+<tr class="even">
+<td>기타</td>
+<td>COA테이블의 기타 모든 필드를 요청드립니다.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>주의사항 : 일반적으로 COA테이블은 회사에서 사용하고 있는 전체 데이블 Field에 대하여 요청드립니다.</li>
+</ul>
+<h2 id="hr-information-posting-date2021.12.31">5) HR Information (Posting Date:2021.12.31)</h2>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Required Fields</th>
+<th>Field Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>사용자ID(User ID)</td>
+<td>상기의 “1) Journal Entries from the General Ledger”테이블의 전표입력자, 전표승인자 Field의 사용자ID와 동일한 ID를 의미합니다.</td>
+</tr>
+<tr class="even">
+<td>사용자명(User Name)</td>
+<td>사용자ID에 해당하는 사용자명을 의미합니다. 사용자ID가 시스템을 의미할 경우에는 시스템명을 의미합니다.</td>
+</tr>
+<tr class="odd">
+<td>소속부서명(Department)</td>
+<td>사용자가 소속된 부서명을 의미합니다(해당 데이터가 소속코드일 경우에는 한글소속부서명이 표시되어 있는 별도의 엑셀화일을 제출해주셔야 하므로, 소속부서명으로 요청드립니다)</td>
+</tr>
+<tr class="even">
+<td>직급(Position)</td>
+<td>사용자의 해당 소속부서에서의 직급을 의미합니다.</td>
+</tr>
+<tr class="odd">
+<td>입사일자(Entering Date)</td>
+<td>사용자의 입사일자를 의미합니다.</td>
+</tr>
+<tr class="even">
+<td>퇴사일자(Entering Date)</td>
+<td>당기 회계연도 중에 퇴사한 사용자의 경우에 퇴사일자를 의미합니다.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>주의사항 : 당 회계연도에 퇴사한 사용자에 대해서는 별도의 테이블로 제출해주셔도 됩니다. 상기의 데이터Field에 대하여 회사의 인사정보정책을 고려하여 변동이 가능하나, “사용자ID”, “사용자명”, “소속부서명”은 필수요청 Field입니다.</li>
+</ul>
+<h2 id="table-layout-descriptionexcel">6) Table Layout Description(Excel)</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Required Fields</th>
+<th>Field Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>필드명(Field Name)</td>
+<td>상기의 1)~5)의 각 테이블을 구성하는 Law Data의 필드명을 의미합니다.</td>
+</tr>
+<tr class="even">
+<td>필드타입(Field Type)</td>
+<td>해당 필드의 속성을 의미합니다(ex:Character…)</td>
+</tr>
+<tr class="odd">
+<td>필드길이(Field Length)</td>
+<td>해당 필드의 길이를 의미합니다.</td>
+</tr>
+<tr class="even">
+<td>적요(Description)</td>
+<td>해당 Law Data의 필드명에 대한 기술(한글)을 의미합니다.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>주의사항! : 각 Field에 존재하는 실제 데이터가 코드로 입력되어 있으면, 해당 필드에 존재하는 모든 코드내역에 대한 별도의 테이블을 요청드립니다(ex: AA :자산일반전표, AD:임차보증금전표…)</li>
+</ul>
+<h2 id="financial-statements">7) Financial Statements</h2>
+<p>기말감사시에 회계법인에 제시하는 감사대상 재무제표와 동일한 재무제표(대차대조표, 손익계산서)를 요청드립니다.</p>
+<h2 id="특수관계자">8) 특수관계자</h2>
+<p>감사보고서의 주석에 공시되는 특수관계자와의 거래와 관련해서 다음과 같은 데이터를 요청드립니다.</p>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Required Fields</th>
+<th>Field Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>특수관계자번호(Number)</td>
+<td>감사보고서의 주석에 공시되는 특수관계자와의 거래와 관련된 특수관계자번호(ID)를 의미합니다. 특수관계자에 대한 판단여부는 회계팀 담당자의 검토 부탁 드립니다.</td>
+</tr>
+<tr class="even">
+<td>특수관계자명(Name)</td>
+<td>특수관계자번호에 해당하는 한글명을 의미합니다. 감사보고서의 주석에 공시되는 특수관계자의 이름을 의미합니다.</td>
+</tr>
+<tr class="odd">
+<td>총계정원장번호(GLAccount Number)</td>
+<td>총계정원장계정의 계정번호를 의미합니다. COA(Chart of Account)의 총계정원장계정 번호를 의미합니다. 해당 계정번호는 최소단위의 계정번호입니다.</td>
+</tr>
+<tr class="even">
+<td>총계정원장계정명(GLAccount Name)</td>
+<td>총계정원장계정의 계정명을 의미합니다. COA(Chart of Account)의 총계정원장계정명을 의미합니다. 해당 계정번호는 최소단위의 계정명입니다.</td>
+</tr>
+<tr class="odd">
+<td>발생금액(Amount)</td>
+<td>손익계정의 경우에는 당기 발생금액을 의미하며, 대차대조표계정의 경우에는 당기말 잔액을 의미합니다.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>주의사항 : “발생금액” Field의 데이터금액은 재무제표 주석의 “특수관계자와의 거래”의 금액과 일치하여야 합니다. 상기의 Filed중에서 회사의 현황을 고려하여 변동이 가능하나, “특수관계자번호”, “특수관계자명”은 필수요청 사항입니다.</li>
+</ul>
 <p><br><br><br><br></p>
 <table>
 <thead>

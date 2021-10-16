@@ -1,0 +1,198 @@
+---
+title: "Request"
+description: |
+  Journa Entry Analysis Data Request Form
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Journal Entry Data Request
+ 
+본 Journal Entry 감사 절차는 재무제표에 대한 회계감사의 일환으로서, 회사의 직전 회계연도 시산표 금액과 당해 회계연도의 시산표 금액의 변동사항에 대하여 다음과 같은 기중의 전표데이터를 입수하여 분석하는 것입니다.  
+    
+1. 회사의 직전 회계연도 말의 시산표(TB) 금액 = 직전 회계연도의 감사보고서 상의 재무제표 금액
+2. 당해 회계연도 말의 시산표(TB) 금액 = 기말감사 시, 회계법인에 제공하는 감사대상 재무제표 금액
+3. 기중(기표일자 기준)의 전표데이터
+    
+---
+① 전기말TB ± ③ = ② 당기말TB
+---
+
+따라서 기표일자 기준으로 당 회계연도에 귀속되는 모든 전표데이터를 입수하여 전기 재무제표 금액에 기중 전표데이터 변동사항을 가감했을 경우, 당해 회계연도의 재무제표 금액과 일치하여야 합니다. 본 감사절차를 수행하기 위하여 다음과 같은 데이터를 요청 드립니다.    
+    
+    
+# Period of Journal Entry Data
+    
+일반적으로 전표작성과 관련된 일자(date)개념으로 네 가지(증빙일자(Invoice 또는 세금계산서일자), 전표작성일자, 전표승인일자, 전표기표일자)가 있습니다.  
+    
+이 중에서 회사의 재무제표는 전표기표일자(Posting Date)를 기준으로 월 결산 및 회계연도 결산이 수행되어 재무제표가 산출됩니다. 본 감사절차는 재무제표에 대한 회계감사의 일환으로 수행하는 업무이므로, 기표일자(Posting Date)를 기준으로 데이터를 입수하여야 하여, 당 회계연도의 재무제표에 반영되는 모든 전표데이터를 요청 드립니다.    
+     
+# Format of Journal Entry Data  
+     
+요청 드리는 모든 데이터의 형식은 다음과 같습니다.  
+    
+1) 데이터 형식 : delimited text file 입니다. text형식으로 추출해 주시기 바랍니다.
+2) 필드 구분자 : ,(Comma) 또는 Tab 또는 | (구분자는 실제 데이터에는 존재하지 않는 것이어야 합니다. 해당 구분자가 실제 데이터와 중복되는 경우에는 별도의 구분자로 필드를 구분해 주시기 바랍니다)
+3) 데이터의 첫 행(First record line) : 필드레이아웃(Layout) Name. 요청 드리는 데이터의 첫 행에는 필드레이아웃(Layout)명칭을 입력해 주시기 바랍니다. 해당 Record는 각 필드의 name으로 활용하게 됩니다.   
+4) 데이터 추출방법에 대한 기술서 : data를 추출하기 위해서 사용한 프로그램, Script, Queries를 그대로 복사해서 제시해 주시면 됩니다. 해당 기술서는 회사에서 데이터를 완전하고 정확하게 데이터를 추출하여 감사 수행 시에 제시했음을 표명하는 자료입니다.   
+     
+     
+* 주의사항! : 요청 드리는 text데이터에는 추출된 실제 데이터 이외에 임의적인 데이터를 입력하면 안됩니다.    
+     
+     
+# Transfer of Journal Entry Data
+     
+일반적으로 요청 드리는 데이터는 이메일을 통해 전달될 수도 있으나, 용량이 큰 경우가 대부분으로서 이동형저장장치, 외장하드를 통해서 감사수행시 전달됩니다.   
+      
+      
+# Data Request  
+     
+     
+아래의 데이터테이블을 요청드립니다.   
+      
+Table Number | Table Name |
+-------------|------------|
+Table 1) | Journal Entries from the General Ledger (Posting Date:2021.1.1~2021.12. 31) |
+Table 2) | Prior Year TB(Trial Balance) (Posting Date:2020.12.31) |
+Table 3) | Current Year TB(Trial Balance) (Posting Date:2021.12.31) |
+Table 4) | COA(Chart of Account) (Posting Date:2021.12.31) |
+Table 5) | HR Information (Posting Date:2021.12.31) |
+Table 6) | Table Layout Description(Excel) |
+Table 7) | Financial Statements |
+Table 8) | 특수관계자 |
+    
+    
+데이터 테이블의 상세내역은 다음과 같습니다.  
+    
+    
+## 1) Journal Entries from the General Ledger (Posting Date:2021.1.1~2021.12. 31) 전표 
+   
+Required Fields | Field Description |
+----------------|-------------------|
+전표번호(Journal entry header Number) | 회계전표가 처리될 때에 각 회계전표에 대하여 General Ledger로부터 부여 받는 고유번호입니다. |
+전표라인번호(Journal entry line number) | 회계전표가 처리될 때에 각 회계전표의 Line Item에 부여되는 번호입니다. 회계전표내의 개별항목번호를 의미합니다. |
+총계정원장번호(GLAccount Number) | 총계정원장계정의 계정번호를 의미합니다. COA(Chart of Account)의 총계정원장계정 번호와 동일한 번호를 의미합니다(최소단위의 계정번호입니다) |
+총계정원장계정명(GLAccount Name) | 총계정원장계정의 계정명을 의미합니다. COA(Chart of Account)의 총계정원장계정명과 동일한 이름을 의미합니다(최소단위의 계정명입니다) |
+전표상태(Entry Status) | 회계전표가 전기되었는지 전기되지 않았는지를 식별해주는 구분자를 의미합니다. (Note:구분자가 코드로 입력되어 있으면, 이를 설명해줄 수 있는 별도의 엑셀파일을 제출해주시기 바랍니다) |
+전표입력자(UserName/ Process Name) | General Ledger에 전표입력을 수행한 사용자ID입니다.(전표입력이 시스템 프로세스에 의해서 이루어지는 전표 건에 대해서는 프로세스 명을 의미합니다) |
+전표승인자(Approved by User Name) | 회계전표를 승인한 사용자ID입니다(전표승인이 시스템프로세스에 의해서 자동승인되는 건에 대해서는 프로세스 명을 의미합니다) |
+증빙일자(Evidence Date) | 회계전표 작성시에 입력하는 관련 증빙일자를 의미합니다(ex:세금계산서일자) |
+전표입력일(Entry Date) | 회계전표를 입력할 때에 시스템에서 생성되는 timestamp를 의미합니다. |
+전표승인일(Approved Date) | 입력된 회계전표에 대하여 전표승인자가 승인한 최종승인일자를 의미합니다. |
+전표기표일(Posting Date) | 입력 및 승인된 회계전표가 General Ledger에 전기된 (시스템에 의해서 생성된) timestamp를 의미합니다. |
+회계기간(Accounting Period) | 입력 및 승인된 회계전표가 General Ledger에 전기된 (시스템에 의해서 생성된) “월”을 의미합니다. |
+차변대변지시자 | 차변(Debit), 대변(Credit)을 식별하는 구분자를 의미합니다. |
+차변금액(Debit Amount) | 각 총계정원장계정번호(명)에 해당하는 차변금액을 의미합니다(차변대변지시자가 존재하는 경우 차변금액은 일반적으로 + 금액이지만, 차변에 – 금액이 입력된 경우에는 – 금액 그대로 표시됩니다) |
+대변금액(Credit Amount) | 각 총계정원장계정번호(명)에 해당하는 대변금액을 의미합니다(차변대변지시자가 존재하는 경우 대변금액도 일반적으로 + 금액이지만, 대변에 – 금액이 입력된 경우에는 – 금액 그대로 표시됩니다) |
+통화키(Currency Key) | 회계전표에 입력된 각각의 차변/대변금액의 통화를 의미합니다 (ex : KRW, US$) |
+전표유형(Type of Entry) | 생성된 회계전표가 General Ledger에 Manual로 입력이 되었는지, 또는 시스템의 다른 모듈(Module)에서 생성되어 General Ledger에 입력되었는지를 식별해주는 구분자(전표Source)를 의미합니다(ex : manual, Fixed Asset system, Accounts Payable system 등) (Note:구분자가 코드로 입력되어 있으면, 이를 설명해줄 수 있는 별도의 엑셀파일을 제출해주시기 바랍니다) |
+전표속성(Journal Type) | Journal Entry가 발생되는 속성에 따라서 one time entry, recurring entry, accrual entry, reversing entry(또는 자산일반전표, 자금결산전표, 감가상각비전표 등)인지를 식별해주는 구분자를 의미합니다. (Note : 구분자가 코드로 입력되어 있으면, 이를 설명해줄 수 있는 별도의 엑셀파일을 제출해주시기 바랍니다) |
+비용귀속부서(Cost Center) | 회계전표의 비용이 귀속되는 부서(Cost Center)를 의미합니다. (Note : 귀속부서데이터가 코드로 입력되어 있으면, 코드별로 한글 부서명이 표시되어 있는 별도의 엑셀파일을 제출해주시기 바랍니다) |
+고객번호(Customer Number) | 회계전표의 각 총계정원장계정의 거래로 인한 고객처번호를 의미합니다(ex : 매출계정을예로 들면 매출이 발생한 경우, 매출거래의 상대방 고객처를 의미합니다) (Note : 고객처번호에 해당하는 고객처명이 표시되어 있는 별도의 엑셀화일을 제출해주시기 바랍니다) |
+구매처번호(Purchasing Number) | 회계전표의 각 총계정원장계정의 거래로 인한 구매처(거래처)번호를 의미합니다(ex : 매입계정을 예로 들면 매입이 발생한 경우, 매입거래의 상대방 고객처를 의미합니다) (Note :  구매처번호에 해당하는 거래처명이 표시되어 있는 별도의 엑셀화일을 제출해주시기 바랍니다) |
+    
+    
+* 주의사항 : 테이블 Field의 구성은 감사수행시 회사의 현황을 고려하여 변동이 가능하나, 일반적으로 상기의 데이터 field의 구성내역은 기본적으로 구성되어야 합니다.
+ 
+## 2) Prior Year TB(Trial Balance) (Posting Date:2020.12.31) 전기 시산표
+    
+Required Fields | Field Description |
+----------------|-------------------|
+총계정원장번호(GLAccount Number) | 총계정원장계정의 계정번호를 의미합니다. COA(Chart of Account)의 총계정원장계정 번호와 동일한 번호를 의미합니다.|
+총계정원장계정명(GLAccount Name) | 총계정원장계정의 계정명을 의미합니다. COA(Chart of Account)의 총계정원장계정명과 동일한 이름을 의미합니다. |
+계정잔액금액(Account Balance) | 전기말의 시산표(TB)금액을 의미합니다. 해당 금액은 전기말의 감사보고서상의 최종 공시금액을 의미합니다. |
+    
+    
+* 주의사항 : 전기말 시산표(TB)금액은 전기말 감사보고서상의 최종 공시금액과 일치하는지 회계팀 담당자와 검토하여 검증이 이루어져야 합니다.
+    
+    
+## 3) Current Year TB(Trial Balance) (Posting Date:2021.12.31) 당기 시산표
+   
+Required Fields | Field Description |
+----------------|-------------------|
+총계정원장번호(GLAccount Number) | 총계정원장계정의 계정번호를 의미합니다. COA(Chart of Account)의 총계정원장계정 번호와 동일한 번호를 의미합니다. |
+총계정원장계정명(GLAccount Name) | 총계정원장계정의 계정명을 의미합니다. COA(Chart of Account)의 총계정원장계정명과 동일한 이름을 의미합니다. |
+계정잔액금액(Account Balance) | 당기말의 시산표(TB)금액을 의미합니다. 해당 금액은 기말감사시의 회계법인에 제공하는 감사대상 재무제표 금액을 의미합니다. |
+    
+    
+* 주의사항 : 당기말 시산표(TB)금액은 기말감사시 회계법인에 제공하는 감사대상 재무제표 금액과 일치하는지 회계팀 담당자와 검토하여 검증이 이루어져야 합니다.
+    
+    
+## 4) COA(Chart of Account) (Posting Date:2021.12.31)
+
+Required Fields | Field Description |
+----------------|-------------------|
+총계정원장번호(GLAccount Number) | 총계정원장계정의 계정번호를 의미합니다. COA(Chart of Account)의 총계정원장계정 번호를 의미합니다. 해당 계정번호는 최소단위의 계정번호입니다. |
+총계정원장계정명(GLAccount Name) | 총계정원장계정의 계정명을 의미합니다. COA(Chart of Account)의 총계정원장계정명을 의미합니다. 해당 계정번호는 최소단위의 계정명입니다. |
+생성일자(Create Date) | 총계정원장계정의 최초생성일자를 의미합니다. |
+수정일자(Modification) | 총계정원장계정의 변동사항이 발생한 경우의 수정일자를 의미합니다.|
+삭제일자(Delete Date) | 총계정원장계정을 사용하지 않도록 삭제처리한 일자를 의미합니다. |
+기타 | COA테이블의 기타 모든 필드를 요청드립니다. |
+    
+    
+* 주의사항 : 일반적으로 COA테이블은 회사에서 사용하고 있는 전체 데이블 Field에 대하여 요청드립니다.
+   
+## 5) HR Information (Posting Date:2021.12.31)
+
+Required Fields | Field Description |
+----------------|-------------------|
+사용자ID(User ID) | 상기의 “1) Journal Entries from the General Ledger”테이블의 전표입력자, 전표승인자 Field의 사용자ID와 동일한 ID를 의미합니다. |
+사용자명(User Name) | 사용자ID에 해당하는 사용자명을 의미합니다. 사용자ID가 시스템을 의미할 경우에는 시스템명을 의미합니다. |
+소속부서명(Department) | 사용자가 소속된 부서명을 의미합니다(해당 데이터가 소속코드일 경우에는 한글소속부서명이 표시되어 있는 별도의 엑셀화일을 제출해주셔야 하므로, 소속부서명으로 요청드립니다) |
+직급(Position) | 사용자의 해당 소속부서에서의 직급을 의미합니다. |
+입사일자(Entering Date) | 사용자의 입사일자를 의미합니다. |
+퇴사일자(Entering Date) | 당기 회계연도 중에 퇴사한 사용자의 경우에 퇴사일자를 의미합니다. |
+    
+    
+* 주의사항 : 당 회계연도에 퇴사한 사용자에 대해서는 별도의 테이블로 제출해주셔도 됩니다. 상기의 데이터Field에 대하여 회사의 인사정보정책을 고려하여 변동이 가능하나, “사용자ID”, “사용자명”, “소속부서명”은 필수요청 Field입니다.
+   
+   
+## 6) Table Layout Description(Excel)
+
+Required Fields | Field Description |
+----------------|-------------------|
+필드명(Field Name) | 상기의 1)~5)의 각 테이블을 구성하는 Law Data의 필드명을 의미합니다. |
+필드타입(Field Type) | 해당 필드의 속성을 의미합니다(ex:Character...) |
+필드길이(Field Length) | 해당 필드의 길이를 의미합니다. |
+적요(Description) | 해당 Law Data의 필드명에 대한 기술(한글)을 의미합니다. |
+   
+   
+* 주의사항! : 각 Field에 존재하는 실제 데이터가 코드로 입력되어 있으면, 해당 필드에 존재하는 모든 코드내역에 대한 별도의 테이블을 요청드립니다(ex: AA :자산일반전표, AD:임차보증금전표…)
+   
+   
+## 7) Financial Statements
+   
+기말감사시에 회계법인에 제시하는 감사대상 재무제표와 동일한 재무제표(대차대조표, 손익계산서)를 요청드립니다.
+    
+## 8) 특수관계자  
+   
+감사보고서의 주석에 공시되는 특수관계자와의 거래와 관련해서 다음과 같은 데이터를 요청드립니다.  
+   
+Required Fields | Field Description |
+----------------|-------------------|
+특수관계자번호(Number) | 감사보고서의 주석에 공시되는 특수관계자와의 거래와 관련된 특수관계자번호(ID)를 의미합니다. 특수관계자에 대한 판단여부는 회계팀 담당자의 검토 부탁 드립니다. |
+특수관계자명(Name) | 특수관계자번호에 해당하는 한글명을 의미합니다. 감사보고서의 주석에 공시되는 특수관계자의 이름을 의미합니다. |
+총계정원장번호(GLAccount Number) | 총계정원장계정의 계정번호를 의미합니다. COA(Chart of Account)의 총계정원장계정 번호를 의미합니다. 해당 계정번호는 최소단위의 계정번호입니다. |
+총계정원장계정명(GLAccount Name) | 총계정원장계정의 계정명을 의미합니다. COA(Chart of Account)의 총계정원장계정명을 의미합니다. 해당 계정번호는 최소단위의 계정명입니다. |
+발생금액(Amount) | 손익계정의 경우에는 당기 발생금액을 의미하며, 대차대조표계정의 경우에는 당기말 잔액을 의미합니다. |
+   
+   
+* 주의사항 : “발생금액” Field의 데이터금액은 재무제표 주석의 “특수관계자와의 거래”의 금액과 일치하여야 합니다. 상기의 Filed중에서 회사의 현황을 고려하여 변동이 가능하나, “특수관계자번호”, “특수관계자명”은 필수요청 사항입니다.  
+   
+   
+   
+   
+<br><br><br><br>      
+      
+| 조이회계  Joy Accounting |
+|---------------------------|
+| https://joy-accounting.netlify.com/ |
+
+
+
+  
+
