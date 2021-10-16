@@ -30,7 +30,7 @@ knitr::include_graphics("images/gantt_211022.png")
 1. rmarkdown 
 1. 새로운 JE data에 Rmarkdown code 적용 시연    
 1. 질의 응답   
-. JE Tester by Joy 소개하기    
+1. JE Tester by Joy 소개하기    
     
 [Journal Entry Tester by Joy 0.1.0](https://joy-accounting.netlify.app/2021-08-26-journal-entry-tester-by-joy-0-1-0/)
    
