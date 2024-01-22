@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ## Prerequisite
    
 1. Rstudio [R | Docker | Rocker | 윈도우즈에서 도커로 Rstudio 환경 사용하기 | tidyverse](https://joy-accounting.netlify.app/2023-12-18-docker-rocker-rstudio/) 에 따라서 설치한다.
-1. [R 프로그래밍 기초 강의](https://youtu.be/yicfFo_A-KY?si=ybL7Yj5id7VW0tYT) 를 시청하고 최대한 따라서 입력해 본다.   
+1. [R 기초 강의](https://youtu.be/0DYFRSykkXQ?si=0mC3yk5reuiEdjGC) 를 시청하고 최대한 따라서 입력해 본다.   
      
     
       
