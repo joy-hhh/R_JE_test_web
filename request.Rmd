@@ -198,9 +198,9 @@ Required Fields | Field Description |
    
 <br><br><br><br>      
       
-| 조이회계  Joy Accounting |
+| Journal Entry Analysis |
 |---------------------------|
-| https://joy-accounting.netlify.com/ |
+| End |
 
 
 

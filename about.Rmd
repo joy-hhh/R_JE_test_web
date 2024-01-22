@@ -12,22 +12,36 @@ knitr::opts_chunk$set(echo = FALSE)
     
 # Prerequisite
    
-[R | 프로그래밍 언어 R 설치하기](https://joy-accounting.netlify.app/2021-07-19-r-install-windows/) 에서와 같이 설치하고 tidyverse 패키지가 정상적으로 설치되었다는 것을 전제하여 다음에 소개하는 Code를  스크립트 창에 조금씩 써보거나 복사해서 붙여 넣는 방식으로 실습한다. 
-   
+Rstudio [R | Docker | Rocker | 윈도우즈에서 도커로 Rstudio 환경 사용하기 | tidyverse](https://joy-accounting.netlify.app/2023-12-18-docker-rocker-rstudio/) 와 같이 정상적으로 설치되었다는 것을 전제하여 다음에 소개하는 Code를  스크립트 창에 조금씩 써보거나 복사해서 붙여 넣는 방식으로 실습한다.   
+    
 ## Data 준비하기   
    
-Rstudio에는 작업 환경을 분할해서 관리할 수 있는 훌륭한 기능이 있다. New Project로 Project를 생성하고 Project를 열어서 작업을 하면 작업 환경이 지정 되고 폴더도 생성되어 그 안에서 독립된 환경을 갖추어 작업 할 수 있다. Alt + f, p 를 눌러서 Project를 생성한다.       
+Rstudio에는 작업 환경을 분할해서 관리할 수 있는 Project 기능이 있다. New Project로 Project를 생성하고 Project를 열어서 작업을 하면 작업 환경이 지정 되고 폴더도 생성되어 그 안에서 독립된 환경을 갖추어 작업 할 수 있다.   
    
 [다운로드](https://github.com/joy-hhh/R_for_JE_test)
     
 다운로드 링크에서 우측 상단의 ↓ Code 을 클릭하여 Download ZIP 을 통해서 파일을 다운로드 받는다.  
    
 다운로드 받은 파일은 압축을 풀어 je.csv, CYTB.xlsx, PYTB.xlsx 세 개의 파일을 생성한 프로젝트 폴더에 옮겨 담는다.  
+    
+    
+## Code로 바로 내려받기  
+    
+다음의 코드를 사용하면 Github에 올려져 있는 텍스트 파일을 바로 내려 받을 수 있다.  
+   
+교육용으로 활용할 수는 있겠지만 현실에서는 파일이 웹에 올려져 있지 않고 Private 환경에서 전달 받을 것이므로 현실적이지 않다.  
+   
+    
+```{r, eval=FALSE, echo=TRUE}
+je_raw <- readr::read_csv("https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je_utf_colname.txt")
+```    
+
+
 
 # 시작
    
 전체 과정은 R에 파일을 불러와서 작업하고 결과물을 파일로 저장하는 것으로 마친다.   
-(실습 이후 :  Rmarkdown으로 문서 자동화 소개)
+(실습 이후 : Rmarkdown으로 문서 자동화 소개)
    
    
 ## 파일 불러오기 (Data 읽기)
@@ -117,7 +131,7 @@ colSums(is.na(pytb_raw))
 4. 당기 시산표의 변수별(열 이름)로 NA 갯수를 확인한다.  
 5. 전기 시산표의 변수별(열 이름)로 NA 갯수를 확인한다.  
      
-Rstudio의 Powerful한 기능 View로 시산표를 볼 수 있다. 이 기능 때문이라도 Rstudio를 애정한다.  
+Rstudio의 Powerful한 기능 View로 시산표를 볼 수 있다.     
     
 ```{r, eval=FALSE, echo=TRUE}
 View(cytb_raw)

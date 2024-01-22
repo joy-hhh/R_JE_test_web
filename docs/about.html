@@ -50,16 +50,17 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  { color: #00769e; background-color: #f1f3f5; }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span { color: #00769e; } /* Normal */
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
+code span.at { color: #657422; } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
+code span.cf { color: #00769e; } /* ControlFlow */
 code span.ch { color: #20794d; } /* Char */
 code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #5e5e5e; } /* Comment */
@@ -73,17 +74,18 @@ code span.fl { color: #ad0000; } /* Float */
 code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
+code span.kw { color: #00769e; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
+code span.ot { color: #00769e; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
 code span.st { color: #20794d; } /* String */
 code span.va { color: #111111; } /* Variable */
 code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
+
 
   <!--radix_placeholder_meta_tags-->
   <title>R Journal Entry Analysis: About this site</title>
@@ -456,8 +458,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
 
   <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
-  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
   <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
   <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
@@ -786,6 +788,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
+    font-size: 100%;
   }
 
   .html-widget {
@@ -826,9 +829,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     display: none !important;
   }
 
+  hr.section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0px;
+  }
+
+
+  d-byline {
+    border-top: none;
+  }
+
   d-article {
     padding-top: 2.5rem;
     padding-bottom: 30px;
+    border-top: none;
   }
 
   d-appendix {
@@ -923,6 +938,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article div.sourceCode pre {
     padding-left: 18px;
     font-size: 14px;
+  }
+
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
   }
 
   d-article pre {
@@ -1027,10 +1047,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     position: relative;
     margin-bottom: 2.5em;
     margin-top: 1.5em;
-  }
-
-  .figure img {
-    width: 100%;
   }
 
   .figure .caption {
@@ -1688,6 +1704,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // create d-title
     $('.d-title').changeElementType('d-title');
 
+    // separator
+    var separator = '<hr class="section-separator" style="clear: both"/>';
+    // prepend separator above appendix
+    $('.d-byline').before(separator);
+    $('.d-article').before(separator);
+
     // create d-byline
     var byline = $('<d-byline></d-byline>');
     $('.d-byline').replaceWith(byline);
@@ -1765,8 +1787,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     $('.distill-force-highlighting-css').parent().remove();
 
     // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
     // load distill framework
     load_distill_framework();
@@ -1792,12 +1815,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       // add orcid ids
       $('.authors-affiliations').find('.author').each(function(i, el) {
         var orcid_id = front_matter.authors[i].orcidID;
+        var author_name = front_matter.authors[i].author
         if (orcid_id) {
           var a = $('<a></a>');
           a.attr('href', 'https://orcid.org/' + orcid_id);
           var img = $('<img></img>');
           img.addClass('orcid-id');
-          img.attr('alt', 'ORCID ID');
+          img.attr('alt', author_name ? 'ORCID ID for ' + author_name : 'ORCID ID');
           img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
           a.append(img);
           $(this).append(a);
@@ -1862,7 +1886,22 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
+        }).join("\n");
         window.tippy(this, {
           allowHTML: true,
           content: refHtml,
@@ -1873,6 +1912,31 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
           placement: 'bottom-start'
         });
       });
+
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
 
       // clear polling timer
       clearInterval(tid);
@@ -1972,6 +2036,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // mark non-body figures created by knitr chunks as 100% width
     $('.layout-chunk').each(function(i, val) {
       var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
       if ($(this).attr('data-layout') !== "l-body") {
         figures.css('width', '100%');
       } else {
@@ -1994,7 +2060,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // get rid of index.html references in header
     if (window.location.protocol !== "file:") {
       $('.distill-site-header a[href]').each(function(i,val) {
-        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
       });
     }
 
@@ -2033,7 +2099,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2077,6 +2143,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-title">
 <h1>About this site</h1>
+
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 <p><p>Learn R for Journal entry analysis</p></p>
@@ -2085,12 +2152,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h1 id="prerequisite">Prerequisite</h1>
-<p><a href="https://joy-accounting.netlify.app/2021-07-19-r-install-windows/">R | 프로그래밍 언어 R 설치하기</a> 에서와 같이 설치하고 tidyverse 패키지가 정상적으로 설치되었다는 것을 전제하여 다음에 소개하는 Code를 스크립트 창에 조금씩 써보거나 복사해서 붙여 넣는 방식으로 실습한다.</p>
+<p>Rstudio <a href="https://joy-accounting.netlify.app/2023-12-18-docker-rocker-rstudio/">R | Docker | Rocker | 윈도우즈에서 도커로 Rstudio 환경 사용하기 | tidyverse</a> 와 같이 정상적으로 설치되었다는 것을 전제하여 다음에 소개하는 Code를 스크립트 창에 조금씩 써보거나 복사해서 붙여 넣는 방식으로 실습한다.</p>
 <h2 id="data-준비하기">Data 준비하기</h2>
-<p>Rstudio에는 작업 환경을 분할해서 관리할 수 있는 훌륭한 기능이 있다. New Project로 Project를 생성하고 Project를 열어서 작업을 하면 작업 환경이 지정 되고 폴더도 생성되어 그 안에서 독립된 환경을 갖추어 작업 할 수 있다. Alt + f, p 를 눌러서 Project를 생성한다.</p>
+<p>Rstudio에는 작업 환경을 분할해서 관리할 수 있는 Project 기능이 있다. New Project로 Project를 생성하고 Project를 열어서 작업을 하면 작업 환경이 지정 되고 폴더도 생성되어 그 안에서 독립된 환경을 갖추어 작업 할 수 있다.</p>
 <p><a href="https://github.com/joy-hhh/R_for_JE_test">다운로드</a></p>
 <p>다운로드 링크에서 우측 상단의 ↓ Code 을 클릭하여 Download ZIP 을 통해서 파일을 다운로드 받는다.</p>
 <p>다운로드 받은 파일은 압축을 풀어 je.csv, CYTB.xlsx, PYTB.xlsx 세 개의 파일을 생성한 프로젝트 폴더에 옮겨 담는다.</p>
+<h2 id="code로-바로-내려받기">Code로 바로 내려받기</h2>
+<p>다음의 코드를 사용하면 Github에 올려져 있는 텍스트 파일을 바로 내려 받을 수 있다.</p>
+<p>교육용으로 활용할 수는 있겠지만 현실에서는 파일이 웹에 올려져 있지 않고 Private 환경에서 전달 받을 것이므로 현실적이지 않다.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je_utf_colname.txt"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
 <h1 id="시작">시작</h1>
 <p>전체 과정은 R에 파일을 불러와서 작업하고 결과물을 파일로 저장하는 것으로 마친다.<br />
 (실습 이후 : Rmarkdown으로 문서 자동화 소개)</p>
@@ -2099,8 +2174,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>R은 이 스크립트 창에서 Console에 Code를 던져 주면서 실행하는 맛이 있다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>  
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>  </span></code></pre>
 </div>
 </div>
 <ol type="1">
@@ -2108,9 +2182,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>je</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>'je.csv'</span>, locale<span class='op'>=</span><span class='fu'>locale</span><span class='op'>(</span><span class='st'>'ko'</span>,encoding<span class='op'>=</span><span class='st'>'euc-kr'</span><span class='op'>)</span><span class='op'>)</span>  
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>je</span><span class='op'>)</span>  
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>'je.csv'</span>, locale<span class='op'>=</span><span class='fu'><a href='https://readr.tidyverse.org/reference/locale.html'>locale</a></span><span class='op'>(</span><span class='st'>'ko'</span>,encoding<span class='op'>=</span><span class='st'>'euc-kr'</span><span class='op'>)</span><span class='op'>)</span>  </span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>je</span><span class='op'>)</span>  </span></code></pre>
 </div>
 </div>
 <ol type="1">
@@ -2121,14 +2194,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h2 id="a01-data-integrity-test">A01 Data Integrity Test</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>je</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>je</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>je</span><span class='op'>)</span><span class='op'>)</span>  
-<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>je</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>je</span><span class='op'>$</span><span class='va'>JEDATE</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>je</span><span class='op'>$</span><span class='va'>JEDATE</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>je</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>je</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>je</span><span class='op'>)</span><span class='op'>)</span>  </span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>je</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>je</span><span class='op'>$</span><span class='va'>JEDATE</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>je</span><span class='op'>$</span><span class='va'>JEDATE</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <ol type="1">
@@ -2146,16 +2218,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h2 id="a02-전표번호-별-차대변-일치검증">A02 전표번호 별 차대변 일치검증</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A02</span> <span class='op'>&lt;-</span> <span class='va'>je</span> <span class='op'>%&gt;%</span>  
-    <span class='fu'>select</span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>DR</span>, <span class='va'>CR</span><span class='op'>)</span> <span class='op'>%&gt;%</span>  
-    <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>  
-    <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>JENO</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>summarise</span><span class='op'>(</span>DR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>DR</span><span class='op'>)</span>,
-              CR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>CR</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>  
-    <span class='fu'>mutate</span><span class='op'>(</span>Differ<span class='op'>=</span> <span class='va'>DR_sum</span> <span class='op'>-</span> <span class='va'>CR_sum</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>A02</span><span class='op'>)</span>
-<span class='va'>A02</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Differ</span> <span class='op'>!=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='op'>)</span> 
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>A02</span> <span class='op'>&lt;-</span> <span class='va'>je</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>  </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>DR</span>, <span class='va'>CR</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>  </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_all</a></span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>  </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>JENO</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>DR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>DR</span><span class='op'>)</span>,</span>
+<span>              CR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>CR</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>  </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Differ<span class='op'>=</span> <span class='va'>DR_sum</span> <span class='op'>-</span> <span class='va'>CR_sum</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>A02</span><span class='op'>)</span></span>
+<span><span class='va'>A02</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Differ</span> <span class='op'>!=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='op'>)</span> </span></code></pre>
 </div>
 </div>
 <ol type="1">
@@ -2170,13 +2241,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>시산표는 엑셀로 되어 있기 쉬우므로 엑셀 파일에서 바로 읽어온다. 전표 파일은 엑셀로 읽으면 csv 파일로 읽어 오는 것보다 훨씬 오래 걸린다. 대용량 Data는 엑셀이 담을 수 있는 행을 넘어버릴 것이므로 애초에 엑셀일 수가 없다. 시산표 정도는 프린터로 종이에 프린트 해도 두세장이면 담아 낼 수 있으므로 엑셀 파일로 바로 읽어도 상관 없다. 명령을 ’Ctrl + Enter’로 누르는 즉시 읽어들인다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://readxl.tidyverse.org'>readxl</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"readxl"</span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readxl.tidyverse.org'>readxl</a></span><span class='op'>)</span><span class='op'>}</span>   
-      
-<span class='va'>cytb_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>'CYTB.xlsx'</span><span class='op'>)</span>
-<span class='va'>pytb_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>'PYTB.xlsx'</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>cytb_raw</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>pytb_raw</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://readxl.tidyverse.org'>readxl</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"readxl"</span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readxl.tidyverse.org'>readxl</a></span><span class='op'>)</span><span class='op'>}</span>   </span>
+<span>      </span>
+<span><span class='va'>cytb_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>'CYTB.xlsx'</span><span class='op'>)</span></span>
+<span><span class='va'>pytb_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>'PYTB.xlsx'</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>cytb_raw</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>pytb_raw</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <ol type="1">
@@ -2188,41 +2258,39 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </li>
 <li>전기 시산표의 변수별(열 이름)로 NA 갯수를 확인한다.</li>
 </ol>
-<p>Rstudio의 Powerful한 기능 View로 시산표를 볼 수 있다. 이 기능 때문이라도 Rstudio를 애정한다.</p>
+<p>Rstudio의 Powerful한 기능 View로 시산표를 볼 수 있다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/View.html'>View</a></span><span class='op'>(</span><span class='va'>cytb_raw</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/utils/View.html'>View</a></span><span class='op'>(</span><span class='va'>cytb_raw</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <p>아주 자연스럽게 느껴지는 엑셀 같은 화면을 만날 수 있다. 물론 읽기 전용이다. 각 변수(열)에 필터 값으로 함축해 볼 수도 있다. 다른 언어에서 찾아 볼 수 없는 독보적인 기능이다. Rstudio는 시원하게 작업중인 중간에 들여다 볼 수가 있다. 무조건 말로만 해야 하는 것이 아니다. 보면서 해야 한다. 말로 하고 듣기도 하지만 볼수도 있어야 당연하다. 우리는 엑셀에 익숙하므로 즉각적으로 표를 보고 싶다. View(je) 로 전표 데이터를 볼 수도 있고 환경 창에 있는 변수를 마우스 클릭해도 View() 기능이 작동한다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>cytb_tbl</span> <span class='op'>&lt;-</span> <span class='fu'>drop_na</span><span class='op'>(</span><span class='va'>cytb_raw</span>, <span class='va'>ACCTCD</span><span class='op'>)</span>
-<span class='va'>pytb_tbl</span> <span class='op'>&lt;-</span> <span class='fu'>drop_na</span><span class='op'>(</span><span class='va'>pytb_raw</span>, <span class='va'>ACCTCD</span><span class='op'>)</span>
-
-<span class='va'>CYTB_FP</span> <span class='op'>&lt;-</span> <span class='va'>cytb_tbl</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>99</span><span class='op'>)</span>
-<span class='va'>CYTB_PL</span> <span class='op'>&lt;-</span> <span class='va'>cytb_tbl</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>100</span><span class='op'>:</span><span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>PYTB_FP</span> <span class='op'>&lt;-</span> <span class='va'>pytb_tbl</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>103</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>CYTB_FP</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>CYTB_PL</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>PYTB_FP</span><span class='op'>)</span>
-
-<span class='va'>CYTB_FP</span> <span class='op'>&lt;-</span> <span class='fu'>full_join</span><span class='op'>(</span><span class='va'>CYTB_FP</span>, <span class='va'>PYTB_FP</span>, by<span class='op'>=</span><span class='st'>'ACCTCD'</span><span class='op'>)</span>  <span class='op'>%&gt;%</span>  
-    <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>mutate</span><span class='op'>(</span>move <span class='op'>=</span> <span class='op'>(</span><span class='va'>DRSUM.x</span> <span class='op'>-</span> <span class='va'>CRSUM.x</span><span class='op'>)</span> <span class='op'>-</span><span class='op'>(</span><span class='va'>DRSUM.y</span> <span class='op'>-</span> <span class='va'>CRSUM.y</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>move</span><span class='op'>)</span>
-
-<span class='va'>CYTB_PL</span> <span class='op'>&lt;-</span> <span class='va'>CYTB_PL</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>mutate</span><span class='op'>(</span>move <span class='op'>=</span> <span class='op'>(</span><span class='va'>DRSUM</span> <span class='op'>-</span> <span class='va'>CRSUM</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>move</span><span class='op'>)</span>
-
-<span class='va'>CYTB_move</span> <span class='op'>&lt;-</span> <span class='fu'>bind_rows</span><span class='op'>(</span><span class='va'>CYTB_FP</span>, <span class='va'>CYTB_PL</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>cytb_tbl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/drop_na.html'>drop_na</a></span><span class='op'>(</span><span class='va'>cytb_raw</span>, <span class='va'>ACCTCD</span><span class='op'>)</span></span>
+<span><span class='va'>pytb_tbl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/drop_na.html'>drop_na</a></span><span class='op'>(</span><span class='va'>pytb_raw</span>, <span class='va'>ACCTCD</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>CYTB_FP</span> <span class='op'>&lt;-</span> <span class='va'>cytb_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>99</span><span class='op'>)</span></span>
+<span><span class='va'>CYTB_PL</span> <span class='op'>&lt;-</span> <span class='va'>cytb_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>100</span><span class='op'>:</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>PYTB_FP</span> <span class='op'>&lt;-</span> <span class='va'>pytb_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>103</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>CYTB_FP</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>CYTB_PL</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>PYTB_FP</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>CYTB_FP</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>full_join</a></span><span class='op'>(</span><span class='va'>CYTB_FP</span>, <span class='va'>PYTB_FP</span>, by<span class='op'>=</span><span class='st'>'ACCTCD'</span><span class='op'>)</span>  <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>  </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_all</a></span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>move <span class='op'>=</span> <span class='op'>(</span><span class='va'>DRSUM.x</span> <span class='op'>-</span> <span class='va'>CRSUM.x</span><span class='op'>)</span> <span class='op'>-</span><span class='op'>(</span><span class='va'>DRSUM.y</span> <span class='op'>-</span> <span class='va'>CRSUM.y</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>move</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>CYTB_PL</span> <span class='op'>&lt;-</span> <span class='va'>CYTB_PL</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>move <span class='op'>=</span> <span class='op'>(</span><span class='va'>DRSUM</span> <span class='op'>-</span> <span class='va'>CRSUM</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>move</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>CYTB_move</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind_rows.html'>bind_rows</a></span><span class='op'>(</span><span class='va'>CYTB_FP</span>, <span class='va'>CYTB_PL</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <ol type="1">
@@ -2245,21 +2313,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='va'>je</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>DR</span>, <span class='va'>CR</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>summarise</span><span class='op'>(</span>DR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>DR</span><span class='op'>)</span>,
-              CR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>CR</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-    <span class='fu'>mutate</span><span class='op'>(</span>ACCTCD <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>A03</span>, <span class='va'>CYTB_move</span>, by <span class='op'>=</span> <span class='st'>'ACCTCD'</span><span class='op'>)</span>
-
-<span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='va'>A03</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate_all</span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>,<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>mutate</span><span class='op'>(</span>Differ <span class='op'>=</span> <span class='op'>(</span><span class='va'>DR_sum</span> <span class='op'>-</span> <span class='va'>CR_sum</span> <span class='op'>-</span> <span class='va'>move</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>A03</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Differ</span> <span class='op'>!=</span> <span class='fl'>0</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='va'>je</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>DR</span>, <span class='va'>CR</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_all</a></span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>DR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>DR</span><span class='op'>)</span>,</span>
+<span>              CR_sum<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>CR</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>ACCTCD <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>A03</span>, <span class='va'>CYTB_move</span>, by <span class='op'>=</span> <span class='st'>'ACCTCD'</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='va'>A03</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_all</a></span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>,<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Differ <span class='op'>=</span> <span class='op'>(</span><span class='va'>DR_sum</span> <span class='op'>-</span> <span class='va'>CR_sum</span> <span class='op'>-</span> <span class='va'>move</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>A03</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Differ</span> <span class='op'>!=</span> <span class='fl'>0</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <ol type="1">
@@ -2277,15 +2344,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h2 id="b01-매출의-상대계정분석">B01 매출의 상대계정분석</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Corr_Acc</span> <span class='op'>=</span> <span class='st'>'40401'</span>
-<span class='va'>B09_main</span> <span class='op'>&lt;-</span> <span class='va'>je</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'>==</span> <span class='va'>Corr_Acc</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>select</span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>ACCTCD</span><span class='op'>)</span>
-<span class='va'>B09_Corr</span> <span class='op'>&lt;-</span> <span class='va'>je</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>select</span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>ACCTCD</span><span class='op'>)</span>
-<span class='va'>B09</span> <span class='op'>&lt;-</span> <span class='fu'>semi_join</span><span class='op'>(</span><span class='va'>B09_Corr</span>, <span class='va'>B09_main</span>, by <span class='op'>=</span> <span class='st'>'JENO'</span><span class='op'>)</span>
-<span class='va'>B09</span> <span class='op'>&lt;-</span> <span class='va'>B09</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'>count</span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>Corr_Acc</span> <span class='op'>=</span> <span class='st'>'40401'</span></span>
+<span><span class='va'>B09_main</span> <span class='op'>&lt;-</span> <span class='va'>je</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'>==</span> <span class='va'>Corr_Acc</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>ACCTCD</span><span class='op'>)</span></span>
+<span><span class='va'>B09_Corr</span> <span class='op'>&lt;-</span> <span class='va'>je</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>ACCTCD</span><span class='op'>)</span></span>
+<span><span class='va'>B09</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>semi_join</a></span><span class='op'>(</span><span class='va'>B09_Corr</span>, <span class='va'>B09_main</span>, by <span class='op'>=</span> <span class='st'>'JENO'</span><span class='op'>)</span></span>
+<span><span class='va'>B09</span> <span class='op'>&lt;-</span> <span class='va'>B09</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <ol type="1">
@@ -2301,9 +2367,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>View(B09) 명령으로 확인해 보거나 B09를 Console에 쳐서 확인해 볼 수도 있다. 계정코드를 기준으로 본계정과 상대계정들이 모여 있다. 계정과목명이 보이지 않아 보기에 불편하므로 계정과목명을 붙인다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>B09_name</span> <span class='op'>&lt;-</span> <span class='va'>je</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>ACCT_NM</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='op'>)</span>  
-<span class='va'>B09</span> <span class='op'>&lt;-</span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>B09</span>, <span class='va'>B09_name</span>, by <span class='op'>=</span> <span class='st'>'ACCTCD'</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>B09_name</span> <span class='op'>&lt;-</span> <span class='va'>je</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>ACCT_NM</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span><span class='op'>(</span><span class='op'>)</span>  </span>
+<span><span class='va'>B09</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>B09</span>, <span class='va'>B09_name</span>, by <span class='op'>=</span> <span class='st'>'ACCTCD'</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <ol type="1">
@@ -2315,21 +2380,19 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>R에 파일의 Data를 읽어와서 요리가 되었는데 이 요리의 결과물을 다시 파일로 갖고 싶다. 과정을 거쳐 오면서 결정적 증거물은 메모리에 객체로 꼬리표를 남겨 두었다. 이 객체를 파일로 저장하고 싶다면 다음 명령어들로 할 수 있다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A02</span> <span class='op'>%&gt;%</span> <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>'A02.csv'</span><span class='op'>)</span>
-<span class='va'>A03</span> <span class='op'>%&gt;%</span> <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>'A03.csv'</span><span class='op'>)</span>
-<span class='va'>B09</span> <span class='op'>%&gt;%</span> <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>'B09.csv'</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>A02</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://readr.tidyverse.org/reference/write_delim.html'>write_csv</a></span><span class='op'>(</span><span class='st'>'A02.csv'</span><span class='op'>)</span></span>
+<span><span class='va'>A03</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://readr.tidyverse.org/reference/write_delim.html'>write_csv</a></span><span class='op'>(</span><span class='st'>'A03.csv'</span><span class='op'>)</span></span>
+<span><span class='va'>B09</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://readr.tidyverse.org/reference/write_delim.html'>write_csv</a></span><span class='op'>(</span><span class='st'>'B09.csv'</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <p>“나는 csv 싫다. 엑셀로 저장할거다.” 하는 마음이라면 다음과 같이 하면 된다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>writexl</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"writexl"</span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>writexl</span><span class='op'>)</span><span class='op'>}</span>  
-
-<span class='va'>A02</span> <span class='op'>%&gt;%</span> <span class='fu'>write_xlsx</span><span class='op'>(</span><span class='st'>'A02.xlsx'</span><span class='op'>)</span>
-<span class='va'>A03</span> <span class='op'>%&gt;%</span> <span class='fu'>write_xlsx</span><span class='op'>(</span><span class='st'>'A03.xlsx'</span><span class='op'>)</span>
-<span class='va'>B09</span> <span class='op'>%&gt;%</span> <span class='fu'>write_xlsx</span><span class='op'>(</span><span class='st'>'B09.xlsx'</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://docs.ropensci.org/writexl/'>writexl</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"writexl"</span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://docs.ropensci.org/writexl/'>writexl</a></span><span class='op'>)</span><span class='op'>}</span>  </span>
+<span></span>
+<span><span class='va'>A02</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>'A02.xlsx'</span><span class='op'>)</span></span>
+<span><span class='va'>A03</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>'A03.xlsx'</span><span class='op'>)</span></span>
+<span><span class='va'>B09</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>'B09.xlsx'</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <p><br><br><br><br></p>
@@ -2346,10 +2409,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </tbody>
 </table>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
-<section class="footnotes" role="doc-endnotes">
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>원래 utf-8 encoding 형식으로 되어 있는 파일을 , locale=locale(‘ko’,encoding=‘euc-kr)’ 없이 읽으면 훨씬 더 빠르게 읽는다. 파일 형식에 대한 전환 과정이 필요 없기 때문이다. 대용량의 전표를 받아서 test 할 때는 utf-8 encoding 형식으로 요청하는 것도 방법이다.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>원래 utf-8 encoding 형식으로 되어 있는 파일을 , locale=locale(‘ko’,encoding=‘euc-kr)’ 없이 읽으면 훨씬 더 빠르게 읽는다. 파일 형식에 대한 전환 과정이 필요 없기 때문이다. 대용량의 전표를 받아서 test 할 때는 utf-8 encoding 형식으로 요청하는 것도 방법이다.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 <!--radix_placeholder_article_footer-->

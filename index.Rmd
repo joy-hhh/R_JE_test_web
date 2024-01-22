@@ -16,8 +16,35 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```
    
+# 3회 - 2024년 5월 (Offline)
+    
+```{r}
+knitr::include_graphics("images/hex_sticker_accounting.png")
+```
+    
+## 오전 Session
+    
+1. Rstudio [R | Docker | Rocker | 윈도우즈에서 도커로 Rstudio 환경 사용하기 | tidyverse](https://joy-accounting.netlify.app/2023-12-18-docker-rocker-rstudio/) 설치 확인
+1. R 파일에 R코딩 해보기
    
-# 2회  - 2021년 10월 22일
+   
+## 점심식사
+   
+## 오후 Session  
+    
+1. rmarkdown과 Quarto 소개  
+1. git clone   
+1. rmarkdown으로 JE data 다루기 실습   
+1. 질의 응답   
+    
+    
+### Further study
+      
+[R 을 활용한 데이터과학 2e](https://r4ds.hadley.nz/)
+   
+    
+   
+# 2회  - 2021년 10월 22일  (Online in Teams)
     
     
 ### 진행 순서  
@@ -40,9 +67,9 @@ knitr::include_graphics("images/gantt_211022.png")
     
 ### Further study
    
-[R 을 활용한 데이터과학](https://sulgik.github.io/r4ds/)
+[R 을 활용한 데이터과학](https://bookdown.org/sulgi/r4ds/)
    
-# 1회  -  2021년 8월 19일
+# 1회  -  2021년 8월 19일 (Online in Teams)
     
 ### 진행 순서
     
