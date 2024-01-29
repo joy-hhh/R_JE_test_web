@@ -31,11 +31,17 @@ knitr::include_graphics("images/hex_sticker_accounting.png")
     
     
     
-## 오전 Session
+## 오전 Session 
     
 1. Rstudio [R | Docker | Rocker | 윈도우즈에서 도커로 Rstudio 환경 사용하기 | tidyverse](https://joy-accounting.netlify.app/2023-12-18-docker-rocker-rstudio/) 설치 확인
-1. R 파일에 R코딩 해보기
+1. 오늘의 할 일 - 빠르게 전체 Process (숲을 보고 가야 할 곳을 바라보기)
+1. R and Quarto - qmd 파일에 R코딩 해보기 (Analisys를 위하여 사용한 프로그램 - R.version)
+1. Journal Entry Analisys - A01 (사전준비, 열 이름 정돈, 날짜형, Factor, Character, skimr)
+1. Journal Entry Analisys - A02 (차변 대변 차이 확인) 
    
+Variable assign,    
+Pipe operator,    
+dplyr(select, , group_By, summarise, mutate, rename)   
    
    
 ## 점심식사
@@ -44,8 +50,16 @@ knitr::include_graphics("images/hex_sticker_accounting.png")
     
 1. rmarkdown과 Quarto 소개  
 1. git clone   
-1. rmarkdown으로 JE data 다루기 실습   
+1. Quarto markdown으로 JE data 다루기 실습 계속 - A03, B01
+1. 시각화 (ggplot2)
 1. 질의 응답   
+  
+dplyr(slice, left_jon, semi_join, mutate_all, distinct, pull, arrange, bind_rows),   
+stringr(str_detect)
+  
+  
+ggplot2(geom_bar, geom_col) , base(prop.table, split)
+  
     
     
 ### Further study
