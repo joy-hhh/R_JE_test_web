@@ -2,6 +2,8 @@
 title: "About this site"
 description: |
   Learn R for Journal entry analysis
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -29,19 +31,30 @@ Rstudio에는 작업 환경을 분할해서 관리할 수 있는 Project 기능�
     
 다음의 코드를 사용하면 Github에 올려져 있는 텍스트 파일을 바로 내려 받을 수 있다.  
    
-교육용으로 활용할 수는 있겠지만 현실에서는 파일이 웹에 올려져 있지 않고 Private 환경에서 전달 받을 것이므로 현실적이지 않다.  
+교육용으로 활용할 수는 있겠지만 현실에서는 파일이 웹에 올려져 있지 않고 Private 환경에서 전달 받을 것이므로 실제 상황을 감안하면 현실적이지 않다.  
    
     
 ```{r, eval=FALSE, echo=TRUE}
-je_raw <- readr::read_csv("https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je_utf_colname.txt")
+je_raw <- readr::read_csv("https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je.csv")
 ```    
-
+  
 
 
 # 시작
    
-전체 과정은 R에 파일을 불러와서 작업하고 결과물을 파일로 저장하는 것으로 마친다.   
-(실습 이후 : Rmarkdown으로 문서 자동화 소개)
+전체 과정은 R에 파일을 불러와서 작업하고 결과물을 워드 파일로 생성하는 것으로 마친다.   
+  
+* File - New File - Quarto Document...
+* Word 선택
+* Create
+* Visual → Source 로 변경 선택
+* editor: visual → editor: source 로 수정
+* 설정 마크에를 눌러서 Use Visual Editor를 해제하고 Chunk Output in Console을 선택
+   
+# 1. Journal Entry Data의 분개 금액 열이 두 줄로 되어 있는 경우
+
+
+더존의 경우 분개장에 분개 금액이 차변금액과 대변금액 두 줄로 되어 있다. 왼쪽의 차변금액에 금액이 들어 있으면 대변금액은 비어 있고 대변금액에 숫자가 들어 있으면 차변금액이 비어 있다. 이러한 모양의 Journal Entry Data의 경우를 먼저 실습한다.  
    
    
 ## 파일 불러오기 (Data 읽기)
@@ -49,45 +62,94 @@ je_raw <- readr::read_csv("https://raw.githubusercontent.com/joy-hhh/R_for_JE_te
      
 코드 블럭을 설정하거나 프롬프트가 위치한 행에서 'Ctrl + Enter'를 누르면 선택 부분이 Console로 들어가서 실행된다.    
       
-R은 이 스크립트 창에서 Console에 Code를 던져 주면서 실행하는 맛이 있다.   
+R은 이 스크립트 창에서 Console에 Code를 던져 주면서 실행하는 방식이 좋다.    
       
       
 
 ```{r, eval=TRUE, echo=TRUE, include=TRUE}
 library(tidyverse)  
 ```
-1. tidyverse 패키지를 불러온다. 이렇게 명시해 주면 tidyverse의 기능을 R에 붙인다고 생각하면 된다.  
-
+1. tidyverse 패키지를 불러온다. 이렇게 명시해 주면 순수 R 언어에 없는 기능들이 포함된 tidyverse 패키지의 기능을 R에 붙인다고 생각하면 된다.  
+  
 
 
 ```{r, eval=FALSE, echo=TRUE}
-je <- read_csv('je.csv', locale=locale('ko',encoding='euc-kr'))  
-print(je)  
+je_raw <- read_csv('je.csv', locale=locale('ko',encoding='euc-kr'))  
+print(je_raw)  
 ```
 1. 프로젝트 폴더 경로에 전표 파일을 두고 읽는 명령으로 읽어와서 je라고 이름 붙인다.(이름 붙인 것을 객체라고 한다. je 객체) 윈도우즈 기준의 파일의 경우 파일명 뒤의 encoding 명시를 해주면 글자가 깨지지 않고 읽어온다. 윈도우 기준의 한글 형식에 맞출 수 있다. read_csv 명령 함수는 utf-8 encoding을 기본으로 하기 때문에 한글이 깨질 수 있다. 2기가 정도 되는 data file이 100초 정도 걸린다. (컴퓨터 성능에 따라서 다르다.) 몇십메가 정도의 data file은 몇초가 되기 전에 읽어버린다.[^2]   
 2. 이름 붙인 je 객체를 Console에 나타내 확인한다. 
     
 [^2]: 원래 utf-8 encoding 형식으로 되어 있는 파일을 , locale=locale('ko',encoding='euc-kr)' 없이 읽으면 훨씬 더 빠르게 읽는다. 파일 형식에 대한 전환 과정이 필요 없기 때문이다. 대용량의 전표를 받아서 test 할 때는 utf-8 encoding 형식으로 요청하는 것도 방법이다.      
     
+    
+### 프로그램에 맞추어 열 이름 변경
+    
+* change column name
+  
+열 이름은 회사마다 고유의 이름을 정해서 사용하므로 모두 다를 수가 있다. 각기 다른 열 이름에 맞춰서 이 후에 진행될 프로그램 전체에서 열 이름을 바꿔주는 것은 번거롭기도 하지만 오류를 발생시킬 우려 또한 높아진다. 따라서 미리 프로그램 해 놓은 코드에 그대로 적용하기 위하여 Data의 열 이름을 프로그램에서 사용한 이름으로 맞춰 변경시킨다.  
+   
+     
+```{r}
+je_tbl <- rename(je_raw, JEDATE = 전표일자,
+                         JENO = 전표번호,
+                         DR = 차변금액,
+                         CR = 대변금액,
+                         ACCTCD = 계정코드,
+                         ACCT_NM = 계정과목명)
+```
+     
+해당 전표에는 차변금액이 비어 있거나 대변금액에 비어 있는 결측값이 많이 포함되어 있다. 이 결측값들을 그대로 두면 연산하기 불편해진다. 숫자형 자료와 NA를 합하는 등의 연산을 수행하면 NA를 반환하기 때문이다. 결측값을 0으로 변경하고 날짜 열의 숫자를 날짜형태로 변경한다. 또한 월별 추세분석을 하기 위하여 월 구분자로 month 열을 추가한다. 계정코드 ACCTCD는 factor 형태로 변경하고 전표
+     
+```{r}
+je_tbl <- je_tbl %>% 
+  mutate(across(DR:CR, \(x) ifelse(is.na(x), 0, x)),
+         JEDATE = ymd(JEDATE),
+         month = as_factor(month(JEDATE)),
+         ACCTCD = as_factor(ACCTCD),
+         JENO = as.character(JENO)
+)
+```
+  
+정상 전표가 메모리에 Load 되었는지 확인하기 위하여 먼저 차변금액과 대변금액 각각의 합계를 출력하고 같은지 확인한다.  
+  
+```{r}
+# 차변금액 합계
+sum(je_tbl$DR)
+# 대변금액 합계
+sum(je_tbl$CR)
+# 차변금액과 대변금액 합계가 같은지 확인
+sum(je_tbl$DR) == sum(je_tbl$CR)
+```
+
    
 ## A01 Data Integrity Test
      
 ```{r, eval=FALSE, echo=TRUE}
-colnames(je)
-str(je)
-table(is.na(je))  
-sapply(je, function(x) sum(is.na(x)))
+colnames(je_raw)
+str(je_raw)
+table(is.na(je_raw))  
+sapply(je_raw, function(x) sum(is.na(je_raw)))
 
-max(je$JEDATE)
-min(je$JEDATE)
+max(je_raw$JEDATE)
+min(je_raw$JEDATE)
 ```    
  
 1. 읽어온 je의 변수명(열 이름, column명)을 확인한다.  
 2. je의 구조를 파악한다.  
 3. je에 있는 Null 값을 집계한다.  
 4. je의 변수명에 따른 Null값을 각각 집계하여 보여준다.
-5. 전표 일자의 가장 큰 값을 나타낸다.  
-6. 전표 일자의 가장 작은 값을 나타낸다.
+5. 전표 일자의 가장 큰 값을 나타낸다. 날짜열의 가장 큰 값이 해당 연도를 넘어가지 않는지 확인한다.   
+6. 전표 일자의 가장 작은 값을 나타낸다. 날짜열의 가장 작은 값이 해당 연도 이전은 아닌지 확인한다.  
+  
+  
+     
+```{r}
+
+
+```
+   
+   
    
    
 ## A02 전표번호 별 차대변 일치검증
@@ -264,13 +326,15 @@ B09 %>% write_xlsx('B09.xlsx')
 ```
       
       
-     
-      
-      
-<br><br><br><br>      
-      
-| 조이회계  Joy Accounting |
-|---------------------------|
-| https://joy-accounting.netlify.com/ |
-  
+# 2. Journal Entry Data의 분개 금액 열이 한줄로 되어 있는 경우       
+       
+Database는 비어 있는 관측값이 포함되어 있는 것을 좋아하지 않는다. 금액을 한 줄로 쓰고 옆에 다른 열로 차변 또는 대변을 구분하는 구분자 열을 갖도록 구성하는 경우가 많다. 이렇게 금액이 한 줄로 들어가고 차대구분자로 차변 또는 대변을 포함하는 경우의 전표 데이터 분석에 대하여 실습한다.  
+   
+   
+## 파일 불러오기 (Data 읽기)
+   
     
+```{r, eval=FALSE, echo=TRUE}
+je_raw <- readr::read_csv("https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je.csv")
+```    
+  
