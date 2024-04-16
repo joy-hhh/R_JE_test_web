@@ -52,17 +52,17 @@ je_raw <- readr::read_csv("https://raw.githubusercontent.com/joy-hhh/R_for_JE_te
 * 설정 마크에를 눌러서 Use Visual Editor를 해제하고 Chunk Output in Console을 선택
    
 # 1. Journal Entry Data의 분개 금액 열이 두 줄로 되어 있는 경우
-
-
-더존의 경우 분개장에 분개 금액이 차변금액과 대변금액 두 줄로 되어 있다. 왼쪽의 차변금액에 금액이 들어 있으면 대변금액은 비어 있고 대변금액에 숫자가 들어 있으면 차변금액이 비어 있다. 이러한 모양의 Journal Entry Data의 경우를 먼저 실습한다.  
-   
-   
+    
+    
+더존의 경우 분개장에 분개 금액이 차변금액과 대변금액 두 줄로 되어 있다. 왼쪽의 차변금액에 금액이 들어 있으면 대변금액은 비어 있고 대변금액에 숫자가 들어 있으면 차변금액이 비어 있다. 이러한 모양의 Journal Entry Data의 경우를 먼저 실습한다.   
+    
+    
 ## 파일 불러오기 (Data 읽기)
      
      
 코드 블럭을 설정하거나 프롬프트가 위치한 행에서 'Ctrl + Enter'를 누르면 선택 부분이 Console로 들어가서 실행된다.    
       
-R은 이 스크립트 창에서 Console에 Code를 던져 주면서 실행하는 방식이 좋다.    
+R은 Rstudio의 이 스크립트 창에서 Console에 Code를 던져 주면서 실행하는 방식이 좋다.    
       
       
 
@@ -71,8 +71,8 @@ library(tidyverse)
 ```
 1. tidyverse 패키지를 불러온다. 이렇게 명시해 주면 순수 R 언어에 없는 기능들이 포함된 tidyverse 패키지의 기능을 R에 붙인다고 생각하면 된다.  
   
-
-
+  
+  
 ```{r, eval=FALSE, echo=TRUE}
 je_raw <- read_csv('je.csv', locale=locale('ko',encoding='euc-kr'))  
 print(je_raw)  
@@ -80,7 +80,7 @@ print(je_raw)
 1. 프로젝트 폴더 경로에 전표 파일을 두고 읽는 명령으로 읽어와서 je라고 이름 붙인다.(이름 붙인 것을 객체라고 한다. je 객체) 윈도우즈 기준의 파일의 경우 파일명 뒤의 encoding 명시를 해주면 글자가 깨지지 않고 읽어온다. 윈도우 기준의 한글 형식에 맞출 수 있다. read_csv 명령 함수는 utf-8 encoding을 기본으로 하기 때문에 한글이 깨질 수 있다. 2기가 정도 되는 data file이 100초 정도 걸린다. (컴퓨터 성능에 따라서 다르다.) 몇십메가 정도의 data file은 몇초가 되기 전에 읽어버린다.[^2]   
 2. 이름 붙인 je 객체를 Console에 나타내 확인한다. 
     
-[^2]: 원래 utf-8 encoding 형식으로 되어 있는 파일을 , locale=locale('ko',encoding='euc-kr)' 없이 읽으면 훨씬 더 빠르게 읽는다. 파일 형식에 대한 전환 과정이 필요 없기 때문이다. 대용량의 전표를 받아서 test 할 때는 utf-8 encoding 형식으로 요청하는 것도 방법이다.      
+[^2]: 원래 utf-8 encoding 형식으로 되어 있는 파일을 , locale=locale('ko',encoding='euc-kr)' 없이 읽으면 훨씬 더 빠르게 읽는다. 파일 형식에 대한 전환 과정이 필요 없기 때문이다. 대용량의 전표를 받아서 test 할 때는 utf-8 encoding 형식으로 요청하는 것이 좋은 방법이다.      
     
     
 ### 프로그램에 맞추어 열 이름 변경
@@ -99,8 +99,9 @@ je_tbl <- rename(je_raw, JEDATE = 전표일자,
                          ACCT_NM = 계정과목명)
 ```
      
-해당 전표에는 차변금액이 비어 있거나 대변금액에 비어 있는 결측값이 많이 포함되어 있다. 이 결측값들을 그대로 두면 연산하기 불편해진다. 숫자형 자료와 NA를 합하는 등의 연산을 수행하면 NA를 반환하기 때문이다. 결측값을 0으로 변경하고 날짜 열의 숫자를 날짜형태로 변경한다. 또한 월별 추세분석을 하기 위하여 월 구분자로 month 열을 추가한다. 계정코드 ACCTCD는 factor 형태로 변경하고 전표
-     
+해당 전표에는 차변금액이 비어 있거나 대변금액에 비어 있는 결측값이 많이 포함되어 있다. 이 결측값들을 그대로 두면 연산하기 불편해진다. 숫자형 자료와 NA를 합하는 등의 연산을 수행하면 NA를 반환하기 때문이다. 결측값을 0으로 변경하고 날짜 열의 숫자를 날짜형태로 변경한다. 또한 월별 추세분석을 하기 위하여 월 구분자로 month 열을 추가한다. 계정코드 ACCTCD는 factor 형태로 변경하고 전표번호는 문자형으로 변경한다.   
+      
+      
 ```{r}
 je_tbl <- je_tbl %>% 
   mutate(across(DR:CR, \(x) ifelse(is.na(x), 0, x)),
@@ -143,25 +144,31 @@ min(je_raw$JEDATE)
 6. 전표 일자의 가장 작은 값을 나타낸다. 날짜열의 가장 작은 값이 해당 연도 이전은 아닌지 확인한다.  
   
   
+## Data skim 확인
+   
+R은 함수형 프로그래밍으로 미리 작성된 좋은 함수들이 많이 있다. skimr 패키지를 설치하고 skim 함수를 사용하면 데이터의 전체적인 구조를 한번에 확인할 수 있다.  
+     
      
 ```{r}
-
+if(!require(skimr)){install.packages("skimr");library(skimr)}
+skim(je_tbl)
 
 ```
-   
+
    
    
    
 ## A02 전표번호 별 차대변 일치검증
      
 ```{r, eval=FALSE, echo=TRUE}    
-A02 <- je %>%  
+A02 <- je_tbl %>%  
     select(JENO, DR, CR) %>%  
-    mutate_all(~replace(., is.na(.), 0)) %>%  
+    # mutate_all(~replace(., is.na(.), 0)) %>%  
     group_by(JENO) %>% 
     summarise(DR_sum=sum(DR),
               CR_sum=sum(CR)) %>%  
     mutate(Differ= DR_sum - CR_sum)
+
 print(A02)
 A02 %>% filter(Differ != 0) %>% nrow() 
 ```
@@ -243,22 +250,23 @@ CYTB_move <- bind_rows(CYTB_FP, CYTB_PL)
 10. 시산표의 손익계산서 부분은 당기에 발생한 잔액만 있으면 된다. 재무상태표처럼 기초잔액이라는 개념이 없다.   
 11. 재무상태표의 잔액에서 기초잔액을 제거한 결과와 시산표의 손익계산서 부분의 잔액을 합하여 전표에서 당기에 변동이 있었던 금액을 하나로 붙인다.  
       
-     
+      
 ```{r, eval=FALSE, echo=TRUE}
 A03 <- je %>% 
     select(ACCTCD, DR, CR) %>% 
-    mutate_all(~replace(., is.na(.), 0)) %>% 
     group_by(ACCTCD) %>% 
     summarise(DR_sum=sum(DR),
               CR_sum=sum(CR)) %>% 
     ungroup() %>%
     mutate(ACCTCD = as.character(ACCTCD))
-
+  
 A03 <- left_join(A03, CYTB_move, by = 'ACCTCD')
-
+  
 A03 <- A03 %>% mutate_all(~replace(.,is.na(.), 0)) %>% 
     mutate(Differ = (DR_sum - CR_sum - move))
-A03 %>% filter(Differ != 0)
+
+A03 %>% 
+    filter(Differ != 0)
      
 ```
 
@@ -266,11 +274,11 @@ A03 %>% filter(Differ != 0)
 2. 시산표에서 준비한 당기 변동금액(전표에서 계산한 계정과목별 당기 변동 금액)을 전표에서 계산한 차변금액과 대변 금액의 합계에 붙인다.  
 3. 결측값의 갯수를 확인한다.
 4. 변수별 결측값의 갯수를 확인한다.
-5. 결측값을 0으로 바꾸고  전표의 차변합계에서 대변합계를 빼서 당기변동분을 계산하고 시산표에서 계산한 당기변동분을 빼서 차이를 낸다.  
+5. 결측값을 0으로 바꾸고 전표의 차변합계에서 대변합계를 빼서 당기변동분을 계산하고 시산표에서 계산한 당기변동분을 빼서 차이를 낸다.  
 6. 차이가 0보다 큰 항목 갯수를 세어 A03_Differ 변수로 지정한다.
 7. A03 변수에서 차이가 0보다 큰 항목을 찾아 나타낸다. 이익잉여금 항목 하나만 나타나면 이상이 없다고 생각할 수 있다.     
-   
-   
+     
+     
 ## B01 매출의 상대계정분석
          
 ```{r, eval=FALSE, echo=TRUE}
@@ -279,7 +287,11 @@ B09_main <- je %>% filter(ACCTCD == Corr_Acc) %>%
     select(JENO, ACCTCD)
 B09_Corr <- je %>% 
     select(JENO, ACCTCD)
-B09 <- semi_join(B09_Corr, B09_main, by = 'JENO')
+
+B09_all <- semi_join(B09_Corr, B09_main, by = 'JENO')
+B09 <- B09_all %>% filter(!is.na(ACCTCD)) %>% 
+    count(ACCTCD)
+
 B09 <- B09 %>% filter(!is.na(ACCTCD)) %>% 
     count(ACCTCD)
 ```
@@ -301,12 +313,33 @@ B09 <- left_join(B09, B09_name, by = 'ACCTCD')
   
 1. 계정코드와 계정과목명 열을 선택한다. 중복되는 계정과목명을 삭제하고 하나씩만 남긴다.  
 2. 계정코드에 맞는 계정과목명을 B09 에 붙인다.  
+  
+  
+* 특이해 보이는 상대계정 전표 확인
+  
+```{r}
+## 상대계정분석에 있는 수)외환차익(채권)이 포함된 전표번호
+test <- B09_all %>% 
+  filter(ACCTCD == 56010601) %>% 
+  select(JENO) %>% 
+  distinct() %>% 
+  pull()
+
+je_tbl %>% 
+  filter(JENO %in% test) %>% 
+  select(JEDATE, JENO, amount, ACCT_NM, ACCTCD, record) -> test_tbl
+
+# View(test_tbl)
+
+```
+
+
       
       
 ## write file
       
-R에 파일의 Data를 읽어와서 요리가 되었는데 이 요리의 결과물을 다시 파일로 갖고 싶다. 과정을 거쳐 오면서 결정적 증거물은 메모리에 객체로 꼬리표를 남겨 두었다. 이 객체를 파일로 저장하고 싶다면 다음 명령어들로 할 수 있다.  
-
+R에 파일의 Data를 읽어와서 적절한 분석을 통해 요리가 되었는데 이 요리의 결과물을 다시 파일로 갖고 싶다. 과정을 거쳐 오면서 결정적 증거물은 메모리에 객체로 꼬리표를 남겨 두었다. 이 객체를 파일로 저장하고 싶다면 다음 명령어들로 할 수 있다.  
+  
 ```{r, eval=FALSE, echo=TRUE}
 A02 %>% write_csv('A02.csv')
 A03 %>% write_csv('A03.csv')
@@ -328,7 +361,7 @@ B09 %>% write_xlsx('B09.xlsx')
       
 # 2. Journal Entry Data의 분개 금액 열이 한줄로 되어 있는 경우       
        
-Database는 비어 있는 관측값이 포함되어 있는 것을 좋아하지 않는다. 금액을 한 줄로 쓰고 옆에 다른 열로 차변 또는 대변을 구분하는 구분자 열을 갖도록 구성하는 경우가 많다. 이렇게 금액이 한 줄로 들어가고 차대구분자로 차변 또는 대변을 포함하는 경우의 전표 데이터 분석에 대하여 실습한다.  
+Database는 비어 있는 관측값이 포함되어 있는 것을 좋아하지 않는다. 금액을 한 줄로 쓰고 옆에 다른 열로 차변 또는 대변을 구분하는 구분자 열을 갖도록 구성하는 경우가 많다. 차변금액과 대변금액으로 두 열로 구성하면 차변값이 있으면 대변값이 결측(비어 있게)되고 대변값이 있으면 차변값이 결측되지만 한 줄로 금액 열을 구성하면 결측이 발생하지 않는다. 이렇게 금액이 한 줄로 들어가고 차대구분자로 차변 또는 대변을 포함하는 경우의 전표 데이터 분석에 대하여 실습한다.  
    
    
 ## 파일 불러오기 (Data 읽기)
