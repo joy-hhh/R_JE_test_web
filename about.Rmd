@@ -10,11 +10,21 @@ editor_options:
 knitr::opts_chunk$set(echo = FALSE)
 ```
    
-   
-    
+
+
+
+
 # Prerequisite
    
 Rstudio [R | Docker | Rocker | 윈도우즈에서 도커로 Rstudio 환경 사용하기 | tidyverse](https://joy-accounting.netlify.app/2023-12-18-docker-rocker-rstudio/) 와 같이 정상적으로 설치되었다는 것을 전제하여 다음에 소개하는 Code를  스크립트 창에 조금씩 써보거나 복사해서 붙여 넣는 방식으로 실습한다.   
+    
+    
+# Journal Entry Test에 사용한 프로그램
+
+```{r, eval=FALSE, echo=TRUE}
+R.version
+```
+  
     
 ## Data 준비하기   
    
@@ -50,6 +60,47 @@ je_raw <- readr::read_csv("https://raw.githubusercontent.com/joy-hhh/R_for_JE_te
 * Visual → Source 로 변경 선택
 * editor: visual → editor: source 로 수정
 * 설정 마크에를 눌러서 Use Visual Editor를 해제하고 Chunk Output in Console을 선택
+   
+
+# Test에 대한 기술(Description)
+
+## Step 1. 테스트 개요 및 목적
+
+재무제표에 대한 회계감사의 일환으로 감사대상기간 동안 발생한 모든 전표 데이터에 대한 무결성 및 비경상적인 거래가 존재하는지를 검증
+
+(1) 계정명(FSLI) : 전체 계정
+(2) 기준일 (Coverage date) : 2023-01-01 \~ 2023-12-31
+(3) 테스트되는 경영자의 주장 (Assertion) : 완전성 (C),정확성 (A),기간귀속구분 (CO),실재성 (E/O),권리 (R),공시(PD),평가(V)
+
+## Step 2. Test 대상 모집단
+
+(1) 전체 전표를 포함하는 분개장.\
+(2) 모집단의 완전성 확인 : Step 5. Test 결과의 A01, A02, A03 참조
+
+## Step 3. 오류의 정의
+
+재무보고 프로세스 관련, 부적절하거나 비경상적인 분개 및 수정사항
+
+## Step 4. Test 방법
+
+-   A01 . Data Integrity 검증 - 데이터 유효성을 검증하고, record에 대한 이해를 위한 절차
+
+전표 데이터의 회계기간이 당해년도에 포함되는지 여부 검토\
+전표 주요 필드값의 누락 여부 검토를 통한 data integrity 검토
+
+-   A02. 전표번호 별 차대변 일치검증\
+    전표번호 별 차변금액과 대변금액이 일치하는지 확인하여 전표 데이터의 완전성을 검토\
+    차변금액과 대변금액이 일치하지 않을 경우 해당 전표를 추출하여 회사 측과 확인
+
+-   A03. 시산표 Reconciliation 검증(Trial Balance Rollforward Test)\
+    기초 F/S잔액에 수령한 모든 전표의 계정과목 별 합계금액을 반영하여 도출한 기말 F/S 잔액과 회사 제시 F/S와의 일치 여부 검토
+
+-   B01. 매출의 상대계정분석(매출과 연관성이 낮은 계정이 포함된 비정상적인 거래)\
+    매출에 대한 상대계정분석 결과 비정상적으로 처리된 회계처리가 있는지 검토하고 해당 전표 중 특정 금액 이상인 건을 추출하여 검토
+
+## Step 5. Test 결과
+  
+이하의 Test 절차
    
 # 1. Journal Entry Data의 분개 금액 열이 두 줄로 되어 있는 경우
     
@@ -90,7 +141,7 @@ print(je_raw)
 열 이름은 회사마다 고유의 이름을 정해서 사용하므로 모두 다를 수가 있다. 각기 다른 열 이름에 맞춰서 이 후에 진행될 프로그램 전체에서 열 이름을 바꿔주는 것은 번거롭기도 하지만 오류를 발생시킬 우려 또한 높아진다. 따라서 미리 프로그램 해 놓은 코드에 그대로 적용하기 위하여 Data의 열 이름을 프로그램에서 사용한 이름으로 맞춰 변경시킨다.  
    
      
-```{r}
+```{r, eval=FALSE, echo=TRUE}
 je_tbl <- rename(je_raw, JEDATE = 전표일자,
                          JENO = 전표번호,
                          DR = 차변금액,
@@ -102,7 +153,7 @@ je_tbl <- rename(je_raw, JEDATE = 전표일자,
 해당 전표에는 차변금액이 비어 있거나 대변금액에 비어 있는 결측값이 많이 포함되어 있다. 이 결측값들을 그대로 두면 연산하기 불편해진다. 숫자형 자료와 NA를 합하는 등의 연산을 수행하면 NA를 반환하기 때문이다. 결측값을 0으로 변경하고 날짜 열의 숫자를 날짜형태로 변경한다. 또한 월별 추세분석을 하기 위하여 월 구분자로 month 열을 추가한다. 계정코드 ACCTCD는 factor 형태로 변경하고 전표번호는 문자형으로 변경한다.   
       
       
-```{r}
+```{r, eval=FALSE, echo=TRUE}
 je_tbl <- je_tbl %>% 
   mutate(across(DR:CR, \(x) ifelse(is.na(x), 0, x)),
          JEDATE = ymd(JEDATE),
@@ -114,7 +165,7 @@ je_tbl <- je_tbl %>%
   
 정상 전표가 메모리에 Load 되었는지 확인하기 위하여 먼저 차변금액과 대변금액 각각의 합계를 출력하고 같은지 확인한다.  
   
-```{r}
+```{r, eval=FALSE, echo=TRUE}
 # 차변금액 합계
 sum(je_tbl$DR)
 # 대변금액 합계
@@ -127,13 +178,13 @@ sum(je_tbl$DR) == sum(je_tbl$CR)
 ## A01 Data Integrity Test
      
 ```{r, eval=FALSE, echo=TRUE}
-colnames(je_raw)
-str(je_raw)
-table(is.na(je_raw))  
-sapply(je_raw, function(x) sum(is.na(je_raw)))
+colnames(je_tbl)
+str(je_tbl)
+table(is.na(je_tbl))  
+sapply(je_tbl, function(x) sum(is.na(je_tbl)))
 
-max(je_raw$JEDATE)
-min(je_raw$JEDATE)
+max(je_tbl$JEDATE)
+min(je_tbl$JEDATE)
 ```    
  
 1. 읽어온 je의 변수명(열 이름, column명)을 확인한다.  
@@ -144,17 +195,17 @@ min(je_raw$JEDATE)
 6. 전표 일자의 가장 작은 값을 나타낸다. 날짜열의 가장 작은 값이 해당 연도 이전은 아닌지 확인한다.  
   
   
-## Data skim 확인
+## skim 함수를 사용하여 Data skim 확인
    
 R은 함수형 프로그래밍으로 미리 작성된 좋은 함수들이 많이 있다. skimr 패키지를 설치하고 skim 함수를 사용하면 데이터의 전체적인 구조를 한번에 확인할 수 있다.  
      
      
-```{r}
+```{r, eval=FALSE, echo=TRUE}
 if(!require(skimr)){install.packages("skimr");library(skimr)}
 skim(je_tbl)
 
 ```
-
+    
    
    
    
@@ -252,7 +303,7 @@ CYTB_move <- bind_rows(CYTB_FP, CYTB_PL)
       
       
 ```{r, eval=FALSE, echo=TRUE}
-A03 <- je %>% 
+A03 <- je_tbl %>% 
     select(ACCTCD, DR, CR) %>% 
     group_by(ACCTCD) %>% 
     summarise(DR_sum=sum(DR),
@@ -283,17 +334,15 @@ A03 %>%
          
 ```{r, eval=FALSE, echo=TRUE}
 Corr_Acc = '40401'
-B09_main <- je %>% filter(ACCTCD == Corr_Acc) %>% 
+B09_main <- je_tbl %>% filter(ACCTCD == Corr_Acc) %>% 
     select(JENO, ACCTCD)
-B09_Corr <- je %>% 
+B09_Corr <- je_tbl %>% 
     select(JENO, ACCTCD)
 
 B09_all <- semi_join(B09_Corr, B09_main, by = 'JENO')
 B09 <- B09_all %>% filter(!is.na(ACCTCD)) %>% 
     count(ACCTCD)
 
-B09 <- B09 %>% filter(!is.na(ACCTCD)) %>% 
-    count(ACCTCD)
 ```
    
    
@@ -306,7 +355,7 @@ B09 <- B09 %>% filter(!is.na(ACCTCD)) %>%
 View(B09) 명령으로 확인해 보거나 B09를 Console에 쳐서 확인해 볼 수도 있다. 계정코드를 기준으로 본계정과 상대계정들이 모여 있다. 계정과목명이 보이지 않아 보기에 불편하므로 계정과목명을 붙인다.  
    
 ```{r, eval=FALSE, echo=TRUE}
-B09_name <- je %>% select(ACCTCD, ACCT_NM) %>% distinct()  
+B09_name <- je_tbl %>% select(ACCTCD, ACCT_NM) %>% distinct()  
 B09 <- left_join(B09, B09_name, by = 'ACCTCD')
   
 ```
@@ -317,24 +366,27 @@ B09 <- left_join(B09, B09_name, by = 'ACCTCD')
   
 * 특이해 보이는 상대계정 전표 확인
   
-```{r}
-## 상대계정분석에 있는 수)외환차익(채권)이 포함된 전표번호
+선수금 계정과목이 제품매출과 어울리지 않는 상대과목인 것은 아니지만 특정 계정과목이 포함된 전표를 뽑아내서 확인하는 과정을 실행해 보기 위하여 선수금 계정을 포함하는 전표를 확인해 보고자 한다.  
+    
+    
+```{r, eval=FALSE, echo=TRUE}
+## 상대계정분석에 있는 선수금이 포함된 전표번호
 test <- B09_all %>% 
-  filter(ACCTCD == 56010601) %>% 
+  filter(ACCTCD == 25900) %>% 
   select(JENO) %>% 
   distinct() %>% 
   pull()
 
 je_tbl %>% 
   filter(JENO %in% test) %>% 
-  select(JEDATE, JENO, amount, ACCT_NM, ACCTCD, record) -> test_tbl
+  select(JEDATE, JENO, DR, CR, ACCT_NM, ACCTCD) -> test_tbl
 
-# View(test_tbl)
+View(test_tbl)
 
 ```
-
-
-      
+   
+   
+   
       
 ## write file
       
@@ -365,9 +417,126 @@ Database는 비어 있는 관측값이 포함되어 있는 것을 좋아하지 �
    
    
 ## 파일 불러오기 (Data 읽기)
-   
+    
     
 ```{r, eval=FALSE, echo=TRUE}
-je_raw <- readr::read_csv("https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je.csv")
+je_raw <- readr::read_csv("https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je_utf_minimal.csv")
 ```    
+    
+    
+    
+     
+```{r, eval=FALSE, echo=TRUE}
+je_tbl <- rename(je_raw, JEDATE = 전표일자,
+                         JENO = 전표번호,
+                         DR = 차변금액,
+                         CR = 대변금액,
+                         ACCTCD = 계정코드,
+                         ACCT_NM = 계정과목명)
+```
+    
+    
+### 프로그램에 맞추어 열 이름 변경
+
+-   change column name
+
+```{r, eval=FALSE, echo=TRUE}
+je_tbl <- rename(je_raw, JEDATE = `구 분[기표][년/월/일]`,
+                         JENO = JENO,
+                         amount = amount,
+                         record = Record,
+                         ACCTCD = ACCT_CD,
+                         ACCT_NM = ACCT_NM)
+```
+   
+   
+### 전표 데이터에서 열별 NA 갯수 확인
+   
+```{r, eval=FALSE, echo=TRUE}
+je_tbl %>% 
+  is.na() %>% 
+  colSums()
+
+```
+   
+결측값을 0으로 변경하고 날짜 열의 숫자를 날짜형태로 변경한다. 또한 월별 추세분석을 하기 위하여 월 구분자로 month 열을 추가한다. 계정코드 ACCTCD는 factor 형태로 변경하고 전표번호는 문자형으로 변경한다. 
+   
+   
+```{r, eval=FALSE, echo=TRUE}
+je_tbl <- je_tbl %>% 
+  mutate(across(amount, \(x) ifelse(is.na(x), 0, x)),
+         JEDATE = ymd(JEDATE),
+         month = as_factor(month(JEDATE)),
+         ACCTCD = as_factor(ACCTCD),
+         JENO = as.character(JENO)
+)
+```
+
+차변합계와 대변합계 금액이 같은지 확인한다.  
+   
+```{r, eval=FALSE, echo=TRUE}
+## 차변합계
+sum_DR <- je_tbl %>% 
+  filter(record == "차변") %>% 
+  select(amount) %>% 
+  pull() %>% 
+  sum()
+
+## 대변합계
+sum_CR <- je_tbl %>% 
+  filter(record == "대변") %>% 
+  select(amount) %>% 
+  pull() %>% 
+  sum()
+
+print("차변합계와 대변합계가 같은지 확인한다.")
+print("차변합계와 대변합계가 같은가?")
+print(sum_DR == sum_CR)
+```
   
+  
+## A02 전표번호 별 차대변 일치검증
+    
+pivot_wider 함수를 사용하여 차대변 구분자에 따라서 차변합계와 대변합계로 나누어 전표번호별 합계 차이를 계산한다.  
+   
+   
+```{r, eval=FALSE, echo=TRUE}
+A02 <- je_tbl %>%  
+  select(JENO, amount, record) %>%  
+  pivot_wider(id_cols = JENO, names_from = record, values_from = amount, values_fn = sum) %>% 
+  mutate(Differ= 차변 - 대변)
+  
+print(A02)
+
+A02 %>% filter(Differ != 0)   
+```
+   
+   
+## A03 시산표 Reconciliation 검증(Trial Balance Rollforward Test)
+   
+   
+```{r, eval=FALSE, echo=TRUE}
+A03 <- je_tbl %>%  
+  select(ACCTCD, amount, record) %>%  
+  pivot_wider(id_cols = ACCTCD, names_from = record, values_from = amount, values_fn = sum) %>% 
+  # join 할때 자료형 일치
+  mutate(ACCTCD = as.character(ACCTCD))
+
+A03 <- left_join(A03, cytb_move, by = 'ACCTCD')
+A03 <- A03 %>% 
+  mutate_all(~replace(.,is.na(.), 0)) %>% 
+  mutate(Differ = (차변 - 대변 - move))
+
+ac_name <- je_tbl %>% 
+  distinct(ACCTCD, ACCT_NM) %>% 
+  mutate(ACCTCD=as.character(ACCTCD))
+
+A03 <- left_join(A03, ac_name, by='ACCTCD')
+
+print(A03)
+
+A03 %>% filter(Differ != 0)
+```
+    
+    
+현재 업데이트 중입니다.
