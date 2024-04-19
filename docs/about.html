@@ -2164,9 +2164,17 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p><a href="https://github.com/joy-hhh/R_for_JE_test">다운로드</a></p>
 <p>다운로드 링크에서 우측 상단의 ↓ Code 을 클릭하여 Download ZIP 을 통해서 파일을 다운로드 받는다.</p>
 <p>다운로드 받은 파일은 압축을 풀어 je.csv, CYTB.xlsx, PYTB.xlsx 세 개의 파일을 생성한 프로젝트 폴더에 옮겨 담는다.</p>
+<h2 id="package-load">Package Load</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>  </span></code></pre>
+</div>
+</div>
+<p>tidyverse 패키지를 불러온다. 이렇게 명시해 주면 순수 R 언어에 없는 기능들이 포함된 tidyverse 패키지의 기능을 R에 붙인다고 생각하면 된다.</p>
 <h2 id="code로-바로-내려받기">Code로 바로 내려받기</h2>
 <p>다음의 코드를 사용하면 Github에 올려져 있는 텍스트 파일을 바로 내려 받을 수 있다.</p>
 <p>교육용으로 활용할 수는 있겠지만 현실에서는 파일이 웹에 올려져 있지 않고 Private 환경에서 전달 받을 것이므로 실제 상황을 감안하면 현실적이지 않다.</p>
+<p>다만 연수 목적으로 편의상 활용할 수는 있겠다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je.csv"</span><span class='op'>)</span></span></code></pre>
@@ -2222,14 +2230,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>R은 Rstudio의 이 스크립트 창에서 Console에 Code를 던져 주면서 실행하는 방식이 좋다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>  </span></code></pre>
-</div>
-</div>
-<ol type="1">
-<li>tidyverse 패키지를 불러온다. 이렇게 명시해 주면 순수 R 언어에 없는 기능들이 포함된 tidyverse 패키지의 기능을 R에 붙인다고 생각하면 된다.</li>
-</ol>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>'je.csv'</span>, locale<span class='op'>=</span><span class='fu'><a href='https://readr.tidyverse.org/reference/locale.html'>locale</a></span><span class='op'>(</span><span class='st'>'ko'</span>,encoding<span class='op'>=</span><span class='st'>'euc-kr'</span><span class='op'>)</span><span class='op'>)</span>  </span>
 <span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>je_raw</span><span class='op'>)</span>  </span></code></pre>
 </div>
@@ -2240,9 +2240,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li>이름 붙인 je_raw 객체를 Console에 나타내 확인한다.</li>
 </ol>
 <h3 id="프로그램에-맞추어-열-이름-변경">프로그램에 맞추어 열 이름 변경</h3>
-<ul>
-<li>change column name</li>
-</ul>
+<h4 id="change-column-name">change column name</h4>
 <p>열 이름은 회사마다 고유의 이름을 정해서 사용하므로 모두 다를 수가 있다. 각기 다른 열 이름에 맞춰서 이 후에 진행될 프로그램 전체에서 열 이름을 바꿔주는 것은 번거롭기도 하지만 오류를 발생시킬 우려 또한 높아진다. 따라서 미리 프로그램 해 놓은 코드에 그대로 적용하기 위하여 Data의 열 이름을 프로그램에서 사용한 이름으로 맞춰 변경시킨다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2520,18 +2518,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je_utf_minimal.csv"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_tbl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span><span class='va'>je_raw</span>, JEDATE <span class='op'>=</span> <span class='va'>전표일자</span>,</span>
-<span>                         JENO <span class='op'>=</span> <span class='va'>전표번호</span>,</span>
-<span>                         DR <span class='op'>=</span> <span class='va'>차변금액</span>,</span>
-<span>                         CR <span class='op'>=</span> <span class='va'>대변금액</span>,</span>
-<span>                         ACCTCD <span class='op'>=</span> <span class='va'>계정코드</span>,</span>
-<span>                         ACCT_NM <span class='op'>=</span> <span class='va'>계정과목명</span><span class='op'>)</span></span></code></pre>
-</div>
-</div>
 <h3 id="프로그램에-맞추어-열-이름-변경-1">프로그램에 맞추어 열 이름 변경</h3>
-<p>change column name</p>
+<h4 id="change-column-name-1">change column name</h4>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_tbl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span><span class='va'>je_raw</span>, JEDATE <span class='op'>=</span> <span class='va'>`구 분[기표][년/월/일]`</span>,</span>
@@ -2559,7 +2547,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>         month <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span><span class='op'>(</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/month.html'>month</a></span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span><span class='op'>)</span>,</span>
 <span>         ACCTCD <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span>,</span>
 <span>         JENO <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>JENO</span><span class='op'>)</span></span>
-<span><span class='op'>)</span></span></code></pre>
+<span>        <span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <p>차변합계와 대변합계 금액이 같은지 확인한다.</p>
@@ -2591,7 +2579,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>A02</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>  </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>JENO</span>, <span class='va'>amount</span>, <span class='va'>record</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>  </span>
 <span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_wider.html'>pivot_wider</a></span><span class='op'>(</span>id_cols <span class='op'>=</span> <span class='va'>JENO</span>, names_from <span class='op'>=</span> <span class='va'>record</span>, values_from <span class='op'>=</span> <span class='va'>amount</span>, values_fn <span class='op'>=</span> <span class='va'>sum</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Differ<span class='op'>=</span> <span class='va'>차변</span> <span class='op'>-</span> <span class='va'>대변</span><span class='op'>)</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Differ<span class='op'>=</span> <span class='va'>S</span> <span class='op'>-</span> <span class='va'>H</span><span class='op'>)</span></span>
 <span>  </span>
 <span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>A02</span><span class='op'>)</span></span>
 <span></span>
@@ -2610,7 +2598,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span><span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>A03</span>, <span class='va'>cytb_move</span>, by <span class='op'>=</span> <span class='st'>'ACCTCD'</span><span class='op'>)</span></span>
 <span><span class='va'>A03</span> <span class='op'>&lt;-</span> <span class='va'>A03</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_all</a></span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>.</span>,<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Differ <span class='op'>=</span> <span class='op'>(</span><span class='va'>차변</span> <span class='op'>-</span> <span class='va'>대변</span> <span class='op'>-</span> <span class='va'>move</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Differ <span class='op'>=</span> <span class='op'>(</span><span class='va'>S</span> <span class='op'>-</span> <span class='va'>H</span> <span class='op'>-</span> <span class='va'>move</span><span class='op'>)</span><span class='op'>)</span></span>
 <span></span>
 <span><span class='va'>ac_name</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>ACCT_NM</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
@@ -2627,6 +2615,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>전표 분석의 결론을 기재한다.</p>
 <p>(예) 전표 분석 결과 Step3에서 정의한 오류 사항이 발견되지 아니함.</p>
 <h1 id="이-외의-analysis">이 외의 Analysis</h1>
+<p>분개 금액 열이 두 줄로 되어 있는 경우 활용을 위해 읽어온다.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je.csv"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>je_tbl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span><span class='va'>je_raw</span>, JEDATE <span class='op'>=</span> <span class='va'>전표일자</span>,</span>
+<span>                         JENO <span class='op'>=</span> <span class='va'>전표번호</span>,</span>
+<span>                         DR <span class='op'>=</span> <span class='va'>차변금액</span>,</span>
+<span>                         CR <span class='op'>=</span> <span class='va'>대변금액</span>,</span>
+<span>                         ACCTCD <span class='op'>=</span> <span class='va'>계정코드</span>,</span>
+<span>                         ACCT_NM <span class='op'>=</span> <span class='va'>계정과목명</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>je_tbl</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span><span class='op'>(</span><span class='va'>DR</span><span class='op'>:</span><span class='va'>CR</span>, \<span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, <span class='fl'>0</span>, <span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span>         JEDATE <span class='op'>=</span> <span class='fu'><a href='https://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span>,</span>
+<span>         month <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span><span class='op'>(</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/month.html'>month</a></span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span>         ACCTCD <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span>,</span>
+<span>         JENO <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>JENO</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
 <h2 id="벤포드의-법칙">벤포드의 법칙</h2>
 <p>벤포드의 법칙(Benford’s law)은 정수 1부터 9까지의 숫자 중 어떤 분야의 수치들에서 1부터 9까지의 수 n이 첫 자리 수가 될 확률이 1이 가장 크고 점차 9까지 작아지는 현상을 말한다.</p>
 <p>벤포드의 법칙은 자연과학의 법칙과 같이 항상 성립하는 절대적 진리가 아니라, 상당수의 자료에서 성립하는 경향이 있다는 것을 의미한다. 이제 벤포드의 법칙이 왜 성립하는지 그 이유를 생각해보자. 우리 주변의 자료 중에는 일정한 속도로 증가하는 것이 많다.</p>

@@ -35,13 +35,25 @@ Rstudio에는 작업 환경을 분할해서 관리할 수 있는 Project 기능�
 다운로드 링크에서 우측 상단의 ↓ Code 을 클릭하여 Download ZIP 을 통해서 파일을 다운로드 받는다.  
    
 다운로드 받은 파일은 압축을 풀어 je.csv, CYTB.xlsx, PYTB.xlsx 세 개의 파일을 생성한 프로젝트 폴더에 옮겨 담는다.  
-    
+   
+   
+## Package Load   
+  
+```{r, eval=TRUE, echo=TRUE, include=TRUE}
+library(tidyverse)  
+```
+  
+tidyverse 패키지를 불러온다. 이렇게 명시해 주면 순수 R 언어에 없는 기능들이 포함된 tidyverse 패키지의 기능을 R에 붙인다고 생각하면 된다.  
+  
+  
     
 ## Code로 바로 내려받기  
-    
+      
 다음의 코드를 사용하면 Github에 올려져 있는 텍스트 파일을 바로 내려 받을 수 있다.  
    
 교육용으로 활용할 수는 있겠지만 현실에서는 파일이 웹에 올려져 있지 않고 Private 환경에서 전달 받을 것이므로 실제 상황을 감안하면 현실적이지 않다.  
+  
+다만 연수 목적으로 편의상 활용할 수는 있겠다.  
    
     
 ```{r, eval=FALSE, echo=TRUE}
@@ -116,12 +128,6 @@ je_raw <- readr::read_csv("https://raw.githubusercontent.com/joy-hhh/R_for_JE_te
 R은 Rstudio의 이 스크립트 창에서 Console에 Code를 던져 주면서 실행하는 방식이 좋다.    
       
       
-
-```{r, eval=TRUE, echo=TRUE, include=TRUE}
-library(tidyverse)  
-```
-1. tidyverse 패키지를 불러온다. 이렇게 명시해 주면 순수 R 언어에 없는 기능들이 포함된 tidyverse 패키지의 기능을 R에 붙인다고 생각하면 된다.  
-  
   
   
 ```{r, eval=FALSE, echo=TRUE}
@@ -136,7 +142,7 @@ print(je_raw)
     
 ### 프로그램에 맞추어 열 이름 변경
     
-* change column name
+#### change column name
     
 열 이름은 회사마다 고유의 이름을 정해서 사용하므로 모두 다를 수가 있다. 각기 다른 열 이름에 맞춰서 이 후에 진행될 프로그램 전체에서 열 이름을 바꿔주는 것은 번거롭기도 하지만 오류를 발생시킬 우려 또한 높아진다. 따라서 미리 프로그램 해 놓은 코드에 그대로 적용하기 위하여 Data의 열 이름을 프로그램에서 사용한 이름으로 맞춰 변경시킨다.  
    
@@ -425,21 +431,11 @@ je_raw <- readr::read_csv("https://raw.githubusercontent.com/joy-hhh/R_for_JE_te
     
     
     
-     
-```{r, eval=FALSE, echo=TRUE}
-je_tbl <- rename(je_raw, JEDATE = 전표일자,
-                         JENO = 전표번호,
-                         DR = 차변금액,
-                         CR = 대변금액,
-                         ACCTCD = 계정코드,
-                         ACCT_NM = 계정과목명)
-```
-    
-    
 ### 프로그램에 맞추어 열 이름 변경
-
-change column name
-
+  
+#### change column name
+    
+    
 ```{r, eval=FALSE, echo=TRUE}
 je_tbl <- rename(je_raw, JEDATE = `구 분[기표][년/월/일]`,
                          JENO = JENO,
@@ -469,7 +465,7 @@ je_tbl <- je_tbl %>%
          month = as_factor(month(JEDATE)),
          ACCTCD = as_factor(ACCTCD),
          JENO = as.character(JENO)
-)
+        )
 ```
 
 차변합계와 대변합계 금액이 같은지 확인한다.  
@@ -504,7 +500,7 @@ pivot_wider 함수를 사용하여 차대변 구분자에 따라서 차변합계
 A02 <- je_tbl %>%  
   select(JENO, amount, record) %>%  
   pivot_wider(id_cols = JENO, names_from = record, values_from = amount, values_fn = sum) %>% 
-  mutate(Differ= 차변 - 대변)
+  mutate(Differ= S - H)
   
 print(A02)
 
@@ -525,7 +521,7 @@ A03 <- je_tbl %>%
 A03 <- left_join(A03, cytb_move, by = 'ACCTCD')
 A03 <- A03 %>% 
   mutate_all(~replace(.,is.na(.), 0)) %>% 
-  mutate(Differ = (차변 - 대변 - move))
+  mutate(Differ = (S - H - move))
 
 ac_name <- je_tbl %>% 
   distinct(ACCTCD, ACCT_NM) %>% 
@@ -548,8 +544,28 @@ A03 %>% filter(Differ != 0)
     
 
 # 이 외의 Analysis
+    
+분개 금액 열이 두 줄로 되어 있는 경우 활용을 위해 읽어온다.  
+    
+```{r, eval=FALSE, echo=TRUE}
+je_raw <- readr::read_csv("https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je.csv")
 
+je_tbl <- rename(je_raw, JEDATE = 전표일자,
+                         JENO = 전표번호,
+                         DR = 차변금액,
+                         CR = 대변금액,
+                         ACCTCD = 계정코드,
+                         ACCT_NM = 계정과목명)
 
+je_tbl <- je_tbl %>% 
+  mutate(across(DR:CR, \(x) ifelse(is.na(x), 0, x)),
+         JEDATE = ymd(JEDATE),
+         month = as_factor(month(JEDATE)),
+         ACCTCD = as_factor(ACCTCD),
+         JENO = as.character(JENO))
+```
+  
+  
 ## 벤포드의 법칙
 
 벤포드의 법칙(Benford’s law)은 정수 1부터 9까지의 숫자 중 어떤 분야의 수치들에서 1부터 9까지의 수 n이 첫 자리 수가 될 확률이 1이 가장 크고 점차 9까지 작아지는 현상을 말한다.  
