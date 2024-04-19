@@ -2235,9 +2235,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <ol type="1">
-<li>프로젝트 폴더 경로에 전표 파일을 두고 읽는 명령으로 읽어와서 je라고 이름 붙인다.(이름 붙인 것을 객체라고 한다. je 객체) 윈도우즈 기준의 파일의 경우 파일명 뒤의 encoding 명시를 해주면 글자가 깨지지 않고 읽어온다. 윈도우 기준의 한글 형식에 맞출 수 있다. read_csv 명령 함수는 utf-8 encoding을 기본으로 하기 때문에 한글이 깨질 수 있다. 2기가 정도 되는 data file이 100초 정도 걸린다. (컴퓨터 성능에 따라서 다르다.) 몇십메가 정도의 data file은 몇초가 되기 전에 읽어버린다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a><br />
+<li>프로젝트 폴더 경로에 전표 파일을 두고 읽는 명령으로 읽어와서 je_raw라고 이름 붙인다.(이름 붙인 것을 객체라고 한다. je_raw 객체) 윈도우즈 기준의 파일의 경우 파일명 뒤의 encoding 명시를 해주면 글자가 깨지지 않고 읽어온다. 윈도우 기준의 한글 형식에 맞출 수 있다. read_csv 명령 함수는 utf-8 encoding을 기본으로 하기 때문에 한글이 깨질 수 있다. 2기가 정도 되는 data file이 100초 정도 걸린다. (컴퓨터 성능에 따라서 다르다.) 몇십메가 정도의 data file은 몇초가 되기 전에 읽어버린다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a><br />
 </li>
-<li>이름 붙인 je 객체를 Console에 나타내 확인한다.</li>
+<li>이름 붙인 je_raw 객체를 Console에 나타내 확인한다.</li>
 </ol>
 <h3 id="프로그램에-맞추어-열-이름-변경">프로그램에 맞추어 열 이름 변경</h3>
 <ul>
@@ -2290,13 +2290,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <ol type="1">
-<li>읽어온 je의 변수명(열 이름, column명)을 확인한다.<br />
+<li>읽어온 je_tbl의 변수명(열 이름, column명)을 확인한다.<br />
 </li>
-<li>je의 구조를 파악한다.<br />
+<li>je_tbl의 구조를 파악한다.<br />
 </li>
-<li>je에 있는 Null 값을 집계한다.<br />
+<li>je_tbl에 있는 Null 값을 집계한다.<br />
 </li>
-<li>je의 변수명에 따른 Null값을 각각 집계하여 보여준다.</li>
+<li>je_tbl의 변수명에 따른 Null값을 각각 집계하여 보여준다.</li>
 <li>전표 일자의 가장 큰 값을 나타낸다. 날짜열의 가장 큰 값이 해당 연도를 넘어가지 않는지 확인한다.<br />
 </li>
 <li>전표 일자의 가장 작은 값을 나타낸다. 날짜열의 가장 작은 값이 해당 연도 이전은 아닌지 확인한다.</li>
@@ -2359,7 +2359,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/utils/View.html'>View</a></span><span class='op'>(</span><span class='va'>cytb_raw</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<p>아주 자연스럽게 느껴지는 엑셀 같은 화면을 만날 수 있다. 물론 읽기 전용이다. 각 변수(열)에 필터 값으로 함축해 볼 수도 있다. 다른 언어에서 찾아 볼 수 없는 독보적인 기능이다. Rstudio는 시원하게 작업중인 중간에 들여다 볼 수가 있다. 무조건 말로만 해야 하는 것이 아니다. 보면서 해야 한다. 말로 하고 듣기도 하지만 볼수도 있어야 당연하다. 우리는 엑셀에 익숙하므로 즉각적으로 표를 보고 싶다. View(je) 로 전표 데이터를 볼 수도 있고 환경 창에 있는 변수를 마우스 클릭해도 View() 기능이 작동한다.</p>
+<p>아주 자연스럽게 느껴지는 엑셀 같은 화면을 만날 수 있다. 물론 읽기 전용이다. 각 변수(열)에 필터 값으로 함축해 볼 수도 있다. 다른 언어에서 찾아 볼 수 없는 독보적인 기능이다. Rstudio는 시원하게 작업중인 중간에 들여다 볼 수가 있다. 무조건 말로만 해야 하는 것이 아니다. 보면서 해야 한다. 말로 하고 듣기도 하지만 볼수도 있어야 당연하다. 우리는 엑셀에 익숙하므로 즉각적으로 표를 보고 싶다. View(je_tbl) 로 전표 데이터를 볼 수도 있고 환경 창에 있는 변수를 마우스 클릭해도 View() 기능이 작동한다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>cytb_tbl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/drop_na.html'>drop_na</a></span><span class='op'>(</span><span class='va'>cytb_raw</span>, <span class='va'>ACCTCD</span><span class='op'>)</span></span>
@@ -2531,9 +2531,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <h3 id="프로그램에-맞추어-열-이름-변경-1">프로그램에 맞추어 열 이름 변경</h3>
-<ul>
-<li>change column name</li>
-</ul>
+<p>change column name</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_tbl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span><span class='va'>je_raw</span>, JEDATE <span class='op'>=</span> <span class='va'>`구 분[기표][년/월/일]`</span>,</span>
@@ -2625,12 +2623,251 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span><span class='va'>A03</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Differ</span> <span class='op'>!=</span> <span class='fl'>0</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<p>현재 업데이트 중입니다.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>전표 분석의 결론을 기재한다.</p>
+<p>(예) 전표 분석 결과 Step3에서 정의한 오류 사항이 발견되지 아니함.</p>
+<h1 id="이-외의-analysis">이 외의 Analysis</h1>
+<h2 id="벤포드의-법칙">벤포드의 법칙</h2>
+<p>벤포드의 법칙(Benford’s law)은 정수 1부터 9까지의 숫자 중 어떤 분야의 수치들에서 1부터 9까지의 수 n이 첫 자리 수가 될 확률이 1이 가장 크고 점차 9까지 작아지는 현상을 말한다.</p>
+<p>벤포드의 법칙은 자연과학의 법칙과 같이 항상 성립하는 절대적 진리가 아니라, 상당수의 자료에서 성립하는 경향이 있다는 것을 의미한다. 이제 벤포드의 법칙이 왜 성립하는지 그 이유를 생각해보자. 우리 주변의 자료 중에는 일정한 속도로 증가하는 것이 많다.</p>
+<p>예를 들어 일정한 속도로 자라는 나무가 있다고 하자. 기준이 되는 시점의 나무의 높이를 1이라고 하면, 그 높이가 2배가 되어 2가 될 때까지 상당한 시간이 걸릴 것이다. 이제 나무의 높이가 2에서 3으로 늘어나려면 1.5배가 되어야 하므로 1에서 2로 2배가 될 때까지 걸리는 시간보다 짧아진다.</p>
+<p>마찬가지로 3에서 4로 1.33배 늘어나는 데 걸리는 시간은 더 짧아진다. 결과적으로 볼 때 나무의 높이는 1에서 머무는 시간이 길고, 2에서 3으로 갈수록 머무는 시간이 짧아지게 된다. 이를 표현하는 것이 바로 벤포드의 법칙의 식에 포함된 상용로그라고 할 수 있다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>벤포드의 법칙은 포렌식(Digital Forensics)이나 부정 적발 감사 등에서 회계 데이터의 샘플링을 수행할 시 가장 적절한 방법 중 하나이다.</p>
+<ul>
+<li>R CRAN의 benford.analysis 패키지를 활용하여 벤포드 분석</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='http://github.com/carloscinelli/benford.analysis'>benford.analysis</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"benford.analysis"</span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://github.com/carloscinelli/benford.analysis'>benford.analysis</a></span><span class='op'>)</span><span class='op'>}</span></span>
+<span></span>
+<span><span class='va'>je_sales</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>  </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'>==</span> <span class='st'>'40401'</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>je_sales</span><span class='op'>$</span><span class='va'>CR</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/benford.analysis/man/benford.html'>benford</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<ul>
+<li>벤포드 분석 결과 Plot 확인</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>bl</span> <span class='op'>&lt;-</span> <span class='va'>je_sales</span><span class='op'>$</span><span class='va'>CR</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/benford.analysis/man/benford.html'>benford</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>bl</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<h2 id="매출액-계정별-비중-확인">매출액 계정별 비중 확인</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>CYTB_PL</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>ac_name</span>, by <span class='op'>=</span> <span class='st'>'ACCTCD'</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>amt_sum</span>, by <span class='op'>=</span> <span class='st'>'ACCT_NM'</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='st'>""</span>, y<span class='op'>=</span><span class='va'>CR_sum</span>, fill<span class='op'>=</span><span class='va'>ACCT_NM</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat<span class='op'>=</span><span class='st'>"identity"</span>, width<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_polar.html'>coord_polar</a></span><span class='op'>(</span><span class='st'>"y"</span>, start<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='va'><a href='https://scales.r-lib.org/reference/comma.html'>comma</a></span><span class='op'>)</span><span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"매출 계정별 비중"</span>,</span>
+<span>         x <span class='op'>=</span> <span class='st'>""</span>,</span>
+<span>         y <span class='op'>=</span> <span class='st'>"금액"</span>,</span>
+<span>         fill <span class='op'>=</span> <span class='st'>"매출 계정"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<p>매출액 계정 중 제품매출의 비중이 가장 크다.</p>
+<h2 id="매출-월별-추세-분석">매출 월별 추세 분석</h2>
+<ul>
+<li>제품매출 월별 추세 분석</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>## 월별 추세 분석 사용자함수 설정</span></span>
+<span><span class='va'>trend</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>acc</span><span class='op'>)</span><span class='op'>{</span></span>
+<span>  <span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>acc</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span></span>
+<span>      amount <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>CR</span><span class='op'>)</span>,</span>
+<span>      .by <span class='op'>=</span> <span class='va'>month</span></span>
+<span>    <span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>month</span>, y<span class='op'>=</span><span class='va'>amount</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='va'><a href='https://scales.r-lib.org/reference/comma.html'>comma</a></span><span class='op'>)</span><span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='op'>}</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>acc</span> <span class='op'>=</span> <span class='st'>'40401'</span>  <span class='co'>## 제품매출 계정</span></span>
+<span><span class='fu'>trend</span><span class='op'>(</span><span class='va'>acc</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_hline</a></span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fl'>700000000</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<ul>
+<li>상품매출 월별 추세 분석</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>acc</span> <span class='op'>&lt;-</span> <span class='st'>"40100"</span></span>
+<span><span class='fu'>trend</span><span class='op'>(</span><span class='va'>acc</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_hline</a></span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fl'>700000000</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<ul>
+<li>교육 수입 월별 추세 분석</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>acc</span> <span class='op'>&lt;-</span> <span class='st'>"40700"</span></span>
+<span><span class='fu'>trend</span><span class='op'>(</span><span class='va'>acc</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_hline</a></span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fl'>700000000</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<ul>
+<li>총 매출 계정별 월별 추세 분석 - bar plot (stack)</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>acc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"40100"</span>, <span class='st'>"40401"</span>, <span class='st'>"40700"</span>, <span class='st'>"41100"</span>, <span class='st'>"41200"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>acc</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span></span>
+<span>      amount <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>CR</span><span class='op'>)</span>,</span>
+<span>      .by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>month</span><span class='op'>)</span></span>
+<span>    <span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>month</span>, y<span class='op'>=</span><span class='va'>amount</span>, fill<span class='op'>=</span><span class='va'>ACCTCD</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>position<span class='op'>=</span><span class='st'>'stack'</span>, stat <span class='op'>=</span> <span class='st'>"sum"</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='va'><a href='https://scales.r-lib.org/reference/comma.html'>comma</a></span><span class='op'>)</span><span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<ul>
+<li>총 매출 계정별 box plot - 수치형 변수의 범주별 통계요약</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>acc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"40100"</span>, <span class='st'>"40401"</span>, <span class='st'>"40700"</span>, <span class='st'>"41100"</span>, <span class='st'>"41200"</span><span class='op'>)</span>   <span class='co'># 매출 계정 모음</span></span>
+<span></span>
+<span><span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>acc</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>ACCTCD <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>ACCTCD</span>, y<span class='op'>=</span><span class='va'>CR</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<h2 id="제품매출-거래처-갯수-확인">제품매출 거래처 갯수 확인</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCT_NM</span> <span class='op'>==</span> <span class='st'>'제품매출'</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>`거래처[코드]`</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>`거래처[코드]`</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<h2 id="원재료비-월별-추세-분석">원재료비 월별 추세 분석</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>acc</span> <span class='op'>=</span> <span class='st'>'50100'</span></span>
+<span></span>
+<span><span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>==</span><span class='va'>acc</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>month <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/month.html'>month</a></span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span></span>
+<span>    amount <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>DR</span><span class='op'>)</span>,</span>
+<span>    .by <span class='op'>=</span> <span class='va'>month</span></span>
+<span>  <span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>month</span>, y<span class='op'>=</span><span class='va'>amount</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='va'><a href='https://scales.r-lib.org/reference/comma.html'>comma</a></span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<h2 id="매출액-musmonetary-unit-selection-sampling---eo">매출액 MUS(Monetary Unit Selection) Sampling - E/O</h2>
+<ul>
+<li>MUS Sampling 함수 설치 및 library Load</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://devtools.r-lib.org/'>devtools</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"devtools"</span><span class='op'>)</span><span class='op'>}</span></span>
+<span><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>rsmsampling</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'>devtools</span><span class='fu'>::</span><span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>"joy-hhh/rsmsampling"</span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>rsmsampling</span><span class='op'>)</span><span class='op'>}</span></span>
+<span><span class='co'># ?mus_sampling</span></span>
+<span><span class='co'># ?m_ran_sampling</span></span>
+<span><span class='co'># ?ran_sampling</span></span></code></pre>
+</div>
+</div>
+<ul>
+<li>Parameters Setting</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>SR</span> <span class='op'>&lt;-</span> <span class='st'>"No"</span>          <span class='co'>## or  "Yes"</span></span>
+<span><span class='va'>RC</span> <span class='op'>&lt;-</span> <span class='st'>"Yes"</span>         <span class='co'>## or  "No"</span></span>
+<span><span class='va'>PL</span> <span class='op'>&lt;-</span> <span class='fl'>4</span>             <span class='co'>## "Analytical.Procedures.Not.Performed" 4, "High" 1, "Low" 2, "Moderate" 3 </span></span>
+<span><span class='va'>am</span> <span class='op'>&lt;-</span> <span class='st'>"CR"</span>          <span class='co'>## 금액열 지정</span></span>
+<span></span>
+<span><span class='co'>## 수행중요성 금액 및 허용오류율(5% 등) 입력</span></span>
+<span><span class='va'>PM</span> <span class='op'>&lt;-</span> <span class='fl'>700000000</span>     <span class='co'>## Tolerable misstatement (generally performance materiality)</span></span>
+<span><span class='va'>EA</span> <span class='op'>&lt;-</span> <span class='fl'>0.05</span>          <span class='co'>## Expected misstatement</span></span></code></pre>
+</div>
+</div>
+<ul>
+<li>모집단 filter 및 Sampling 수행</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>## Define Population</span></span>
+<span><span class='va'>acc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"40100"</span>, <span class='st'>"40401"</span>, <span class='st'>"40700"</span>, <span class='st'>"41100"</span>, <span class='st'>"41200"</span><span class='op'>)</span>  <span class='co'># 총 매출 계정 모음</span></span>
+<span></span>
+<span><span class='va'>population</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>acc</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>## 함수 실행</span></span>
+<span><span class='va'>sampling</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/rsmsampling/man/mus_sampling.html'>mus_sampling</a></span><span class='op'>(</span><span class='va'>population</span>, <span class='va'>am</span>, <span class='va'>SR</span>, <span class='va'>RC</span>, <span class='va'>PL</span>, <span class='va'>PM</span>, <span class='va'>EA</span><span class='op'>)</span> <span class='co'># population : 샘플링 대상 모집단</span></span>
+<span></span>
+<span><span class='co'>## 샘플링 내역 확인</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>sampling</span>, n <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>## 추출된 샘플 엑셀 파일 생성</span></span>
+<span><span class='va'>sampling</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>"MUS_sample.xlsx"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<h2 id="매출액-cut-off-test-sampling---co">매출액 Cut-off Test Sampling - C/O</h2>
+<p>12월 매출액에 대하여 Cut-off 목적으로 Test Sampling</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>## Define Population</span></span>
+<span><span class='va'>acc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"40100"</span>, <span class='st'>"40401"</span>, <span class='st'>"40700"</span>, <span class='st'>"41100"</span>, <span class='st'>"41200"</span><span class='op'>)</span>  <span class='co'># 총 매출 계정 모음</span></span>
+<span></span>
+<span><span class='va'>co_sampling</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>acc</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span> <span class='op'>==</span> <span class='fl'>12</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://rdrr.io/pkg/rsmsampling/man/ran_sampling.html'>ran_sampling</a></span><span class='op'>(</span><span class='fl'>30</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>## MUS sampling과 중복 항목 제거</span></span>
+<span><span class='va'>co_sampling</span> <span class='op'>&lt;-</span> <span class='va'>co_sampling</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='va'>JENO</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>sampling</span><span class='op'>$</span><span class='va'>JENO</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>co_sampling</span></span>
+<span></span>
+<span><span class='va'>co_sampling</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>"CO_sample.xlsx"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<h2 id="분개장-전표에서-매출-계정별-원장-추출---엑셀로-저장">분개장 전표에서 매출 계정별 원장 추출 - 엑셀로 저장</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>acc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"40100"</span>, <span class='st'>"40401"</span>, <span class='st'>"40700"</span>, <span class='st'>"41100"</span>, <span class='st'>"41200"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>acc</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>$</span><span class='va'>ACCT_NM</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='st'>"revenue_gl.xlsx"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr />
 <ol>
 <li id="fn1"><p>원래 utf-8 encoding 형식으로 되어 있는 파일을 , locale=locale(‘ko’,encoding=‘euc-kr)’ 없이 읽으면 훨씬 더 빠르게 읽는다. 파일 형식에 대한 전환 과정이 필요 없기 때문이다. 대용량의 전표를 받아서 test 할 때는 utf-8 encoding 형식으로 요청하는 것이 좋은 방법이다.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>[네이버 지식백과] 벤포드의 법칙<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 <!--radix_placeholder_article_footer-->

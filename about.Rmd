@@ -24,7 +24,7 @@ Rstudio [R | Docker | Rocker | 윈도우즈에서 도커로 Rstudio 환경 사�
 ```{r, eval=FALSE, echo=TRUE}
 R.version
 ```
-  
+    
     
 ## Data 준비하기   
    
@@ -128,16 +128,16 @@ library(tidyverse)
 je_raw <- read_csv('je.csv', locale=locale('ko',encoding='euc-kr'))  
 print(je_raw)  
 ```
-1. 프로젝트 폴더 경로에 전표 파일을 두고 읽는 명령으로 읽어와서 je라고 이름 붙인다.(이름 붙인 것을 객체라고 한다. je 객체) 윈도우즈 기준의 파일의 경우 파일명 뒤의 encoding 명시를 해주면 글자가 깨지지 않고 읽어온다. 윈도우 기준의 한글 형식에 맞출 수 있다. read_csv 명령 함수는 utf-8 encoding을 기본으로 하기 때문에 한글이 깨질 수 있다. 2기가 정도 되는 data file이 100초 정도 걸린다. (컴퓨터 성능에 따라서 다르다.) 몇십메가 정도의 data file은 몇초가 되기 전에 읽어버린다.[^2]   
-2. 이름 붙인 je 객체를 Console에 나타내 확인한다. 
+1. 프로젝트 폴더 경로에 전표 파일을 두고 읽는 명령으로 읽어와서 je_raw라고 이름 붙인다.(이름 붙인 것을 객체라고 한다. je_raw 객체) 윈도우즈 기준의 파일의 경우 파일명 뒤의 encoding 명시를 해주면 글자가 깨지지 않고 읽어온다. 윈도우 기준의 한글 형식에 맞출 수 있다. read_csv 명령 함수는 utf-8 encoding을 기본으로 하기 때문에 한글이 깨질 수 있다. 2기가 정도 되는 data file이 100초 정도 걸린다. (컴퓨터 성능에 따라서 다르다.) 몇십메가 정도의 data file은 몇초가 되기 전에 읽어버린다.[^1]   
+2. 이름 붙인 je_raw 객체를 Console에 나타내 확인한다. 
     
-[^2]: 원래 utf-8 encoding 형식으로 되어 있는 파일을 , locale=locale('ko',encoding='euc-kr)' 없이 읽으면 훨씬 더 빠르게 읽는다. 파일 형식에 대한 전환 과정이 필요 없기 때문이다. 대용량의 전표를 받아서 test 할 때는 utf-8 encoding 형식으로 요청하는 것이 좋은 방법이다.      
+[^1]: 원래 utf-8 encoding 형식으로 되어 있는 파일을 , locale=locale('ko',encoding='euc-kr)' 없이 읽으면 훨씬 더 빠르게 읽는다. 파일 형식에 대한 전환 과정이 필요 없기 때문이다. 대용량의 전표를 받아서 test 할 때는 utf-8 encoding 형식으로 요청하는 것이 좋은 방법이다.      
     
     
 ### 프로그램에 맞추어 열 이름 변경
     
 * change column name
-  
+    
 열 이름은 회사마다 고유의 이름을 정해서 사용하므로 모두 다를 수가 있다. 각기 다른 열 이름에 맞춰서 이 후에 진행될 프로그램 전체에서 열 이름을 바꿔주는 것은 번거롭기도 하지만 오류를 발생시킬 우려 또한 높아진다. 따라서 미리 프로그램 해 놓은 코드에 그대로 적용하기 위하여 Data의 열 이름을 프로그램에서 사용한 이름으로 맞춰 변경시킨다.  
    
      
@@ -162,9 +162,9 @@ je_tbl <- je_tbl %>%
          JENO = as.character(JENO)
 )
 ```
-  
+   
 정상 전표가 메모리에 Load 되었는지 확인하기 위하여 먼저 차변금액과 대변금액 각각의 합계를 출력하고 같은지 확인한다.  
-  
+   
 ```{r, eval=FALSE, echo=TRUE}
 # 차변금액 합계
 sum(je_tbl$DR)
@@ -186,26 +186,26 @@ sapply(je_tbl, function(x) sum(is.na(je_tbl)))
 max(je_tbl$JEDATE)
 min(je_tbl$JEDATE)
 ```    
- 
-1. 읽어온 je의 변수명(열 이름, column명)을 확인한다.  
-2. je의 구조를 파악한다.  
-3. je에 있는 Null 값을 집계한다.  
-4. je의 변수명에 따른 Null값을 각각 집계하여 보여준다.
+   
+1. 읽어온 je_tbl의 변수명(열 이름, column명)을 확인한다.  
+2. je_tbl의 구조를 파악한다.  
+3. je_tbl에 있는 Null 값을 집계한다.  
+4. je_tbl의 변수명에 따른 Null값을 각각 집계하여 보여준다.
 5. 전표 일자의 가장 큰 값을 나타낸다. 날짜열의 가장 큰 값이 해당 연도를 넘어가지 않는지 확인한다.   
 6. 전표 일자의 가장 작은 값을 나타낸다. 날짜열의 가장 작은 값이 해당 연도 이전은 아닌지 확인한다.  
-  
+   
   
 ## skim 함수를 사용하여 Data skim 확인
-   
-R은 함수형 프로그래밍으로 미리 작성된 좋은 함수들이 많이 있다. skimr 패키지를 설치하고 skim 함수를 사용하면 데이터의 전체적인 구조를 한번에 확인할 수 있다.  
+    
+R은 함수형 프로그래밍으로 미리 작성된 좋은 함수들이 많이 있다. skimr 패키지를 설치하고 skim 함수를 사용하면 데이터의 전체적인 구조를 한번에 확인할 수 있다.   
      
-     
+      
 ```{r, eval=FALSE, echo=TRUE}
 if(!require(skimr)){install.packages("skimr");library(skimr)}
 skim(je_tbl)
 
 ```
-    
+     
    
    
    
@@ -223,12 +223,12 @@ A02 <- je_tbl %>%
 print(A02)
 A02 %>% filter(Differ != 0) %>% nrow() 
 ```
-  
+   
 1. 전표번호, 차변금액, 대변금액 열을 선택(select)한다. 선택한 세 개의 열에 Null 값 (NA)이 있으면 0으로 모두 바꾼다.(mutate_all) Null 값(NA)은 계산의 결과가 무조건 NA가 되면서 원하지 않은 불편한 결론을 내기 때문이다. 전표번호별로 묶어서(group_by) 전표번호별 차변의 합계를 DR_sum의 열 이름으로 전표번호별 대변의 합계를 CR_sum의 열 이름으로 정리한다.(summarise) 전표번호별 차변 금액과 대변 금액 합계를 각각 차이를 계산하여 Differ라는 열 이름으로 추가(mutate)한다.     
 2. 전표번호별 차변 금액 합계와 대변 금액 합계의 차이 Differ열의 전체 합계를 계산한다.   
 3. 계산한 차이의 합계를 확인한다.  
+       
       
-     
 ## A03 시산표 Reconciliation 검증(Trial Balance Rollforward Test)
     
 시산표 검증에는 추가로 시산표 파일에서 Data를 읽어와야 한다.  
@@ -258,7 +258,7 @@ View(cytb_raw)
 
 ```
     
-아주 자연스럽게 느껴지는 엑셀 같은 화면을 만날 수 있다. 물론 읽기 전용이다. 각 변수(열)에 필터 값으로 함축해 볼 수도 있다. 다른 언어에서 찾아 볼 수 없는 독보적인 기능이다. Rstudio는 시원하게 작업중인 중간에 들여다 볼 수가 있다. 무조건 말로만 해야 하는 것이 아니다. 보면서 해야 한다. 말로 하고 듣기도 하지만 볼수도 있어야 당연하다. 우리는 엑셀에 익숙하므로 즉각적으로 표를 보고 싶다.  View(je) 로 전표 데이터를 볼 수도 있고 환경 창에 있는 변수를 마우스 클릭해도 View() 기능이 작동한다.           
+아주 자연스럽게 느껴지는 엑셀 같은 화면을 만날 수 있다. 물론 읽기 전용이다. 각 변수(열)에 필터 값으로 함축해 볼 수도 있다. 다른 언어에서 찾아 볼 수 없는 독보적인 기능이다. Rstudio는 시원하게 작업중인 중간에 들여다 볼 수가 있다. 무조건 말로만 해야 하는 것이 아니다. 보면서 해야 한다. 말로 하고 듣기도 하지만 볼수도 있어야 당연하다. 우리는 엑셀에 익숙하므로 즉각적으로 표를 보고 싶다.  View(je_tbl) 로 전표 데이터를 볼 수도 있고 환경 창에 있는 변수를 마우스 클릭해도 View() 기능이 작동한다.           
     
     
 ```{r, eval=FALSE, echo=TRUE}   
@@ -438,7 +438,7 @@ je_tbl <- rename(je_raw, JEDATE = 전표일자,
     
 ### 프로그램에 맞추어 열 이름 변경
 
--   change column name
+change column name
 
 ```{r, eval=FALSE, echo=TRUE}
 je_tbl <- rename(je_raw, JEDATE = `구 분[기표][년/월/일]`,
@@ -538,5 +538,259 @@ print(A03)
 A03 %>% filter(Differ != 0)
 ```
     
+       
+# Conclusion  
+   
+전표 분석의 결론을 기재한다.
     
-현재 업데이트 중입니다.
+(예) 전표 분석 결과 Step3에서 정의한 오류 사항이 발견되지 아니함.  
+    
+    
+
+# 이 외의 Analysis
+
+
+## 벤포드의 법칙
+
+벤포드의 법칙(Benford’s law)은 정수 1부터 9까지의 숫자 중 어떤 분야의 수치들에서 1부터 9까지의 수 n이 첫 자리 수가 될 확률이 1이 가장 크고 점차 9까지 작아지는 현상을 말한다.  
+    
+벤포드의 법칙은 자연과학의 법칙과 같이 항상 성립하는 절대적 진리가 아니라, 상당수의 자료에서 성립하는 경향이 있다는 것을 의미한다. 이제 벤포드의 법칙이 왜 성립하는지 그 이유를 생각해보자. 우리 주변의 자료 중에는 일정한 속도로 증가하는 것이 많다.  
+   
+예를 들어 일정한 속도로 자라는 나무가 있다고 하자. 기준이 되는 시점의 나무의 높이를 1이라고 하면, 그 높이가 2배가 되어 2가 될 때까지 상당한 시간이 걸릴 것이다. 이제 나무의 높이가 2에서 3으로 늘어나려면 1.5배가 되어야 하므로 1에서 2로 2배가 될 때까지 걸리는 시간보다 짧아진다.  
+    
+마찬가지로 3에서 4로 1.33배 늘어나는 데 걸리는 시간은 더 짧아진다. 결과적으로 볼 때 나무의 높이는 1에서 머무는 시간이 길고, 2에서 3으로 갈수록 머무는 시간이 짧아지게 된다. 이를 표현하는 것이 바로 벤포드의 법칙의 식에 포함된 상용로그라고 할 수 있다.[^2]  
+    
+[^2]: [네이버 지식백과] 벤포드의 법칙  
+    
+벤포드의 법칙은 포렌식(Digital Forensics)이나 부정 적발 감사 등에서 회계 데이터의 샘플링을 수행할 시 가장 적절한 방법 중 하나이다.  
+    
+* R CRAN의 benford.analysis 패키지를 활용하여 벤포드 분석
+    
+```{r, eval=FALSE, echo=TRUE}
+if(!require(benford.analysis)){install.packages("benford.analysis");library(benford.analysis)}
+
+je_sales <- je_tbl %>%  
+  filter(ACCTCD == '40401')
+
+je_sales$CR %>% benford()
+```
+  
+* 벤포드 분석 결과 Plot 확인
+  
+```{r, eval=FALSE, echo=TRUE}
+bl <- je_sales$CR %>% benford()
+plot(bl)
+```
+  
+
+
+## 매출액 계정별 비중 확인
+
+```{r, eval=FALSE, echo=TRUE}
+CYTB_PL %>% 
+  slice(1:5) %>% 
+  select(ACCTCD) %>% 
+  left_join(ac_name, by = 'ACCTCD') %>% 
+  left_join(amt_sum, by = 'ACCT_NM') %>% 
+  ggplot(aes(x="", y=CR_sum, fill=ACCT_NM)) +
+    geom_bar(stat="identity", width=1) +
+    coord_polar("y", start=0)+
+    scale_y_continuous(labels = scales::comma)+
+    labs(title = "매출 계정별 비중",
+         x = "",
+         y = "금액",
+         fill = "매출 계정")
+```
+   
+매출액 계정 중 제품매출의 비중이 가장 크다.
+   
+   
+## 매출 월별 추세 분석
+
+
+* 제품매출 월별 추세 분석
+
+```{r, eval=FALSE, echo=TRUE}
+## 월별 추세 분석 사용자함수 설정
+trend <- function(acc){
+  je_tbl %>% 
+    filter(ACCTCD %in% acc) %>% 
+    summarise(
+      amount = sum(CR),
+      .by = month
+    ) %>% ggplot(aes(x=month, y=amount))+
+    geom_col()+
+    scale_y_continuous(labels = scales::comma)+
+    theme_bw()
+}
+```
+
+
+```{r, eval=FALSE, echo=TRUE}
+acc = '40401'  ## 제품매출 계정
+trend(acc) + 
+  geom_hline(yintercept = 700000000)
+```
+
+
+* 상품매출 월별 추세 분석
+
+```{r, eval=FALSE, echo=TRUE}
+acc <- "40100"
+trend(acc) + 
+  geom_hline(yintercept = 700000000)
+```
+
+
+* 교육 수입 월별 추세 분석
+
+```{r, eval=FALSE, echo=TRUE}
+acc <- "40700"
+trend(acc) + 
+  geom_hline(yintercept = 700000000)
+```
+
+
+* 총 매출 계정별 월별 추세 분석 - bar plot (stack)
+
+```{r, eval=FALSE, echo=TRUE}
+acc <- c("40100", "40401", "40700", "41100", "41200")
+
+je_tbl %>% 
+    filter(ACCTCD %in% acc) %>% 
+    summarise(
+      amount = sum(CR),
+      .by = c(ACCTCD, month)
+    ) %>% 
+    ggplot(aes(x=month, y=amount, fill=ACCTCD))+
+    geom_bar(position='stack', stat = "sum")+
+    scale_y_continuous(labels = scales::comma)+
+    theme_bw()
+
+```
+  
+  
+* 총 매출 계정별 box plot - 수치형 변수의 범주별 통계요약
+
+```{r, eval=FALSE, echo=TRUE}
+acc <- c("40100", "40401", "40700", "41100", "41200")   # 매출 계정 모음
+
+je_tbl %>% 
+  filter(ACCTCD %in% acc) %>% 
+  mutate(ACCTCD = as.factor(ACCTCD)) %>% 
+  ggplot(aes(x=ACCTCD, y=CR))+
+    geom_boxplot()
+```
+
+
+## 제품매출 거래처 갯수 확인
+
+```{r, eval=FALSE, echo=TRUE}
+je_tbl %>%
+  filter(ACCT_NM == '제품매출') %>% 
+  select(`거래처[코드]`) %>% 
+  distinct(`거래처[코드]`) %>% 
+  count()
+```
+   
+
+## 원재료비 월별 추세 분석
+
+```{r, eval=FALSE, echo=TRUE}
+acc = '50100'
+
+je_tbl %>% 
+  filter(ACCTCD==acc) %>% 
+  mutate(month = as.factor(month(JEDATE))) %>% 
+  summarise(
+    amount = sum(DR),
+    .by = month
+  ) %>% ggplot(aes(x=month, y=amount))+
+  geom_col()+
+  scale_y_continuous(labels = scales::comma)+
+  theme_bw()
+```
+   
+   
+## 매출액 MUS(Monetary Unit Selection) Sampling - E/O
+  
+* MUS Sampling 함수 설치 및 library Load
+  
+```{r, eval=FALSE, echo=TRUE}
+if(!require(devtools)){install.packages("devtools")}
+if(!require(rsmsampling)){devtools::install_github("joy-hhh/rsmsampling");library(rsmsampling)}
+# ?mus_sampling
+# ?m_ran_sampling
+# ?ran_sampling
+```
+
+
+* Parameters Setting
+
+```{r, eval=FALSE, echo=TRUE}
+SR <- "No"          ## or  "Yes"
+RC <- "Yes"         ## or  "No"
+PL <- 4             ## "Analytical.Procedures.Not.Performed" 4, "High" 1, "Low" 2, "Moderate" 3 
+am <- "CR"          ## 금액열 지정
+
+## 수행중요성 금액 및 허용오류율(5% 등) 입력
+PM <- 700000000     ## Tolerable misstatement (generally performance materiality)
+EA <- 0.05          ## Expected misstatement
+```
+
+
+* 모집단 filter 및 Sampling 수행
+
+```{r, eval=FALSE, echo=TRUE}
+## Define Population
+acc <- c("40100", "40401", "40700", "41100", "41200")  # 총 매출 계정 모음
+
+population <- je_tbl %>% 
+  filter(ACCTCD %in% acc)
+
+## 함수 실행
+sampling <- mus_sampling(population, am, SR, RC, PL, PM, EA) # population : 샘플링 대상 모집단
+
+## 샘플링 내역 확인
+print(sampling, n = Inf)
+
+## 추출된 샘플 엑셀 파일 생성
+sampling %>% write_xlsx("MUS_sample.xlsx")
+```
+
+  
+## 매출액 Cut-off Test Sampling - C/O
+
+12월 매출액에 대하여 Cut-off 목적으로 Test Sampling
+
+```{r, eval=FALSE, echo=TRUE}
+## Define Population
+acc <- c("40100", "40401", "40700", "41100", "41200")  # 총 매출 계정 모음
+
+co_sampling <- je_tbl %>% 
+  filter(ACCTCD %in% acc) %>% 
+  filter(month == 12) %>% 
+  ran_sampling(30)
+
+## MUS sampling과 중복 항목 제거
+co_sampling <- co_sampling %>% 
+  filter(!JENO %in% sampling$JENO)
+
+co_sampling
+
+co_sampling %>% write_xlsx("CO_sample.xlsx")
+```
+   
+   
+## 분개장 전표에서 매출 계정별 원장 추출 - 엑셀로 저장
+  
+```{r, eval=FALSE, echo=TRUE}
+acc <- c("40100", "40401", "40700", "41100", "41200")
+
+je_tbl %>% 
+  filter(ACCTCD %in% acc) %>%
+  split(.$ACCT_NM) %>% 
+  write_xlsx(path = "revenue_gl.xlsx")
+```
+  
+  
