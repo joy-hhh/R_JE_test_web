@@ -54,11 +54,12 @@ knitr::include_graphics("images/hex_sticker_accounting.png")
      
 ## 오후 Session  
      
-1. git clone   
+    
 1. JE data 다루기 실습 계속 - A03
 1. JE data 다루기 실습 계속 - B01
 1. 시각화 (ggplot2)
 1. 질의 응답   
+   
    
 ### 설명 대상
     
