@@ -58,6 +58,8 @@ knitr::include_graphics("images/hex_sticker_accounting.png")
 1. JE data 다루기 실습 계속 - A03
 1. JE data 다루기 실습 계속 - B01
 1. 시각화 (ggplot2)
+1. Sampling - 시각화 분석적 절차로 Sample Size 감소
+1. 결과물 Rendering - docx 파일
 1. 질의 응답   
    
    

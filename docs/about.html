@@ -21,7 +21,7 @@
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -2099,7 +2099,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.24/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2829,7 +2829,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>acc</span><span class='op'>)</span></span>
 <span></span>
 <span><span class='co'>## 함수 실행</span></span>
-<span><span class='va'>sampling</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/rsmsampling/man/mus_sampling.html'>mus_sampling</a></span><span class='op'>(</span><span class='va'>population</span>, <span class='va'>am</span>, <span class='va'>SR</span>, <span class='va'>RC</span>, <span class='va'>PL</span>, <span class='va'>PM</span>, <span class='va'>EA</span><span class='op'>)</span> <span class='co'># population : 샘플링 대상 모집단</span></span>
+<span><span class='va'>sampling</span> <span class='op'>&lt;-</span> <span class='fu'>mus_sampling</span><span class='op'>(</span><span class='va'>population</span>, <span class='va'>am</span>, <span class='va'>SR</span>, <span class='va'>RC</span>, <span class='va'>PL</span>, <span class='va'>PM</span>, <span class='va'>EA</span><span class='op'>)</span> <span class='co'># population : 샘플링 대상 모집단</span></span>
 <span></span>
 <span><span class='co'>## 샘플링 내역 확인</span></span>
 <span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>sampling</span>, n <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span></span>
@@ -2848,7 +2848,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span><span class='va'>co_sampling</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>acc</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span> <span class='op'>==</span> <span class='fl'>12</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
-<span>  <span class='fu'><a href='https://rdrr.io/pkg/rsmsampling/man/ran_sampling.html'>ran_sampling</a></span><span class='op'>(</span><span class='fl'>30</span><span class='op'>)</span></span>
+<span>  <span class='fu'>ran_sampling</span><span class='op'>(</span><span class='fl'>30</span><span class='op'>)</span></span>
 <span></span>
 <span><span class='co'>## MUS sampling과 중복 항목 제거</span></span>
 <span><span class='va'>co_sampling</span> <span class='op'>&lt;-</span> <span class='va'>co_sampling</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
@@ -2871,13 +2871,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr />
 <ol>
 <li id="fn1"><p>원래 utf-8 encoding 형식으로 되어 있는 파일을 , locale=locale(‘ko’,encoding=‘euc-kr)’ 없이 읽으면 훨씬 더 빠르게 읽는다. 파일 형식에 대한 전환 과정이 필요 없기 때문이다. 대용량의 전표를 받아서 test 할 때는 utf-8 encoding 형식으로 요청하는 것이 좋은 방법이다.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>[네이버 지식백과] 벤포드의 법칙<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section>
+</aside>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
