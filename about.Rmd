@@ -152,7 +152,7 @@ print(je_raw)
 ### (2) if, Encoding이 EUC-KR(CP949)로 되어 있는 경우 
    
    
-MS의 윈도우즈에서 생성된 text 파일을 읽는 경우, MS 엑셀 등의 프로그램에서 Encoding을 바꾸어 저장한 다음 위의 방식으로 읽어도 정상 작동하며 R에서 한번에 Encoding을 지정하여 읽어 오는 방식은 다음과 같다. 
+MS의 윈도우즈에서 생성된 text 파일을 읽는 경우, 메모장과 같은 프로그램에서 Encoding을 바꾸어 저장한 다음 위의 방식으로 읽어도 정상 작동하며 R에서 한번에 Encoding을 지정하여 읽어 오는 방식은 다음과 같다. 
    
    
    
@@ -211,6 +211,9 @@ sum(je_tbl$DR) == sum(je_tbl$CR)
    
 ## A01 Data Integrity Test
     
+### Base R 기본 함수로 Data 확인
+    
+    
 ```{r, eval=FALSE, echo=TRUE}
 colnames(je_tbl)
 str(je_tbl)
@@ -229,7 +232,7 @@ min(je_tbl$JEDATE)
 6. 전표 일자의 가장 작은 값을 나타낸다. 날짜열의 가장 작은 값이 해당 연도 이전은 아닌지 확인한다.  
    
    
-## skim 함수를 사용하여 Data skim 확인
+### skim 함수를 사용하여 Data skim 확인
     
 R은 함수형 프로그래밍으로 미리 작성된 좋은 함수들이 많이 있다. skimr 패키지를 설치하고 skim 함수를 사용하면 데이터의 전체적인 구조를 한번에 확인할 수 있다.   
     
