@@ -2188,14 +2188,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li>Create</li>
 <li>Visual → Source 로 변경 선택</li>
 <li>editor: visual → editor: source 로 수정</li>
-<li>설정 마크에를 눌러서 Use Visual Editor를 해제하고 Chunk Output in Console을 선택</li>
+<li>설정 마크를 눌러서 Use Visual Editor를 해제하고 Chunk Output in Console을 선택</li>
 </ul>
 <h1 id="test에-대한-기술description">Test에 대한 기술(Description)</h1>
 <h2 id="step-1.-테스트-개요-및-목적">Step 1. 테스트 개요 및 목적</h2>
 <p>재무제표에 대한 회계감사의 일환으로 감사대상기간 동안 발생한 모든 전표 데이터에 대한 무결성 및 비경상적인 거래가 존재하는지를 검증</p>
 <ol type="1">
 <li>계정명(FSLI) : 전체 계정</li>
-<li>기준일 (Coverage date) : 2023-01-01 ~ 2023-12-31</li>
+<li>기준일 (Coverage date) : 2024-01-01 ~ 2024-12-31</li>
 <li>테스트되는 경영자의 주장 (Assertion) : 완전성 (C),정확성 (A),기간귀속구분 (CO),실재성 (E/O),권리 (R),공시(PD),평가(V)</li>
 </ol>
 <h2 id="step-2.-test-대상-모집단">Step 2. Test 대상 모집단</h2>
@@ -2235,9 +2235,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <ol type="1">
-<li>프로젝트 폴더 경로에 전표 파일을 두고 읽는 명령으로 읽어와서 je_raw라고 이름 붙인다.(이름 붙인 것을 객체라고 한다. je_raw 객체) 윈도우즈 기준의 파일의 경우 파일명 뒤의 encoding 명시를 해주면 글자가 깨지지 않고 읽어온다. 윈도우 기준의 한글 형식에 맞출 수 있다. read_csv 명령 함수는 utf-8 encoding을 기본으로 하기 때문에 한글이 깨질 수 있다. 2기가 정도 되는 data file이 100초 정도 걸린다. (컴퓨터 성능에 따라서 다르다.) 몇십메가 정도의 data file은 몇초가 되기 전에 읽어버린다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a><br />
-</li>
-<li>이름 붙인 je_raw 객체를 Console에 나타내 확인한다.</li>
+<li><p>프로젝트 폴더 경로에 전표 파일을 두고 읽는 명령으로 읽어와서 je_raw라고 이름 붙인다.(이름 붙인 것을 객체라고 한다. je_raw 객체) 윈도우즈 기준의 파일의 경우 파일명 뒤의 encoding 명시를 해주면 글자가 깨지지 않고 읽어온다. 윈도우 기준의 한글 형식에 맞출 수 있다. read_csv 명령 함수는 utf-8 encoding을 기본으로 하기 때문에 한글이 깨질 수 있다. 2기가 정도 되는 data file이 100초 정도 걸린다. (컴퓨터 성능에 따라서 다르다.) 몇십메가 정도의 data file은 몇초가 되기 전에 읽어버린다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p></li>
+<li><p>이름 붙인 je_raw 객체를 Console에 나타내 확인한다.</p></li>
 </ol>
 <h3 id="프로그램에-맞추어-열-이름-변경">프로그램에 맞추어 열 이름 변경</h3>
 <h4 id="change-column-name">change column name</h4>
@@ -2335,7 +2334,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://readxl.tidyverse.org'>readxl</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"readxl"</span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readxl.tidyverse.org'>readxl</a></span><span class='op'>)</span><span class='op'>}</span>   </span>
-<span>      </span>
+<span>    </span>
 <span><span class='va'>cytb_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>'CYTB.xlsx'</span><span class='op'>)</span></span>
 <span><span class='va'>pytb_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>'PYTB.xlsx'</span><span class='op'>)</span></span>
 <span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>cytb_raw</span><span class='op'>)</span><span class='op'>)</span></span>

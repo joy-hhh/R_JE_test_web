@@ -71,21 +71,22 @@ je_raw <- readr::read_csv("https://raw.githubusercontent.com/joy-hhh/R_for_JE_te
 * Create
 * Visual → Source 로 변경 선택
 * editor: visual → editor: source 로 수정
-* 설정 마크에를 눌러서 Use Visual Editor를 해제하고 Chunk Output in Console을 선택
+* 설정 마크를 눌러서 Use Visual Editor를 해제하고 Chunk Output in Console을 선택
    
-
+   
+   
 # Test에 대한 기술(Description)
-
+   
 ## Step 1. 테스트 개요 및 목적
-
+   
 재무제표에 대한 회계감사의 일환으로 감사대상기간 동안 발생한 모든 전표 데이터에 대한 무결성 및 비경상적인 거래가 존재하는지를 검증
-
+   
 (1) 계정명(FSLI) : 전체 계정
-(2) 기준일 (Coverage date) : 2023-01-01 \~ 2023-12-31
+(2) 기준일 (Coverage date) : 2024-01-01 \~ 2024-12-31
 (3) 테스트되는 경영자의 주장 (Assertion) : 완전성 (C),정확성 (A),기간귀속구분 (CO),실재성 (E/O),권리 (R),공시(PD),평가(V)
-
+   
 ## Step 2. Test 대상 모집단
-
+   
 (1) 전체 전표를 포함하는 분개장.\
 (2) 모집단의 완전성 확인 : Step 5. Test 결과의 A01, A02, A03 참조
 
@@ -121,20 +122,22 @@ je_raw <- readr::read_csv("https://raw.githubusercontent.com/joy-hhh/R_for_JE_te
     
     
 ## 파일 불러오기 (Data 읽기)
-     
-     
+   
+    
 코드 블럭을 설정하거나 프롬프트가 위치한 행에서 'Ctrl + Enter'를 누르면 선택 부분이 Console로 들어가서 실행된다.    
-      
+    
 R은 Rstudio의 이 스크립트 창에서 Console에 Code를 던져 주면서 실행하는 방식이 좋다.    
-      
-      
-  
+    
+    
+   
   
 ```{r, eval=FALSE, echo=TRUE}
 je_raw <- read_csv('je.csv', locale=locale('ko',encoding='euc-kr'))  
 print(je_raw)  
 ```
+   
 1. 프로젝트 폴더 경로에 전표 파일을 두고 읽는 명령으로 읽어와서 je_raw라고 이름 붙인다.(이름 붙인 것을 객체라고 한다. je_raw 객체) 윈도우즈 기준의 파일의 경우 파일명 뒤의 encoding 명시를 해주면 글자가 깨지지 않고 읽어온다. 윈도우 기준의 한글 형식에 맞출 수 있다. read_csv 명령 함수는 utf-8 encoding을 기본으로 하기 때문에 한글이 깨질 수 있다. 2기가 정도 되는 data file이 100초 정도 걸린다. (컴퓨터 성능에 따라서 다르다.) 몇십메가 정도의 data file은 몇초가 되기 전에 읽어버린다.[^1]   
+   
 2. 이름 붙인 je_raw 객체를 Console에 나타내 확인한다. 
     
 [^1]: 원래 utf-8 encoding 형식으로 되어 있는 파일을 , locale=locale('ko',encoding='euc-kr)' 없이 읽으면 훨씬 더 빠르게 읽는다. 파일 형식에 대한 전환 과정이 필요 없기 때문이다. 대용량의 전표를 받아서 test 할 때는 utf-8 encoding 형식으로 요청하는 것이 좋은 방법이다.      
@@ -146,7 +149,7 @@ print(je_raw)
     
 열 이름은 회사마다 고유의 이름을 정해서 사용하므로 모두 다를 수가 있다. 각기 다른 열 이름에 맞춰서 이 후에 진행될 프로그램 전체에서 열 이름을 바꿔주는 것은 번거롭기도 하지만 오류를 발생시킬 우려 또한 높아진다. 따라서 미리 프로그램 해 놓은 코드에 그대로 적용하기 위하여 Data의 열 이름을 프로그램에서 사용한 이름으로 맞춰 변경시킨다.  
    
-     
+    
 ```{r, eval=FALSE, echo=TRUE}
 je_tbl <- rename(je_raw, JEDATE = 전표일자,
                          JENO = 전표번호,
@@ -155,10 +158,10 @@ je_tbl <- rename(je_raw, JEDATE = 전표일자,
                          ACCTCD = 계정코드,
                          ACCT_NM = 계정과목명)
 ```
-     
+    
 해당 전표에는 차변금액이 비어 있거나 대변금액에 비어 있는 결측값이 많이 포함되어 있다. 이 결측값들을 그대로 두면 연산하기 불편해진다. 숫자형 자료와 NA를 합하는 등의 연산을 수행하면 NA를 반환하기 때문이다. 결측값을 0으로 변경하고 날짜 열의 숫자를 날짜형태로 변경한다. 또한 월별 추세분석을 하기 위하여 월 구분자로 month 열을 추가한다. 계정코드 ACCTCD는 factor 형태로 변경하고 전표번호는 문자형으로 변경한다.   
-      
-      
+    
+    
 ```{r, eval=FALSE, echo=TRUE}
 je_tbl <- je_tbl %>% 
   mutate(across(DR:CR, \(x) ifelse(is.na(x), 0, x)),
@@ -179,10 +182,10 @@ sum(je_tbl$CR)
 # 차변금액과 대변금액 합계가 같은지 확인
 sum(je_tbl$DR) == sum(je_tbl$CR)
 ```
-
+   
    
 ## A01 Data Integrity Test
-     
+    
 ```{r, eval=FALSE, echo=TRUE}
 colnames(je_tbl)
 str(je_tbl)
@@ -200,18 +203,18 @@ min(je_tbl$JEDATE)
 5. 전표 일자의 가장 큰 값을 나타낸다. 날짜열의 가장 큰 값이 해당 연도를 넘어가지 않는지 확인한다.   
 6. 전표 일자의 가장 작은 값을 나타낸다. 날짜열의 가장 작은 값이 해당 연도 이전은 아닌지 확인한다.  
    
-  
+   
 ## skim 함수를 사용하여 Data skim 확인
     
 R은 함수형 프로그래밍으로 미리 작성된 좋은 함수들이 많이 있다. skimr 패키지를 설치하고 skim 함수를 사용하면 데이터의 전체적인 구조를 한번에 확인할 수 있다.   
-     
-      
+    
+    
 ```{r, eval=FALSE, echo=TRUE}
 if(!require(skimr)){install.packages("skimr");library(skimr)}
 skim(je_tbl)
 
 ```
-     
+   
    
    
    
@@ -233,30 +236,30 @@ A02 %>% filter(Differ != 0) %>% nrow()
 1. 전표번호, 차변금액, 대변금액 열을 선택(select)한다. 선택한 세 개의 열에 Null 값 (NA)이 있으면 0으로 모두 바꾼다.(mutate_all) Null 값(NA)은 계산의 결과가 무조건 NA가 되면서 원하지 않은 불편한 결론을 내기 때문이다. 전표번호별로 묶어서(group_by) 전표번호별 차변의 합계를 DR_sum의 열 이름으로 전표번호별 대변의 합계를 CR_sum의 열 이름으로 정리한다.(summarise) 전표번호별 차변 금액과 대변 금액 합계를 각각 차이를 계산하여 Differ라는 열 이름으로 추가(mutate)한다.     
 2. 전표번호별 차변 금액 합계와 대변 금액 합계의 차이 Differ열의 전체 합계를 계산한다.   
 3. 계산한 차이의 합계를 확인한다.  
-       
-      
+    
+    
 ## A03 시산표 Reconciliation 검증(Trial Balance Rollforward Test)
     
 시산표 검증에는 추가로 시산표 파일에서 Data를 읽어와야 한다.  
     
 시산표는 엑셀로 되어 있기 쉬우므로 엑셀 파일에서 바로 읽어온다. 전표 파일은 엑셀로 읽으면 csv 파일로 읽어 오는 것보다 훨씬 오래 걸린다. 대용량 Data는 엑셀이 담을 수 있는 행을 넘어버릴 것이므로 애초에 엑셀일 수가 없다. 시산표 정도는 프린터로 종이에 프린트 해도 두세장이면 담아 낼 수 있으므로 엑셀 파일로 바로 읽어도 상관 없다. 명령을 'Ctrl + Enter'로 누르는 즉시 읽어들인다.     
-     
-     
+   
+    
 ```{r, eval=FALSE, echo=TRUE}
 if(!require(readxl)){install.packages("readxl");library(readxl)}   
-      
+    
 cytb_raw <- read_excel('CYTB.xlsx')
 pytb_raw <- read_excel('PYTB.xlsx')
 colSums(is.na(cytb_raw))
 colSums(is.na(pytb_raw))
 ```
-
+    
 1. 엑셀을 읽기 위한 기능을 R에 부착한다. 생김새가 복잡한 이유는 readxl패키지가 설치되어 있지 않은 경우에는 설치하고 이미 설치되어 있는 경우에는 설치하지 않고 불러오라는 의미를 내포하였기 때문이다. 아직 readxl 패키지를 설치하지 않았으므로 바로 library 명령을 썼다가 오류가 나서 놀라서 충격 받지  않기를 바라는 배려이다.  
 2. 엑셀 파일 형태의 당기 시산표를 읽어들인다. (R이 칼질하기 좋게 R의 도마에 올린다.)
 3. 엑셀 파일 형태의 전기 시산표를 읽어들인다.
 4. 당기 시산표의 변수별(열 이름)로 NA 갯수를 확인한다.  
 5. 전기 시산표의 변수별(열 이름)로 NA 갯수를 확인한다.  
-     
+    
 Rstudio의 Powerful한 기능 View로 시산표를 볼 수 있다.     
     
 ```{r, eval=FALSE, echo=TRUE}
@@ -306,8 +309,8 @@ CYTB_move <- bind_rows(CYTB_FP, CYTB_PL)
 9. 당기시산표에 전기 시산표의 재무상태표 부분을 계정과목별로 맞춰서 붙인다. 이 때 당기시산표에 있는 계정과 전기시산표에 있는 계정이 모두 포함되도록 붙여야 한다. 전기에 변동이 있었으나 당기에 변동이 없었던 항목이 누락되지 않아야 하기 때문이다.   
 10. 시산표의 손익계산서 부분은 당기에 발생한 잔액만 있으면 된다. 재무상태표처럼 기초잔액이라는 개념이 없다.   
 11. 재무상태표의 잔액에서 기초잔액을 제거한 결과와 시산표의 손익계산서 부분의 잔액을 합하여 전표에서 당기에 변동이 있었던 금액을 하나로 붙인다.  
-      
-      
+    
+    
 ```{r, eval=FALSE, echo=TRUE}
 A03 <- je_tbl %>% 
     select(ACCTCD, DR, CR) %>% 
@@ -334,10 +337,10 @@ A03 %>%
 5. 결측값을 0으로 바꾸고 전표의 차변합계에서 대변합계를 빼서 당기변동분을 계산하고 시산표에서 계산한 당기변동분을 빼서 차이를 낸다.  
 6. 차이가 0보다 큰 항목 갯수를 세어 A03_Differ 변수로 지정한다.
 7. A03 변수에서 차이가 0보다 큰 항목을 찾아 나타낸다. 이익잉여금 항목 하나만 나타나면 이상이 없다고 생각할 수 있다.     
-     
-     
+    
+    
 ## B01 매출의 상대계정분석
-         
+    
 ```{r, eval=FALSE, echo=TRUE}
 Corr_Acc = '40401'
 B09_main <- je_tbl %>% filter(ACCTCD == Corr_Acc) %>% 
@@ -393,11 +396,11 @@ View(test_tbl)
    
    
    
-      
+    
 ## write file
-      
+    
 R에 파일의 Data를 읽어와서 적절한 분석을 통해 요리가 되었는데 이 요리의 결과물을 다시 파일로 갖고 싶다. 과정을 거쳐 오면서 결정적 증거물은 메모리에 객체로 꼬리표를 남겨 두었다. 이 객체를 파일로 저장하고 싶다면 다음 명령어들로 할 수 있다.  
-  
+   
 ```{r, eval=FALSE, echo=TRUE}
 A02 %>% write_csv('A02.csv')
 A03 %>% write_csv('A03.csv')
@@ -406,7 +409,7 @@ B09 %>% write_csv('B09.csv')
 ```
   
 "나는 csv 싫다. 엑셀로 저장할거다." 하는 마음이라면 다음과 같이 하면 된다.   
-      
+    
 ```{r, eval=FALSE, echo=TRUE}
 if(!require(writexl)){install.packages("writexl");library(writexl)}  
 
@@ -415,10 +418,10 @@ A03 %>% write_xlsx('A03.xlsx')
 B09 %>% write_xlsx('B09.xlsx')
 
 ```
-      
-      
+    
+    
 # 2. Journal Entry Data의 분개 금액 열이 한줄로 되어 있는 경우       
-       
+    
 Database는 비어 있는 관측값이 포함되어 있는 것을 좋아하지 않는다. 금액을 한 줄로 쓰고 옆에 다른 열로 차변 또는 대변을 구분하는 구분자 열을 갖도록 구성하는 경우가 많다. 차변금액과 대변금액으로 두 열로 구성하면 차변값이 있으면 대변값이 결측(비어 있게)되고 대변값이 있으면 차변값이 결측되지만 한 줄로 금액 열을 구성하면 결측이 발생하지 않는다. 이렇게 금액이 한 줄로 들어가고 차대구분자로 차변 또는 대변을 포함하는 경우의 전표 데이터 분석에 대하여 실습한다.  
    
    
@@ -490,7 +493,7 @@ print("차변합계와 대변합계가 같은가?")
 print(sum_DR == sum_CR)
 ```
   
-  
+   
 ## A02 전표번호 별 차대변 일치검증
     
 pivot_wider 함수를 사용하여 차대변 구분자에 따라서 차변합계와 대변합계로 나누어 전표번호별 합계 차이를 계산한다.  
@@ -534,7 +537,7 @@ print(A03)
 A03 %>% filter(Differ != 0)
 ```
     
-       
+    
 # Conclusion  
    
 전표 분석의 결론을 기재한다.
@@ -564,10 +567,10 @@ je_tbl <- je_tbl %>%
          ACCTCD = as_factor(ACCTCD),
          JENO = as.character(JENO))
 ```
-  
+   
   
 ## 벤포드의 법칙
-
+   
 벤포드의 법칙(Benford’s law)은 정수 1부터 9까지의 숫자 중 어떤 분야의 수치들에서 1부터 9까지의 수 n이 첫 자리 수가 될 확률이 1이 가장 크고 점차 9까지 작아지는 현상을 말한다.  
     
 벤포드의 법칙은 자연과학의 법칙과 같이 항상 성립하는 절대적 진리가 아니라, 상당수의 자료에서 성립하는 경향이 있다는 것을 의미한다. 이제 벤포드의 법칙이 왜 성립하는지 그 이유를 생각해보자. 우리 주변의 자료 중에는 일정한 속도로 증가하는 것이 많다.  
@@ -808,5 +811,5 @@ je_tbl %>%
   split(.$ACCT_NM) %>% 
   write_xlsx(path = "revenue_gl.xlsx")
 ```
-  
+   
   
