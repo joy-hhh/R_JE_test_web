@@ -128,9 +128,34 @@ je_raw <- readr::read_csv("https://raw.githubusercontent.com/joy-hhh/R_for_JE_te
     
 R은 Rstudio의 이 스크립트 창에서 Console에 Code를 던져 주면서 실행하는 방식이 좋다.    
     
-    
    
-  
+   
+### (1) file 형식 Encoding이 UTF8로 되어 있는 경우 
+    
+Text 파일에는 Encoding이라는 파일 형식이 정해져 있는데 과거 컴퓨터에서 영어만 사용할 때는 발생하지 않던 문제들이 CJK(중국어, 일본어, 한국어) 등으로 전 세계 각종 Text를 사용하게 되면서 2벌식, 3벌식 글자를 컴퓨터에 담아내기에는 처음 사용하던 Text 형식으로는 불가능한 문제들이 발생하였다.   
+   
+따라서, 여러가지 Encoding 형식이 만들어지다가 윈도우즈를 만들어낸 MS에서는 EUC-KR (또는 CP949)를 한글을 담기 위한 Encoding 형식으로 만들어 활용하였으며 오늘날까지도 이어 오고 있다.  
+   
+그러나, 유닉스 계열(Mac과 Linux)에서는 한글에 특정하지 않고 모든 언어를 한번에 담아 전 세계가 동일한 Encoding 파일 형식을 사용하여 통일된 하나의 형식을 갖추고자 하는 노력을 하였으며 이것이 UTF8 형식이다. 대부분의 웹서버는 Linux에서 구동되고 있으며 많은 Database 역시 리눅스에 기반하여 전 세계는 UTF8을 가장 많이 사용하고 있는 것이 현실이다.   
+   
+하지만 한국의 컴퓨터 사용자 대다수가 윈도우즈를 사용하고 있으므로 윈도우즈에서 생성된 Text 파일의 형식은 EUC-KR로 생성이 되므로 Text를 읽는 단계에서부터 어려움을 겪을 수 있다. 
+   
+R 언어도 태생이 리눅스에 있으므로 UTF8 text를 다루는데는 문제가 발생하지 않으므로 다음과 같이 파일을 읽으면 된다.  
+   
+   
+```{r, eval=FALSE, echo=TRUE}
+je_raw <- read_csv('je.csv')  
+print(je_raw)  
+```
+   
+    
+### (2) if, Encoding이 EUC-KR(CP949)로 되어 있는 경우 
+   
+   
+MS의 윈도우즈에서 생성된 text 파일을 읽는 경우, MS 엑셀 등의 프로그램에서 Encoding을 바꾸어 저장한 다음 위의 방식으로 읽어도 정상 작동하며 R에서 한번에 Encoding을 지정하여 읽어 오는 방식은 다음과 같다. 
+   
+   
+   
 ```{r, eval=FALSE, echo=TRUE}
 je_raw <- read_csv('je.csv', locale=locale('ko',encoding='euc-kr'))  
 print(je_raw)  
