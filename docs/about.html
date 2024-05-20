@@ -2241,7 +2241,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <h3 id="if-encoding이-euc-krcp949로-되어-있는-경우">(2) if, Encoding이 EUC-KR(CP949)로 되어 있는 경우</h3>
-<p>MS의 윈도우즈에서 생성된 text 파일을 읽는 경우, MS 엑셀 등의 프로그램에서 Encoding을 바꾸어 저장한 다음 위의 방식으로 읽어도 정상 작동하며 R에서 한번에 Encoding을 지정하여 읽어 오는 방식은 다음과 같다.</p>
+<p>MS의 윈도우즈에서 생성된 text 파일을 읽는 경우, 메모장과 같은 프로그램에서 Encoding을 바꾸어 저장한 다음 위의 방식으로 읽어도 정상 작동하며 R에서 한번에 Encoding을 지정하여 읽어 오는 방식은 다음과 같다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>'je.csv'</span>, locale<span class='op'>=</span><span class='fu'><a href='https://readr.tidyverse.org/reference/locale.html'>locale</a></span><span class='op'>(</span><span class='st'>'ko'</span>,encoding<span class='op'>=</span><span class='st'>'euc-kr'</span><span class='op'>)</span><span class='op'>)</span>  </span>
@@ -2289,6 +2289,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <h2 id="a01-data-integrity-test">A01 Data Integrity Test</h2>
+<h3 id="base-r-기본-함수로-data-확인">Base R 기본 함수로 Data 확인</h3>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>je_tbl</span><span class='op'>)</span></span>
@@ -2312,7 +2313,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </li>
 <li>전표 일자의 가장 작은 값을 나타낸다. 날짜열의 가장 작은 값이 해당 연도 이전은 아닌지 확인한다.</li>
 </ol>
-<h2 id="skim-함수를-사용하여-data-skim-확인">skim 함수를 사용하여 Data skim 확인</h2>
+<h3 id="skim-함수를-사용하여-data-skim-확인">skim 함수를 사용하여 Data skim 확인</h3>
 <p>R은 함수형 프로그래밍으로 미리 작성된 좋은 함수들이 많이 있다. skimr 패키지를 설치하고 skim 함수를 사용하면 데이터의 전체적인 구조를 한번에 확인할 수 있다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
