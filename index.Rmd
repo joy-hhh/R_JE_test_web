@@ -16,7 +16,10 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```
    
+   
 # ● 3회 - 2024년 5월 (Offline)
+   
+
     
 ## Prerequisite
    
@@ -24,11 +27,18 @@ knitr::opts_chunk$set(echo = FALSE)
    
 1. [R 기초 강의](https://youtu.be/0DYFRSykkXQ?si=0mC3yk5reuiEdjGC) 를 시청하고 최대한 따라서 입력 및 실행해 본다.   
      
-    
-      
+
 ```{r}
 knitr::include_graphics("images/hex_sticker_accounting.png")
 ```
+   
+## 온라인 출석체크 및 Blackboard
+   
+* 목적 1 : 한국공인회계사회 연수 시간 인정을 위한 출석 체크
+* 목적 2 : 연수 도중 강사가 수강자에게 전달하고자 하는 URL 또는 Code 등의 text를 전달하고 수강자가 복사,붙여넣기를 하기 용이하게 하기 위함
+   
+[온라인 출석체크 및 전달 통로 - HackMD](https://hackmd.io/@vlhY-o0oRDi6YsMvEHh0Tw/rforje/edit)
+   
     
     
     
