@@ -21,7 +21,7 @@
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -458,8 +458,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
 
   <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
-  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
   <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
   <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
@@ -2099,7 +2099,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2252,8 +2252,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><p>프로젝트 폴더 경로에 전표 파일을 두고 읽는 명령으로 읽어와서 je_raw라고 이름 붙인다.(이름 붙인 것을 객체라고 한다. je_raw 객체) 윈도우즈 기준의 파일의 경우 파일명 뒤의 encoding 명시를 해주면 글자가 깨지지 않고 읽어온다. 윈도우 기준의 한글 형식에 맞출 수 있다. read_csv 명령 함수는 utf-8 encoding을 기본으로 하기 때문에 한글이 깨질 수 있다. 2기가 정도 되는 data file이 100초 정도 걸린다. (컴퓨터 성능에 따라서 다르다.) 몇십메가 정도의 data file은 몇초가 되기 전에 읽어버린다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p></li>
 <li><p>이름 붙인 je_raw 객체를 Console에 나타내 확인한다.</p></li>
 </ol>
-<h3 id="프로그램에-맞추어-열-이름-변경">프로그램에 맞추어 열 이름 변경</h3>
-<h4 id="change-column-name">change column name</h4>
+<h3 id="여러개의-엑셀-파일로-되어-있는-전표를-읽어-하나의-tibbledataframe로-붙이는-경우">(3) 여러개의 엑셀 파일로 되어 있는 전표를 읽어 하나의 Tibble(DataFrame)로 붙이는 경우</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># 전표 파일이 들어 있는 경로 지정</span></span>
+<span><span class='va'>file_dir</span> <span class='op'>&lt;-</span> <span class='st'>"~/Rstudio_Docker/project/data/"</span></span>
+<span></span>
+<span><span class='co'># 지정한 경로의 엑셀 파일들의 이름 지정</span></span>
+<span><span class='va'>je_files</span> <span class='op'>&lt;-</span> <span class='fu'>fs</span><span class='fu'>::</span><span class='fu'><a href='https://fs.r-lib.org/reference/dir_ls.html'>dir_ls</a></span><span class='op'>(</span><span class='va'>file_dir</span>, regexp <span class='op'>=</span> <span class='st'>"\\.xlsx$"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># 엑셀 파일들을 읽어서 하나의 객체로 저장</span></span>
+<span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='va'>je_files</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://purrr.tidyverse.org/reference/map_dfr.html'>map_dfr</a></span><span class='op'>(</span><span class='va'>read_excel</span>, skip<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>  <span class='co'># 엑셀 파일마다 상위 5개 행을 제외하고 읽는 것을 가정</span></span></code></pre>
+</div>
+</div>
+<h2 id="프로그램에-맞추어-열-이름-변경">프로그램에 맞추어 열 이름 변경</h2>
+<h3 id="change-column-name">change column name</h3>
 <p>열 이름은 회사마다 고유의 이름을 정해서 사용하므로 모두 다를 수가 있다. 각기 다른 열 이름에 맞춰서 이 후에 진행될 프로그램 전체에서 열 이름을 바꿔주는 것은 번거롭기도 하지만 오류를 발생시킬 우려 또한 높아진다. 따라서 미리 프로그램 해 놓은 코드에 그대로 적용하기 위하여 Data의 열 이름을 프로그램에서 사용한 이름으로 맞춰 변경시킨다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2270,8 +2283,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_tbl</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span><span class='op'>(</span><span class='va'>DR</span><span class='op'>:</span><span class='va'>CR</span>, \<span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, <span class='fl'>0</span>, <span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>,</span>
-<span>         JEDATE <span class='op'>=</span> <span class='fu'>ymd</span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span>,</span>
-<span>         month <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span><span class='op'>(</span><span class='fu'>month</span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span>         JEDATE <span class='op'>=</span> <span class='fu'><a href='https://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span>,</span>
+<span>         month <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span><span class='op'>(</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/month.html'>month</a></span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span><span class='op'>)</span>,</span>
 <span>         ACCTCD <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span>,</span>
 <span>         JENO <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>JENO</span><span class='op'>)</span></span>
 <span><span class='op'>)</span></span></code></pre>
@@ -2318,7 +2331,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://docs.ropensci.org/skimr/'>skimr</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"skimr"</span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://docs.ropensci.org/skimr/'>skimr</a></span><span class='op'>)</span><span class='op'>}</span></span>
-<span><span class='fu'>skim</span><span class='op'>(</span><span class='va'>je_tbl</span><span class='op'>)</span></span></code></pre>
+<span><span class='fu'><a href='https://docs.ropensci.org/skimr/reference/skim.html'>skim</a></span><span class='op'>(</span><span class='va'>je_tbl</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <h2 id="a02-전표번호-별-차대변-일치검증">A02 전표번호 별 차대변 일치검증</h2>
@@ -2397,7 +2410,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>move <span class='op'>=</span> <span class='op'>(</span><span class='va'>DRSUM</span> <span class='op'>-</span> <span class='va'>CRSUM</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
 <span>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>ACCTCD</span>, <span class='va'>move</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='va'>CYTB_move</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span><span class='va'>CYTB_FP</span>, <span class='va'>CYTB_PL</span><span class='op'>)</span></span></code></pre>
+<span><span class='va'>CYTB_move</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind_rows.html'>bind_rows</a></span><span class='op'>(</span><span class='va'>CYTB_FP</span>, <span class='va'>CYTB_PL</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <ol type="1">
@@ -2557,8 +2570,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_tbl</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span><span class='op'>(</span><span class='va'>amount</span>, \<span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, <span class='fl'>0</span>, <span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>,</span>
-<span>         JEDATE <span class='op'>=</span> <span class='fu'>ymd</span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span>,</span>
-<span>         month <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span><span class='op'>(</span><span class='fu'>month</span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span>         JEDATE <span class='op'>=</span> <span class='fu'><a href='https://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span>,</span>
+<span>         month <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span><span class='op'>(</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/month.html'>month</a></span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span><span class='op'>)</span>,</span>
 <span>         ACCTCD <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span>,</span>
 <span>         JENO <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>JENO</span><span class='op'>)</span></span>
 <span>        <span class='op'>)</span></span></code></pre>
@@ -2643,8 +2656,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span></span>
 <span><span class='va'>je_tbl</span> <span class='op'>&lt;-</span> <span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span><span class='op'>(</span><span class='va'>DR</span><span class='op'>:</span><span class='va'>CR</span>, \<span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, <span class='fl'>0</span>, <span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>,</span>
-<span>         JEDATE <span class='op'>=</span> <span class='fu'>ymd</span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span>,</span>
-<span>         month <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span><span class='op'>(</span><span class='fu'>month</span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span>         JEDATE <span class='op'>=</span> <span class='fu'><a href='https://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span>,</span>
+<span>         month <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span><span class='op'>(</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/month.html'>month</a></span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span><span class='op'>)</span>,</span>
 <span>         ACCTCD <span class='op'>=</span> <span class='fu'><a href='https://forcats.tidyverse.org/reference/as_factor.html'>as_factor</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>)</span>,</span>
 <span>         JENO <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>JENO</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
@@ -2793,7 +2806,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span></span>
 <span><span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span><span class='op'>==</span><span class='va'>acc</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>month <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'>month</span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>month <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/month.html'>month</a></span><span class='op'>(</span><span class='va'>JEDATE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span></span>
 <span>    amount <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>DR</span><span class='op'>)</span>,</span>
 <span>    .by <span class='op'>=</span> <span class='va'>month</span></span>
@@ -2885,11 +2898,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
-<section class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>원래 utf-8 encoding 형식으로 되어 있는 파일을 , locale=locale(‘ko’,encoding=‘euc-kr)’ 없이 읽으면 훨씬 더 빠르게 읽는다. 파일 형식에 대한 전환 과정이 필요 없기 때문이다. 대용량의 전표를 받아서 test 할 때는 utf-8 encoding 형식으로 요청하는 것이 좋은 방법이다.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>[네이버 지식백과] 벤포드의 법칙<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>원래 utf-8 encoding 형식으로 되어 있는 파일을 , locale=locale(‘ko’,encoding=‘euc-kr)’ 없이 읽으면 훨씬 더 빠르게 읽는다. 파일 형식에 대한 전환 과정이 필요 없기 때문이다. 대용량의 전표를 받아서 test 할 때는 utf-8 encoding 형식으로 요청하는 것이 좋은 방법이다.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>[네이버 지식백과] 벤포드의 법칙<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 <!--radix_placeholder_article_footer-->

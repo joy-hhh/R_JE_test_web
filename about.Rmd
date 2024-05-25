@@ -167,10 +167,24 @@ print(je_raw)
     
 [^1]: 원래 utf-8 encoding 형식으로 되어 있는 파일을 , locale=locale('ko',encoding='euc-kr)' 없이 읽으면 훨씬 더 빠르게 읽는다. 파일 형식에 대한 전환 과정이 필요 없기 때문이다. 대용량의 전표를 받아서 test 할 때는 utf-8 encoding 형식으로 요청하는 것이 좋은 방법이다.      
     
+  
+### (3) 여러개의 엑셀 파일로 되어 있는 전표를 읽어 하나의 Tibble(DataFrame)로 붙이는 경우
+
+```{r, eval=FALSE, echo=TRUE}
+# 전표 파일이 들어 있는 경로 지정
+file_dir <- "~/Rstudio_Docker/project/data/"
+
+# 지정한 경로의 엑셀 파일들의 이름 지정
+je_files <- fs::dir_ls(file_dir, regexp = "\\.xlsx$")
+
+# 엑셀 파일들을 읽어서 하나의 객체로 저장
+je_raw <- je_files %>% map_dfr(read_excel, skip=5)  # 엑셀 파일마다 상위 5개 행을 제외하고 읽는 것을 가정
+```
+  
     
-### 프로그램에 맞추어 열 이름 변경
+## 프로그램에 맞추어 열 이름 변경
     
-#### change column name
+### change column name
     
 열 이름은 회사마다 고유의 이름을 정해서 사용하므로 모두 다를 수가 있다. 각기 다른 열 이름에 맞춰서 이 후에 진행될 프로그램 전체에서 열 이름을 바꿔주는 것은 번거롭기도 하지만 오류를 발생시킬 우려 또한 높아진다. 따라서 미리 프로그램 해 놓은 코드에 그대로 적용하기 위하여 Data의 열 이름을 프로그램에서 사용한 이름으로 맞춰 변경시킨다.  
    
