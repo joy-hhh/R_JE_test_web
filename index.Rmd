@@ -137,9 +137,5 @@ knitr::include_graphics("images/gantt_211022.png")
     
     
     
-<br><br><br><br>      
-      
-| 조이회계  Joy Accounting |
-|---------------------------|
-| https://joy-accounting.netlify.com/ |
+
    

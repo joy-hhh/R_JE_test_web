@@ -2177,7 +2177,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>다만 연수 목적으로 편의상 활용할 수는 있겠다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je.csv"</span><span class='op'>)</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/readr/man/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je.csv"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <h1 id="시작">시작</h1>
@@ -2236,7 +2236,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>R 언어도 태생이 리눅스에 있으므로 UTF8 text를 다루는데는 문제가 발생하지 않으므로 다음과 같이 파일을 읽으면 된다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>'je.csv'</span><span class='op'>)</span>  </span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/readr/man/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>'je.csv'</span><span class='op'>)</span>  </span>
 <span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>je_raw</span><span class='op'>)</span>  </span></code></pre>
 </div>
 </div>
@@ -2244,7 +2244,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>MS의 윈도우즈에서 생성된 text 파일을 읽는 경우, 메모장과 같은 프로그램에서 Encoding을 바꾸어 저장한 다음 위의 방식으로 읽어도 정상 작동하며 R에서 한번에 Encoding을 지정하여 읽어 오는 방식은 다음과 같다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>'je.csv'</span>, locale<span class='op'>=</span><span class='fu'><a href='https://readr.tidyverse.org/reference/locale.html'>locale</a></span><span class='op'>(</span><span class='st'>'ko'</span>,encoding<span class='op'>=</span><span class='st'>'euc-kr'</span><span class='op'>)</span><span class='op'>)</span>  </span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/readr/man/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>'je.csv'</span>, locale<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/readr/man/locale.html'>locale</a></span><span class='op'>(</span><span class='st'>'ko'</span>,encoding<span class='op'>=</span><span class='st'>'euc-kr'</span><span class='op'>)</span><span class='op'>)</span>  </span>
 <span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>je_raw</span><span class='op'>)</span>  </span></code></pre>
 </div>
 </div>
@@ -2259,10 +2259,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span><span class='va'>file_dir</span> <span class='op'>&lt;-</span> <span class='st'>"~/Rstudio_Docker/project/data/"</span></span>
 <span></span>
 <span><span class='co'># 지정한 경로의 엑셀 파일들의 이름 지정</span></span>
-<span><span class='va'>je_files</span> <span class='op'>&lt;-</span> <span class='fu'>fs</span><span class='fu'>::</span><span class='fu'><a href='https://fs.r-lib.org/reference/dir_ls.html'>dir_ls</a></span><span class='op'>(</span><span class='va'>file_dir</span>, regexp <span class='op'>=</span> <span class='st'>"\\.xlsx$"</span><span class='op'>)</span></span>
+<span><span class='va'>je_files</span> <span class='op'>&lt;-</span> <span class='fu'>fs</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/fs/man/dir_ls.html'>dir_ls</a></span><span class='op'>(</span><span class='va'>file_dir</span>, regexp <span class='op'>=</span> <span class='st'>"\\.xlsx$"</span><span class='op'>)</span></span>
 <span></span>
 <span><span class='co'># 엑셀 파일들을 읽어서 하나의 객체로 저장</span></span>
-<span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='va'>je_files</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://purrr.tidyverse.org/reference/map_dfr.html'>map_dfr</a></span><span class='op'>(</span><span class='va'>read_excel</span>, skip<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>  <span class='co'># 엑셀 파일마다 상위 5개 행을 제외하고 읽는 것을 가정</span></span></code></pre>
+<span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='va'>je_files</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/purrr/man/map_dfr.html'>map_dfr</a></span><span class='op'>(</span><span class='va'>read_excel</span>, skip<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>  <span class='co'># 엑셀 파일마다 상위 5개 행을 제외하고 읽는 것을 가정</span></span></code></pre>
 </div>
 </div>
 <h2 id="프로그램에-맞추어-열-이름-변경">프로그램에 맞추어 열 이름 변경</h2>
@@ -2331,7 +2331,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://docs.ropensci.org/skimr/'>skimr</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"skimr"</span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://docs.ropensci.org/skimr/'>skimr</a></span><span class='op'>)</span><span class='op'>}</span></span>
-<span><span class='fu'><a href='https://docs.ropensci.org/skimr/reference/skim.html'>skim</a></span><span class='op'>(</span><span class='va'>je_tbl</span><span class='op'>)</span></span></code></pre>
+<span><span class='fu'><a href='https://rdrr.io/pkg/skimr/man/skim.html'>skim</a></span><span class='op'>(</span><span class='va'>je_tbl</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <h2 id="a02-전표번호-별-차대변-일치검증">A02 전표번호 별 차대변 일치검증</h2>
@@ -2363,8 +2363,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://readxl.tidyverse.org'>readxl</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"readxl"</span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readxl.tidyverse.org'>readxl</a></span><span class='op'>)</span><span class='op'>}</span>   </span>
 <span>    </span>
-<span><span class='va'>cytb_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>'CYTB.xlsx'</span><span class='op'>)</span></span>
-<span><span class='va'>pytb_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>'PYTB.xlsx'</span><span class='op'>)</span></span>
+<span><span class='va'>cytb_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/readxl/man/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>'CYTB.xlsx'</span><span class='op'>)</span></span>
+<span><span class='va'>pytb_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/readxl/man/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>'PYTB.xlsx'</span><span class='op'>)</span></span>
 <span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>cytb_raw</span><span class='op'>)</span><span class='op'>)</span></span>
 <span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>pytb_raw</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
@@ -2522,9 +2522,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>R에 파일의 Data를 읽어와서 적절한 분석을 통해 요리가 되었는데 이 요리의 결과물을 다시 파일로 갖고 싶다. 과정을 거쳐 오면서 결정적 증거물은 메모리에 객체로 꼬리표를 남겨 두었다. 이 객체를 파일로 저장하고 싶다면 다음 명령어들로 할 수 있다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>A02</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://readr.tidyverse.org/reference/write_delim.html'>write_csv</a></span><span class='op'>(</span><span class='st'>'A02.csv'</span><span class='op'>)</span></span>
-<span><span class='va'>A03</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://readr.tidyverse.org/reference/write_delim.html'>write_csv</a></span><span class='op'>(</span><span class='st'>'A03.csv'</span><span class='op'>)</span></span>
-<span><span class='va'>B09</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://readr.tidyverse.org/reference/write_delim.html'>write_csv</a></span><span class='op'>(</span><span class='st'>'B09.csv'</span><span class='op'>)</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>A02</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/readr/man/write_delim.html'>write_csv</a></span><span class='op'>(</span><span class='st'>'A02.csv'</span><span class='op'>)</span></span>
+<span><span class='va'>A03</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/readr/man/write_delim.html'>write_csv</a></span><span class='op'>(</span><span class='st'>'A03.csv'</span><span class='op'>)</span></span>
+<span><span class='va'>B09</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/readr/man/write_delim.html'>write_csv</a></span><span class='op'>(</span><span class='st'>'B09.csv'</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <p>“나는 csv 싫다. 엑셀로 저장할거다.” 하는 마음이라면 다음과 같이 하면 된다.</p>
@@ -2532,9 +2532,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://docs.ropensci.org/writexl/'>writexl</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"writexl"</span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://docs.ropensci.org/writexl/'>writexl</a></span><span class='op'>)</span><span class='op'>}</span>  </span>
 <span></span>
-<span><span class='va'>A02</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>'A02.xlsx'</span><span class='op'>)</span></span>
-<span><span class='va'>A03</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>'A03.xlsx'</span><span class='op'>)</span></span>
-<span><span class='va'>B09</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>'B09.xlsx'</span><span class='op'>)</span></span></code></pre>
+<span><span class='va'>A02</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/writexl/man/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>'A02.xlsx'</span><span class='op'>)</span></span>
+<span><span class='va'>A03</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/writexl/man/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>'A03.xlsx'</span><span class='op'>)</span></span>
+<span><span class='va'>B09</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/writexl/man/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>'B09.xlsx'</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <h1 id="journal-entry-data의-분개-금액-열이-한줄로-되어-있는-경우">2. Journal Entry Data의 분개 금액 열이 한줄로 되어 있는 경우</h1>
@@ -2542,7 +2542,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h2 id="파일-불러오기-data-읽기-1">파일 불러오기 (Data 읽기)</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je_utf_minimal.csv"</span><span class='op'>)</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/readr/man/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je_utf_minimal.csv"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <h3 id="프로그램에-맞추어-열-이름-변경-1">프로그램에 맞추어 열 이름 변경</h3>
@@ -2645,7 +2645,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>분개 금액 열이 두 줄로 되어 있는 경우 활용을 위해 읽어온다.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je.csv"</span><span class='op'>)</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>je_raw</span> <span class='op'>&lt;-</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/readr/man/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/joy-hhh/R_for_JE_test/main/je.csv"</span><span class='op'>)</span></span>
 <span></span>
 <span><span class='va'>je_tbl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span><span class='va'>je_raw</span>, JEDATE <span class='op'>=</span> <span class='va'>전표일자</span>,</span>
 <span>                         JENO <span class='op'>=</span> <span class='va'>전표번호</span>,</span>
@@ -2823,7 +2823,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://devtools.r-lib.org/'>devtools</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"devtools"</span><span class='op'>)</span><span class='op'>}</span></span>
-<span><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>rsmsampling</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'>devtools</span><span class='fu'>::</span><span class='fu'>install_github</span><span class='op'>(</span><span class='st'>"joy-hhh/rsmsampling"</span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>rsmsampling</span><span class='op'>)</span><span class='op'>}</span></span>
+<span><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>rsmsampling</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span><span class='fu'>devtools</span><span class='fu'>::</span><span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>"joy-hhh/rsmsampling"</span><span class='op'>)</span>;<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>rsmsampling</span><span class='op'>)</span><span class='op'>}</span></span>
 <span><span class='co'># ?mus_sampling</span></span>
 <span><span class='co'># ?m_ran_sampling</span></span>
 <span><span class='co'># ?ran_sampling</span></span></code></pre>
@@ -2862,7 +2862,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>sampling</span>, n <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span></span>
 <span></span>
 <span><span class='co'>## 추출된 샘플 엑셀 파일 생성</span></span>
-<span><span class='va'>sampling</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>"MUS_sample.xlsx"</span><span class='op'>)</span></span></code></pre>
+<span><span class='va'>sampling</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/writexl/man/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>"MUS_sample.xlsx"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <h2 id="매출액-cut-off-test-sampling---co">매출액 Cut-off Test Sampling - C/O</h2>
@@ -2883,7 +2883,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span></span>
 <span><span class='va'>co_sampling</span></span>
 <span></span>
-<span><span class='va'>co_sampling</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>"CO_sample.xlsx"</span><span class='op'>)</span></span></code></pre>
+<span><span class='va'>co_sampling</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/writexl/man/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span><span class='st'>"CO_sample.xlsx"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <h2 id="분개장-전표에서-매출-계정별-원장-추출---엑셀로-저장">분개장 전표에서 매출 계정별 원장 추출 - 엑셀로 저장</h2>
@@ -2894,7 +2894,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span><span class='va'>je_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ACCTCD</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>acc</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span>  <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>$</span><span class='va'>ACCT_NM</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
-<span>  <span class='fu'><a href='https://docs.ropensci.org/writexl/reference/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='st'>"revenue_gl.xlsx"</span><span class='op'>)</span></span></code></pre>
+<span>  <span class='fu'><a href='https://rdrr.io/pkg/writexl/man/write_xlsx.html'>write_xlsx</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='st'>"revenue_gl.xlsx"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
